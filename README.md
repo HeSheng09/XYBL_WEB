@@ -27,7 +27,7 @@
      * 正常情况下，IDE会提示是否导入依赖。提示如下，选择`npm install`。
      
        ![](.asserts/Screenshot from 2021-01-22 20-38-01.png)
-     
+     r
      * 如果没有提示，则打开IDE自带的terminal，运行`npm install`即可。
 
 3. 测试

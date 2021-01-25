@@ -1,10 +1,16 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
-var session = require('express-session');
-var log4js=require("log4js");
+const createError = require('http-errors');
+const express = require('express');
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
+const session = require('express-session');
+const log4js = require("log4js");
+const redisClient = require('./db/redis')
+
+const RedisStore = require('connect-redis')(session)
+const sessionStore = new RedisStore({
+  client: redisClient
+})
 
 // 路由
 var indexRouter = require('./routes/index');
@@ -35,10 +41,11 @@ app.use(session({
   resave: false,   /*强制保存 session 即使它并没有变化,。默认为 true。建议设置成 false。*/
   saveUninitialized: true,   //强制将未初始化的 session 存储。  默认值是true  建议设置成true
   cookie: {
-    maxAge:30*60*1000    /*过期时间*/
+    maxAge:5*60*1000    /*过期时间*/
   },   /*secure https这样的情况才可以访问cookie*/
   //设置过期时间比如是30分钟，只要游览页面，30分钟没有操作的话在过期
-  rolling:true //在每次请求时强行设置 cookie，这将重置 cookie 过期时间（默认：false）
+  rolling:true, //在每次请求时强行设置 cookie，这将重置 cookie 过期时间（默认：false）
+  store:sessionStore
 }))
 
 /**
