@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <title>校园霸凌举报系统</title>
+    <!-- jQuery (Bootstrap 的所有 JavaScript 插件都依赖 jQuery，所以必须放在前边) -->
+    <script src="/javascripts/jquery-3.4.1.min.js"></script>
+    <!-- 加载 Bootstrap 的所有 JavaScript 插件。你也可以根据需要只加载单个插件。 -->
+    <script src="/javascripts/bootstrap.min.js"></script>
+    <script src="/javascripts/vue.js"></script>
+    <!-- Bootstrap -->
+    <link href="/stylesheets/bootstrap.min.css" rel="stylesheet">
+</head>
+<style>
+    body {
+        background-size: cover;
+        background:url("/images/ivy7.jpg")fixed center 0 no-repeat;
+        background-size: cover;
+        -webkit-background-size: cover;
+        -o-background-size: cover;
+        -moz-background-size: cover;
+    }
+    .footer {
+        color: white;
+        text-align: center;
+    }
+
+    div.footer a {
+        color: white;
+    }
+    .navitems{
+        margin-top: 22px;
+        margin-left: 60px;
+    }
+
+    #title{
+        /*background-color: darkseagreen;*/
+        color: #CDBA96;
+        margin-right: 19px;
+        font-family: 方正粗黑宋简体;
+    }
+    #text{
+        /*opacity: 0.8;*/
+        background-color: white;
+        margin-top: 50px;
+        background-color: rgba(255, 255, 255, 0.8);
+    }
+    #select{
+        /*opacity: 0.8;*/
+        margin-top: 15px;
+    }
+    #column{
+        opacity: 0.9
+    }
+</style>
+<body>
+<div class="container">
+    <a href="/baidutest">百度地图</a>
+    <div class="row clearfix">
+        <div class="col-md-10 column" id="nav">
+            <div  class="navbar-header" >
+                <h1>
+                    <strong><p id="title">校园霸凌举报系统</p></strong>
+                </h1>
+            </div>
+
+            <div class="navitems">
+                <ul class="nav nav-tabs" >
+                    <li >
+                        <a href="#" style="color:white">首页</a>
+                    </li>
+                    <li>
+                        <a href="#" style="color:white">举报页</a>
+                    </li>
+                    <li class="active" >
+                        <a href="#" >案例</a>
+                    </li>
+                    <li class="dropdown pull-right">
+                        <a class="dropdown-toggle" href="#" data-toggle="dropdown" style="color:white">个人<strong class="caret"></strong></a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="#">个人中心</a>
+                            </li>
+                            <li>
+                                <a href="#">信息通知</a>
+                            </li>
+                            <li class="divider">
+                            </li>
+                            <li>
+                                <a href="#">退出登录</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+
+        </div>
+    </div>
+
+
+
+
+<div class="container">
+    <div class="row clearfix" id="select">
+        <div class="col-md-7 column">
+            <div class="btn-group">
+                <button class="btn btn-default" >受理对象</button> <button class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a href="#">学校</a>
+                    </li>
+                    <li>
+                        <a href="#">教育部门</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-md-4 column">
+            <button class="btn btn-default" type="button">新建</button>
+        </div>
+    </div>
+    <div class="row clearfix">
+        <div class="col-md-12 column" id="text">
+            <form role="form">
+                <div class="form-group">
+                    <label for="exampleInputEmail1"><h3>标题</h3></label><input class="form-control" id="exampleInputEmail1" style="height:50px" />
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputEmail1"><h3>描述</h3></label><input class="form-control" id="exampleInputEmail1" style="height:320px" />
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputFile">上传文件</label><input id="exampleInputFile" type="file" />
+
+                </div>
+                <div class="checkbox">
+                    <label><input type="checkbox" />确认</label>
+                </div> <button class="btn btn-default" type="submit">提交</button>
+            </form>
+        </div>
+        <div class="col-md-4 column">
+            <div>
+    </div>
+        </div>
+
+        </div>
+<div class="footer container-fluid">
+    <div id="footer_div1">
+        <a href="http://rsgis.whu.edu.cn/">遥感信息工程学院 </a>|&nbsp;
+        <a href="http://www.whu.edu.cn/">武汉大学 </a>|&nbsp;
+        <a href="http://www.lib.whu.edu.cn/web/default.asp">武汉大学图书馆 </a>|&nbsp;
+        <a href="http://my.whu.edu.cn">信息门户</a>
+    </div>
+    <div id="footer_div2">
+        <p>中国 湖北 武汉市 珞喻路129号 武汉大学信息学部</p><br>
+        <p>空间信息与数字技术</p>
+        <p>© 2019 </p>
+    </div>
+</div><!--页脚-->
+    <script>
+        const app = new Vue({
+            el: '#app',
+            data: {
+
+            },
+            // computed: 计算属性()
+            computed: {
+            },
+            methods: {
+            }
+        })
+    </script>
+</body>
+</html>

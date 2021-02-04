@@ -11,7 +11,11 @@ var indexRouter = require('./routes/index');
 var loginRouter=require('./routes/login');
 var agentRouter=require('./routes/agent');
 var schoolRouter=require('./routes/school');
-var studentRouter=require('./routes/student')
+var studentRouter=require('./routes/student');
+var searchRouter=require('./routes/search5');
+var eventRouter=require('./routes/event6');
+var createRouter=require('./routes/create8');
+var baiduRouter=require('./routes/baidutest')
 
 var app = express();
 
@@ -73,6 +77,10 @@ app.use('/login', loginRouter);
 app.use('/agent',agentRouter);
 app.use('/school',schoolRouter);
 app.use('/student',studentRouter);
+app.use('/search',searchRouter);
+app.use('/event',eventRouter);
+app.use('/create',createRouter);
+app.use('/baidutest',baiduRouter)
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
