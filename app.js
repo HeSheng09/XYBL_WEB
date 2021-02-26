@@ -16,6 +16,13 @@ var searchRouter=require('./routes/search5');
 var eventRouter=require('./routes/event6');
 var createRouter=require('./routes/create8');
 var baiduRouter=require('./routes/baidutest')
+var firstRouter=require('./routes/firstpage');
+var login1Router=require('./routes/login1');
+var registerRouter=require('./routes/register');
+var tongjiRouter=require('./routes/tongjitest')
+
+
+
 
 var app = express();
 
@@ -80,7 +87,11 @@ app.use('/student',studentRouter);
 app.use('/search',searchRouter);
 app.use('/event',eventRouter);
 app.use('/create',createRouter);
-app.use('/baidutest',baiduRouter)
+app.use('/baidutest',baiduRouter);
+app.use('/firstpage',firstRouter);
+app.use('/login1',login1Router);
+app.use('/register',registerRouter);
+app.use('/tongji',tongjiRouter)
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
