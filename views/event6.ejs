@@ -10,6 +10,7 @@
     <script src="/javascripts/jquery-3.4.1.min.js"></script>
     <!-- 加载 Bootstrap 的所有 JavaScript 插件。你也可以根据需要只加载单个插件。 -->
     <script src="/javascripts/bootstrap.min.js"></script>
+    <script src="/javascripts/vue.js"></script>
     <!-- Bootstrap -->
     <link href="/stylesheets/bootstrap.min.css" rel="stylesheet">
 </head>
@@ -63,6 +64,7 @@
     /* }*/
 </style>
 <body>
+<div id="app">
 <div class="container">
     <div class="row clearfix">
         <div class="col-md-12 column" id="nav">
@@ -115,16 +117,18 @@
             <div class="row clearfix">
                 <div class="col-md-12" id="id">
                     <h3>
-                        <strong>事件编号：<%= eventid %></strong>
+                        <strong>事件编号：</strong><strong id="eventid"><%= eventid %></strong>
                     </h3>
                 </div>
 
                 <div class="col-md-12 column" id="event">
+                    <h3 id="userid"><%= userid %></h3> <button class="btn" @click="reappeal()">再次举报</button>
+                    标题：{{title}} <input id="re_title" v-model="retitle"/>
                     <h3>
-                        举报者的描述
+                        举报者的描述 <input id="re_input" v-model="redetail"/>
                     </h3>
                     <p>
-                        Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.
+                      {{detail}}
                     </p>
                     <p>
                         <a class="btn" href="#">点击编辑 »</a>
@@ -163,6 +167,72 @@
             </div>
         </div><!--页脚-->
 </div>
+</div>
+<script>
+    var userid=document.getElementById('userid').innerText;
+    var eventid=document.getElementById('eventid').innerText;
+    var url="http://47.98.164.4:8080/server/appeal/getbyid"
+    $.ajax({
+        type: 'get', /*  请求方式  GET  、 POST 、 PUT 等.. */
+        url: url, /*  后台的接口(findApi)  使用相对路径即可 */
+        dateType: 'json', /*  期望服务器返回的数据类型格式 */
+        data:{
+            user_id:userid,
+            al_id:eventid,
+        },
+        success: function(result) { // 请求后台 应答成功返回来的数据
+            console.log(result);
+            // document.getElementById("content").innerText=result.data;
+            const app = new Vue({
+                el: '#app',
+                data: {
+                    title:result.data.title,
+                    address:result.data.address,
+                    time:result.data.al_time,
+                    detail:result.data.detail,
+                    pos:result.data.pos,
+                    redetail:"",
+                    retitle:"",
+                    reappeal:result.data.reapp
+                },
+                methods:{
+                    toevent(id){
+                        console.log(id);
+                        let urlid="/event/"+id;
+                        window.open(urlid);
+                    },
+                    reappeal(){
+                        console.log(this.redetail);
+                        console.log(this.retitle)
+                        $.ajax({
+                            type: 'get', /*  请求方式  GET  、 POST 、 PUT 等.. */
+                            url: 'http://47.98.164.4:8080/server/appeal/addone', /*  后台的接口(findApi)  使用相对路径即可 */
+                            dateType: 'json', /*  期望服务器返回的数据类型格式 */
+                            data:{
+                                user_id:userid,
+                                al_address:this.address,
+                                al_pos:this.pos,
+                                al_title:this.retitle,
+                                al_detail:this.redetail,
+                                handler:"1615123157287011",
+                                last_al:eventid
+                            },
+                            success: function(result) { // 请求后台 应答成功返回来的数据
+                                console.log(result);
+                            },
+                            error: function(xhr, status, error) { // 请求失败运行的函数
+                                console.log(error);
+                            }
+                        })
+                    }
 
+                }
+            })
+            // console.log(this.appeals);
+        },
+        error: function(xhr, status, error) { // 请求失败运行的函数
+            console.log(error);
+        }})
+</script>
 </body>
 </html>

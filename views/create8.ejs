@@ -111,15 +111,22 @@
     <div class="row clearfix" id="select">
         <div class="col-md-7 column">
             <div class="btn-group">
-                <button class="btn btn-default" >受理对象</button> <button class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
-                <ul class="dropdown-menu">
-                    <li>
-                        <a href="#">学校</a>
-                    </li>
-                    <li>
-                        <a href="#">教育部门</a>
-                    </li>
-                </ul>
+                <label>受理对象</label>
+<!--                    <li v-for="(i,index) in de_id">-->
+<!--                    {{i[0]}}-->
+<!--                    </li>-->
+<!--                    <li>试试</li>-->
+<!--                </ul>-->
+<!--                <select v-model="selected" @change="changeShop">-->
+                <select v-model="selected" @change="changede">
+                    <option disabled value="">请选择</option>
+                    <option  v-for="(i,index) in de_id" :value="i[1]">{{i[0]}}</option>
+                </select>
+<!--                -->
+<!--                -->
+<!--                <select>-->
+<!--                    <option v-for="(i,index) in de_id" value="i">{{i[0]}}</option>-->
+<!--                </select>-->
             </div>
         </div>
         <div class="col-md-4 column">
@@ -214,7 +221,7 @@
                     <label><input type="checkbox" />确认</label>
                 </div>
             </form>
-            <button class="btn btn-default" onclick="createA()">提交</button>
+            <button class="btn btn-default" @click="createA()">提交</button>
         </div>
         <div class="col-md-4 column">
             <div>
@@ -241,12 +248,25 @@
     const app = new Vue({
         el: '#app',
         data: {
+            de_id:[
+                ["教育部","1615015018511100"],
+                ["湖北省教育厅","1615123042791010"],
+                ["武汉市教育局","1615123157287011"],
+                ["洪山区教育分局","1615123277120012"],
+                ["武汉大学","1615123447780013"]
+            ],
+            deid:""
         },
         // computed: 计算属性()
         computed: {
 
         },
         methods: {
+            changede(){
+                 this.deid=this.selected;
+                 console.log(this.selected);
+            },
+
             fnW(str){
                 var num;
                 str>10?num=str:num="0"+str;
@@ -264,6 +284,43 @@
                 var second=date.getSeconds();//秒
                 return year+"-"+this.fnW((month+1))+"-"+this.fnW(data)+" "+this.fnW(hours)+":"+this.fnW(minute)+":"+this.fnW(second);
             },
+            createA() {
+        console.log("create!!!");
+        let lng2=document.getElementById('filon').value;
+        let lat2=document.getElementById('filat').value;
+        let add2=document.getElementById('didian').value;
+        let id=document.getElementById('userid').innerText;
+        let aptitle= document.getElementById('aptitle').value;
+        let detail=document.getElementById('detail').value;
+        let pos=lng2+","+lat2;
+        // GET http://47.98.164.4:8080/server/appeal/addone?user_id=1614929875414001
+        //     // &al_address=湖北省，武汉市，洪山区 武汉大学&
+        //     // al_pos=114.365818,30.534872&al_title=添加举报测试
+        //     // &al_detail=添加举报测试&handler=0101001001000
+        //
+        $.ajax({
+            type: 'get', /*  请求方式  GET  、 POST 、 PUT 等.. */
+            url: 'http://47.98.164.4:8080/server/appeal/addone', /*  后台的接口(findApi)  使用相对路径即可 */
+            dateType: 'json', /*  期望服务器返回的数据类型格式 */
+            data:{
+                user_id:id,
+                al_address:add2,
+                al_pos:pos,
+                al_title:aptitle,
+                al_detail:detail,
+                handler:this.deid,
+            },
+            success: function(result) { // 请求后台 应答成功返回来的数据
+                console.log(result);
+            },
+            error: function(xhr, status, error) { // 请求失败运行的函数
+                console.log(error);
+            }
+        })
+    }
+
+
+
         }
     })
 </script>
@@ -392,40 +449,7 @@
             }
         }, "");
     }
-    function createA() {
-        console.log("create!!!");
-        let lng2=document.getElementById('filon').value;
-        let lat2=document.getElementById('filat').value;
-        let add2=document.getElementById('didian').value;
-        let id=document.getElementById('userid').innerText;
-        let aptitle= document.getElementById('aptitle').value;
-        let detail=document.getElementById('detail').value;
-        let pos=lng2+","+lat2;
-        // GET http://47.98.164.4:8080/server/appeal/addone?user_id=1614929875414001
-        //     // &al_address=湖北省，武汉市，洪山区 武汉大学&
-        //     // al_pos=114.365818,30.534872&al_title=添加举报测试
-        //     // &al_detail=添加举报测试&handler=0101001001000
-        //
-        $.ajax({
-            type: 'get', /*  请求方式  GET  、 POST 、 PUT 等.. */
-            url: 'http://47.98.164.4:8080/server/appeal/addone', /*  后台的接口(findApi)  使用相对路径即可 */
-            dateType: 'json', /*  期望服务器返回的数据类型格式 */
-            data:{
-                user_id:id,
-                al_address:add2,
-                al_pos:pos,
-                al_title:aptitle,
-                al_detail:detail,
-                handler:"0101001001000",
-            },
-            success: function(result) { // 请求后台 应答成功返回来的数据
-                console.log(result);
-            },
-            error: function(xhr, status, error) { // 请求失败运行的函数
-                console.log(error);
-            }
-        })
-    }
+
     // console.log(id);
     // console.log(document.getElementById('userid').innerText);
 
