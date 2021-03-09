@@ -19,12 +19,15 @@ var baiduRouter=require('./routes/baidutest')
 var firstRouter=require('./routes/firstpage');
 var login1Router=require('./routes/login1');
 var registerRouter=require('./routes/register');
-var tongjiRouter=require('./routes/tongjitest')
+var tongjiRouter=require('./routes/tongjitest');
+var personRouter=require('./routes/personal')
 
 
 
 
 var app = express();
+
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -57,23 +60,24 @@ app.use(session({
  */
 app.use(function (req, res, next) {
   var log = log4js.getLogger("intercept");
-  if (req.session.user) {
+  if (req.session.userid) {
     //用户登录过
     next();
   } else {
     //解析用户请求路径
     var arr = req.url.split('/');
+    console.log(arr);
     log.info('请求路径拆分：' + JSON.stringify(arr));
     //去除get请求携带的参数
     for (var i = 0; i < arr.length; i++) {
       arr[i] = arr[i].split('?')[0];
     }
     if (arr.length > 1) {
-      if (arr[1] === 'login') {
+      if (arr[1] === 'login1'||arr[1] === 'register') {
         next();
       } else {
         log.error('intercept：用户未登录执行登录拦截，路径为：' + arr[1]);
-        res.redirect('/login');  // 将用户重定向到登录页面
+        res.redirect('/login1');  // 将用户重定向到登录页面
         res.end();
       }
     }
@@ -91,7 +95,8 @@ app.use('/baidutest',baiduRouter);
 app.use('/firstpage',firstRouter);
 app.use('/login1',login1Router);
 app.use('/register',registerRouter);
-app.use('/tongji',tongjiRouter)
+app.use('/tongji',tongjiRouter);
+app.use('/personal',personRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -108,5 +113,15 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
+// app.all('*', function(req, res, next) {
+//   res.header("Access-Control-Allow-Origin", "*");
+//   res.header("Access-Control-Allow-Headers", "X-Requested-With");
+//   res.header("Access-Control-Allow-Methods","PUT,POST,GET,DELETE,OPTIONS");
+//   res.header('Access-Control-Allow-Headers', 'Content-Type, Content-Length, Authorization, Accept, X-Requested-With , yourHeaderFeild');
+//   res.header("X-Powered-By",' 3.2.1')
+//   res.header("Content-Type", "application/json;charset=utf-8");
+//   next();
+// });
 
 module.exports = app;

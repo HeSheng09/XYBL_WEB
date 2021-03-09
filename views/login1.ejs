@@ -35,62 +35,62 @@
                 }
             })
             //异步验证账号密码
-            $("#loginForm").submit(function () {
-                if (checkUsername() && checkPassword()) {
-                    $.post("/user/login", $(this).serialize(), function (data) {
-                        if (data.flag) {
-                            var identi = parseInt($("input[name='identification']:checked").val());
-                            switch (identi) {
-                                case 0:
-                                    location.href = "/get/main";
-                                    break;
-                                case 1:
-                                    location.href = "/test?pageNum=1";
-                                    break;
-                                case 2:
-                                    break;
-                            }
-                        } else {
-                            $("#errorMsg").html("用户名或密码错误");
-                            draw(show_num);
-                        }
-                    });
-                }
-                return false;
-            });
+            // $("#loginForm").submit(function () {
+            //     if (checkUsername() && checkPassword()) {
+            //         $.post("/user/login", $(this).serialize(), function (data) {
+            //             if (data.flag) {
+            //                 var identi = parseInt($("input[name='identification']:checked").val());
+            //                 switch (identi) {
+            //                     case 0:
+            //                         location.href = "/get/main";
+            //                         break;
+            //                     case 1:
+            //                         location.href = "/test?pageNum=1";
+            //                         break;
+            //                     case 2:
+            //                         break;
+            //                 }
+            //             } else {
+            //                 $("#errorMsg").html("用户名或密码错误");
+            //                 draw(show_num);
+            //             }
+            //         });
+            //     }
+            //     return false;
+            // });
 
             //正则表达式验证
-            $("#password").blur(checkPassword);
-            $("#username").blur(checkUsername);
+            // $("#password").blur(checkPassword);
+            // $("#username").blur(checkUsername);
         })
 
-        function checkPassword() {
-            var password = $("#password").val();
-            var reg_password = /^\w{6,18}$/
-            var flag = reg_password.test(password);
-            if (flag) {
-                //用户名合法
-                $("#password").css("border", "");
-            } else {
-                //用户名非法,加一个红色边框
-                $("#password").css("border", "1px solid red");
-            }
-            return flag;
-        }
-
-        function checkUsername() {
-            var username = $("#username").val();
-            var reg_username = /^\w{13}$/
-            var flag = reg_username.test(username);
-            if (flag) {
-                //用户名合法
-                $("#username").css("border", "");
-            } else {
-                //用户名非法,加一个红色边框
-                $("#username").css("border", "1px solid red");
-            }
-            return flag;
-        }
+        // function checkPassword() {
+        //     var password = $("#password").val();
+        //     var reg_password = /^\w{6,18}$/
+        //     var flag = reg_password.test(password);
+        //     if (flag) {
+        //         //用户名合法
+        //         $("#password").css("border", "");
+        //     } else {
+        //         //用户名非法,加一个红色边框
+        //         $("#password").css("border", "1px solid red");
+        //     }
+        //     return flag;
+        // }
+        //
+        // function checkUsername() {
+        //     var username = $("#username").val();
+        //     var reg_username = /^\w{13}$/
+        //     var flag = reg_username.test(username);
+        //     if (flag) {
+        //         //用户名合法
+        //         $("#username").css("border", "");
+        //     } else {
+        //         //用户名非法,加一个红色边框
+        //         $("#username").css("border", "1px solid red");
+        //     }
+        //     return flag;
+        // }
     </script>
 </head>
 <body class="text-center">
@@ -103,13 +103,13 @@
 </div>
 <div class="container">
     <div>
-        <form class="form-signin" method="post" id="loginForm">
+        <form action="" class="form-signin" method="get" id="loginForm">
             <tr>
                 <td>
                     <label class="sr-only">用户名</label>
                 </td>
                 <td>
-                    <input type="text" name="username" class="form-control" placeholder="用户名" required=""
+                    <input type="text" name="name" class="form-control" placeholder="用户名" required=""
                            autofocus="" id="username">
                 </td>
             </tr>
@@ -119,7 +119,7 @@
                     <label class="sr-only">密码</label>
                 </td>
                 <td>
-                    <input type="password" name="password" class="form-control" placeholder="密码"
+                    <input type="password" name="pwd" class="form-control" placeholder="密码"
                            required="" id="password">
                 </td>
             </tr>
@@ -128,34 +128,101 @@
                     <label class="sr-only">验证码</label>
                 </td>
                 <td>
-                    <input type="text" placeholder="请输入验证码（不区分大小写）" class="form-control input-val">
+                    <input id="yanzheng" type="text" placeholder="请输入验证码（不区分大小写）" class="form-control input-val">
                     <canvas id="canvas" width="100" height="40"></canvas>
                 </td>
             </tr>
-            <div class="radio mb-3">
-                <label>
-                    <input type="radio" value="0" name="identification" checked="checked">老师
-                </label>
-                <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                <lable>
-                    <input type="radio" value="1" name="identification">学生
-                </lable>
-                <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                <lable>
-                    <input type="radio" value="2" name="identification">管理员
-                </lable>
-            </div>
-            <div id="errorMsg" style="color:red;text-align: center"></div>
-            <button class="btn btn-lg btn-primary btn-block" type="submit" text="">登录</button>
-            <a href="/account/register">没有账号？注册一个</a>
+<!--            <div class="radio mb-3">-->
+<!--                <label>-->
+<!--                    <input type="radio" value="0" name="identification" checked="checked">老师-->
+<!--                </label>-->
+<!--                <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>-->
+<!--                <lable>-->
+<!--                    <input type="radio" value="1" name="identification">学生-->
+<!--                </lable>-->
+<!--                <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>-->
+<!--                <lable>-->
+<!--                    <input type="radio" value="2" name="identification">管理员-->
+<!--                </lable>-->
+<!--            </div>-->
+            <div id="errorMsg" style="color:#ff0000;text-align: center"></div>
+<!--            <button class="btn btn-lg btn-primary btn-block" type="submit" text="">登录</button>-->
+            <a href="/register">没有账号？注册一个</a>
         </form>
+        <button id="llogin" class="btn btn-lg btn-primary btn-block" text="">登录</button>
     </div>
 
     <div>
         <p class="mt-5 mb-3 text-muted">© 2019 </p>
     </div>
 </div>
+<script>
 
+    document.querySelector('#llogin').onclick = function () {
+        let name=document.getElementById('username').value;
+        let pwd=document.getElementById('password').value;
+        // 发送ajax 请求 需要 五步
+        // （1）创建异步对象
+        var ajaxObj = new XMLHttpRequest();
+
+        // console.log(name);
+        // console.log(pwd);
+        // （2）设置请求的参数。包括：请求的方法、请求的url。
+        ajaxObj.open('get', 'http://47.98.164.4:8080/server/user/login?'+"name="+name+"&pwd="+pwd);
+
+        // （3）发送请求
+        ajaxObj.send();
+
+        //（4）注册事件。 onreadystatechange事件，状态改变时就会调用。
+        //如果要在数据完整请求回来的时候才调用，我们需要手动写一些判断的逻辑。
+        ajaxObj.onreadystatechange = function () {
+            // 为了保证 数据 完整返回，我们一般会判断 两个值
+            if (ajaxObj.readyState == 4 && ajaxObj.status == 200) {
+                // 如果能够进到这个判断 说明 数据 完美的回来了,并且请求的页面是存在的
+                // 5.在注册的事件中 获取 返回的 内容 并修改页面的显示
+                console.log('数据返回成功');
+                // 数据是保存在 异步对象的 属性中
+                let res=JSON.parse(ajaxObj.responseText);
+                // console.log(res);
+                // console.log(res.msg);
+                if(res.msg==="nouser")
+                {
+                    alert("用户不存在！");
+                    document.getElementById('username').value="";
+                    document.getElementById('password').value="";
+                    document.getElementById('yanzheng').value="";
+                }
+                else if(res.msg==="pwderror")
+                {
+                    alert("密码错误！");
+                    document.getElementById('password').value="";
+                    document.getElementById('yanzheng').value="";
+                }
+                else if(res.code===200)
+                {
+                    console.log("登录成功！");
+                    $.ajax({
+                        type: 'post', /*  请求方式  GET  、 POST 、 PUT 等.. */
+                        url: '/login1/commit', /*  后台的接口(findApi)  使用相对路径即可 */
+                        dateType: 'json', /*  期望服务器返回的数据类型格式 */
+                        data:{
+                            userid:res.data.id,
+                            role:res.data.role,
+                        },
+                        success: function(result) { // 请求后台 应答成功返回来的数据
+                            window.location.href='/firstpage';
+                        },
+                        error: function(xhr, status, error) { // 请求失败运行的函数
+                            console.log(error);
+                        }
+                    })
+                }
+                // 修改页面的显示
+                // document.querySelector('h1').innerHTML = ajaxObj.responseText;
+            }
+        }
+    }
+</script>
 
 </body>
 </html>

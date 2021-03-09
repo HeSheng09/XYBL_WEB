@@ -6,52 +6,105 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <!-- 将百度地图API引入，设置好自己的key -->
     <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=WLmHBR0QaQRmOHGFDsYfGq63Fx11AFz0"></script>
-    <style type="text/css">
-
-    </style>
-
+    <link href="/stylesheets/dialog.css" rel="stylesheet">
+    <script src="/javascripts/jquery-3.4.1.min.js"></script>
+    <!-- 加载 Bootstrap 的所有 JavaScript 插件。你也可以根据需要只加载单个插件。 -->
+    <script src="/javascripts/bootstrap.min.js"></script>
+    <!-- Bootstrap -->
+    <link href="/stylesheets/bootstrap.min.css" rel="stylesheet">
     <!--填写自己的百度地图key-->
     <!--    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=WLmHBR0QaQRmOHGFDsYfGq63Fx11AFz0"></script>-->
 </head>
 <body>
+<div>
+    <button class="btn" onclick="show()">点击弹窗</button>
+    <!-- 弹窗遮罩层 -->
+    <div class="dialog">
+        <!-- 弹窗内容 -->
+        <div class="content">
+            <div class="aclose">
+                <span>百度地图</span>
+                <a class="close" href="javascript:close();">&times;</a>
+                <button onclick="sure()">确定！</button>
+            </div>
+            <div class="contain">
+                弹窗具体内容
 
-<input name="address2" type="text" id="address2" class="inp" style="width: 192px" value="">
-<input type="button" value=" 搜索位置 " onclick="codeAddress()" class="ana">
+                <input name="address2" type="text" id="address2" class="inp" style="width: 192px" value="">
+                <input type="button" value=" 搜索位置 " onclick="codeAddress()" class="ana">
 
-<br/>
+                <br/>
+                <div class="main-div">
+                    <form method="post" action="" name="theForm" enctype="multipart/form-data" οnsubmit="return validate()">
+                        <table cellspacing="1" cellpadding="3" width="100%">
+                            <tr>
+                                <td>经度<input type="text" name="lng" id="lng" value=""/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>纬度<input type="text" name="lat" id="lat" value=""/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    地址<textarea name="" rows="1" cols="40" name='sever_add' id='sever_add' readonly placeholder="点击地图获取位置信息"></textarea>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    省<textarea name="" rows="1" cols="40" name='sever_add' id='sever_p' readonly placeholder="点击地图获取位置信息"></textarea>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    市<textarea name="" rows="1" cols="40" name='sever_add' id='sever_c' readonly placeholder="点击地图获取位置信息"></textarea>
+                                </td>
+                            </tr>
+                        </table>
+                    </form>
+                    <div style="width:800px;height:600px;border:1px solid gray" id="allmap"></div>
+                </div>
 
 
-<input type="text" id="address" value="" placeholder="点击获取" onfocus="getaddr()" style="width: 80%;height: 45px;border:1px solid #d7d7d7;border-radius: 5px;" />
-<div class="main-div">
-    <form method="post" action="" name="theForm" enctype="multipart/form-data" οnsubmit="return validate()">
-        <table cellspacing="1" cellpadding="3" width="100%">
-            <tr>
-                <td>经度<input type="text" name="lng" id="lng" value=""/>
-                </td>
-            </tr>
-            <tr>
-                <td>纬度<input type="text" name="lat" id="lat" value=""/>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    地址<textarea name="" rows="1" cols="40" name='sever_add' id='sever_add' readonly placeholder="点击地图获取位置信息"></textarea>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    省<textarea name="" rows="1" cols="40" name='sever_add' id='sever_p' readonly placeholder="点击地图获取位置信息"></textarea>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    市<textarea name="" rows="1" cols="40" name='sever_add' id='sever_c' readonly placeholder="点击地图获取位置信息"></textarea>
-                </td>
-            </tr>
-        </table>
-    </form>
-    <div style="width:1400px;height:800px;border:1px solid gray" id="allmap"></div>
+
+
+            </div>
+        </div>
+
+    </div>
+
 </div>
+
+<script type="text/javascript">
+    function show(){
+        var show = $(".dialog").css("display");
+        $(".dialog").css("display",show =="none"?"block":"none");
+    }
+    function close(){
+        var show = $(".dialog").css("display");
+        $(".dialog").css("display",show =="none"?"block":"none");
+    }
+
+    function sure() {
+        console.log('确定！');
+        let lng=document.getElementById('lng').value ;
+        let lat=document.getElementById('lat').value;
+        let add=document.getElementById('sever_add').value;
+        let p=document.getElementById('sever_p').value;
+        let c=document.getElementById('sever_c').value;
+        console.log(lng);
+        if (lng==="")
+        {
+            alert("请选择相应的地点！");
+        }
+        else
+        {
+            var show = $(".dialog").css("display");
+            $(".dialog").css("display", show == "none" ? "block" : "none");
+        }
+    }
+</script>
+
 <script type="text/javascript">
 
     //判断是否是空

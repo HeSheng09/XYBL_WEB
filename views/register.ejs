@@ -144,7 +144,7 @@
     }
 
     .td_left {
-        color: #2b669a;
+        color: 	#008080;
     }
 
     .td_right{
@@ -152,7 +152,7 @@
     }
 
     .header {
-        background: #2b669a;
+        background: #008080;
         color: white;
     }
 
@@ -173,7 +173,7 @@
     }
 
     .radio-box{
-        color: #2b669a;
+        color: 	#008080;
     }
     #last{
         position: absolute;
@@ -211,7 +211,7 @@
                     <table class="table table-striped">
                         <tr>
                             <td class="td_left">
-                                <label>*姓名</label>
+                                <label>*用户名</label>
                             </td>
                             <td class="td_right">
                                 <input type="text" name="name"
@@ -220,28 +220,49 @@
                             </td>
                             <td></td>
                         </tr>
-                        <tr>
-                            <td class="td_left">
-                                <label>*学号</label>
-                            </td>
-                            <td class="td_right">
-                                <input type="text" name="id"
-                                       required="required" class="register-input" id="id" data-container="body"
-                                       data-toggle="popover" data-placement="right" data-trigger="focus"
-                                       data-content="请输入正确的13位学号">
-                            </td>
-                            <td><span id="id-error"></span></td>
-                        </tr>
+<!--                        <tr>-->
+<!--                            <td class="td_left">-->
+<!--                                <label>*学号</label>-->
+<!--                            </td>-->
+<!--                            <td class="td_right">-->
+<!--                                <input type="text" name="id"-->
+<!--                                       required="required" class="register-input" id="id" data-container="body"-->
+<!--                                       data-toggle="popover" data-placement="right" data-trigger="focus"-->
+<!--                                       data-content="请输入正确的13位学号">-->
+<!--                            </td>-->
+<!--                            <td><span id="id-error"></span></td>-->
+<!--                        </tr>-->
                         <tr>
                             <td class="td_left">
                                 <label>*密码</label>
                             </td>
                             <td class="td_right">
-                                <input type="password" name="password"
+                                <input type="password" name="pwd"
                                        class="register-input"
-                                       required="required" id="password" data-container="body"
+                                       required="required" id="pwd" data-container="body"
                                        data-toggle="popover" data-placement="right" data-trigger="focus"
                                        data-content="请输入6-14位的密码">
+                            </td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td class="td_left">
+                                <label>*真实姓名</label>
+                            </td>
+                            <td class="td_right">
+                                <input type="text" name="stu_name"
+                                       required="required" class="register-input "
+                                       autofocus="" id="stu_name">
+                            </td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td class="td_left">
+                                <label>*邮箱</label>
+                            </td>
+                            <td class="td_right">
+                                <input type="text" name="email" class="register-input"
+                                       required="" id="email">
                             </td>
                             <td></td>
                         </tr>
@@ -251,46 +272,36 @@
                             </td>
                             <td class="td_right">
                                 <input type="text" name="tel" class="register-input"
-                                       required="required" id="tel">
+                                       required="" id="tel">
                             </td>
                             <td></td>
                         </tr>
 
                         <tr>
                             <td class="td_left">
-                                <label>*邮箱</label>
+                                <label>*地址</label>
                             </td>
                             <td class="td_right">
-                                <input type="text" name="email" class="register-input"
-                                       required="required" id="email">
-                            </td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td class="td_left">
-                                <label>*班级</label>
-                            </td>
-                            <td class="td_right">
-                                <input type="text" name="stu_class"
+                                <input type="text" name="address"
                                        class="register-input"
-                                       required="" id="stu_class">
+                                       required="" id="address">
                             </td>
                             <td></td>
                         </tr>
-                        <tr>
-                            <td class="td_left">
-                                <label>*性别</label>
-                            </td>
-                            <td class="radio-box">
-                                <span>
-                                <input type="radio" name="gender"
-                                       required="required" value="0">男
-                                <input type="radio" name="gender"
-                                       required="required" value="1">女
-                                </span>
-                            </td>
-                            <td></td>
-                        </tr>
+<!--                        <tr>-->
+<!--                            <td class="td_left">-->
+<!--                                <label>*性别</label>-->
+<!--                            </td>-->
+<!--                            <td class="radio-box">-->
+<!--                                <span>-->
+<!--                                <input type="radio" name="gender"-->
+<!--                                       required="required" value="0">男-->
+<!--                                <input type="radio" name="gender"-->
+<!--                                       required="required" value="1">女-->
+<!--                                </span>-->
+<!--                            </td>-->
+<!--                            <td></td>-->
+<!--                        </tr>-->
                         <tr>
                             <td class="td_left">
                                 <label>验证码</label>
@@ -304,16 +315,60 @@
                         </tr>
                     </table>
 
-                    <input class="btn  btn-primary btn-block " type="submit" value="立即注册" id="submit-btn"/>
+                    <input class="btn  btn-primary btn-block "value="立即注册" id="rregister" style="background-color: #008080"/>
                 </form>
             </div>
             <div>
-                <a id="last" href="/login">已有账号？立即登录</a><br>
+                <a id="last" href="/login" style="color: #008080">已有账号？立即登录</a><br>
             </div>
         </div>
         <div class="col-md-3 hidden-xs"></div>
     </div>
 </div>
+<script>
+        document.querySelector('#rregister').onclick = function () {
+            let name=document.getElementById('name').value;
+            let pwd=document.getElementById('pwd').value;
+            let stu_name=document.getElementById('stu_name').value;
+            let email=document.getElementById('email').value;
+            let tel=document.getElementById('tel').value;
+            let address=document.getElementById('address').value;
+            let url="http://47.98.164.4:8080/server/user/stu_register?name="+name+"&pwd="+pwd+"&stu_name="+stu_name;
+            if(email.length>0)
+            {
+                url=url+"&email="+email;
+            }
+            if(tel.length>0)
+            {
+                url=url+"&tel="+tel;
+            }
+            if(tel.length>0)
+            {
+                url=url+"&address="+address;
+            }
+            console.log(url)
+            $.ajax({
+                type: "GET",
+                url: url,
+                // data: { page: $("#page").val(), limit: 5 },
+                dataType: "JSON",
+                success: function(result) {
+                    console.log(result);
+                    console.log(result['msg']);
+                    if(result.msg==="ok")
+                    {
+                        var boo = confirm('注册成功！');
+                        //confirm 会返回你选择的选项,然后可以依据选择执行逻辑
+                        if(boo){
+                            window.location.href("/login1");
+                        }else{
+                            window.location.href("/login1");
+                        }
+                    }
+                }
+            });
+    }
+</script>
 </body>
 
 </html>

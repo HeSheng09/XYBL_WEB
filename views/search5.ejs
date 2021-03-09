@@ -10,6 +10,7 @@
     <script src="/javascripts/jquery-3.4.1.min.js"></script>
     <!-- 加载 Bootstrap 的所有 JavaScript 插件。你也可以根据需要只加载单个插件。 -->
     <script src="/javascripts/bootstrap.min.js"></script>
+    <script src="/javascripts/vue.js"></script>
     <!-- Bootstrap -->
     <link href="/stylesheets/bootstrap.min.css" rel="stylesheet">
 </head>
@@ -53,6 +54,7 @@
     }
 </style>
 <body>
+<div id="app">
 <div class="container">
     <div class="row clearfix">
         <div class="col-md-12 column" id="nav">
@@ -130,33 +132,12 @@
             <p>
                 <a class="btn" href="#">View details »</a>
             </p>
-            <h2>
-                案例2
-            </h2>
-            <p>
-                Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.
-            </p>
-            <p>
-                <a class="btn" href="#">View details »</a>
-            </p>
-            <h2>
-                案例3
-            </h2>
-            <p>
-                Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.
-            </p>
-            <p>
-                <a class="btn" href="#">View details »</a>
-            </p>
-            <h2>
-                案例4
-            </h2>
-            <p>
-                Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.
-            </p>
-            <p>
-                <a class="btn" href="#">View details »</a>
-            </p>
+
+            <div v-for="(m, index) in shijian" @click="xiangqing(m)">
+                <div style="cursor: hand"><button>试一试</button></div>
+                {{index}}-{{m}}
+            </div>
+
         </div>
     </div>
 </div>
@@ -202,5 +183,20 @@
         <p>© 2019 </p>
     </div>
 </div><!--页脚-->
+</div>
+<script>
+    const app = new Vue({
+        el: '#app',
+        data: {
+            shijian: ['321321', '321312', '4341', '43431']
+        },
+        methods:{
+            xiangqing(id){
+                console.log("事件id为"+id);
+                window.location.href="http://localhost:3000/event/"+id;
+            }
+
+        }
+    })</script>
 </body>
 </html>

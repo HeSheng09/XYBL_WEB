@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 
 // 跳转到login页面
-router.get("/",function (req,res,netx) {
+router.get("/",function (req,res,next) {
     res.render("login");
 })
 
