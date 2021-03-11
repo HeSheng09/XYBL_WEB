@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <title>校园霸凌举报系统</title>
+    <!-- jQuery (Bootstrap 的所有 JavaScript 插件都依赖 jQuery，所以必须放在前边) -->
+    <script src="/javascripts/jquery-3.4.1.min.js"></script>
+    <!-- 加载 Bootstrap 的所有 JavaScript 插件。你也可以根据需要只加载单个插件。 -->
+    <script src="/javascripts/bootstrap.min.js"></script>
+    <script src="/javascripts/vue.js"></script>
+    <!-- Bootstrap -->
+    <link href="/stylesheets/bootstrap.min.css" rel="stylesheet">
+</head>
+<style>
+    body {
+        background-size: cover;
+        background:url("/images/ivy01.jpg")fixed center 0 no-repeat;
+        background-size: cover;
+        -webkit-background-size: cover;
+        -o-background-size: cover;
+        -moz-background-size: cover;
+    }
+    .footer {
+        color: white;
+        text-align: center;
+    }
+
+    div.footer a {
+        color: white;
+    }
+    .navitems{
+        margin-top: 22px;
+        margin-left: 60px;
+    }
+    #random{
+        margin-top: 8px;
+    }
+    #search{
+        margin-top: 18px;
+    }
+    #event{
+        opacity: 0.8;
+        background-color: white;
+        margin-top: 22px;
+    }
+    #id{
+        margin-top: 20px;
+        margin-bottom: 7px;
+        opacity: 0.8;
+        background-color: white;
+    }
+  #title{
+      /*background-color: darkseagreen;*/
+      color: #003333;
+      margin-right: 19px;
+      font-family: 方正粗黑宋简体;
+  }
+
+    #text{
+        /*opacity: 0.8;*/
+        background-color: white;
+        margin-top: 50px;
+        background-color: rgba(255, 255, 255, 0.8);
+    }
+
+    /*#nav{*/
+    /*    opacity: 0.8;*/
+    /*    background-color: #528B8B;*/
+    /* }*/
+</style>
+<body>
+<div id="app">
+<div class="container">
+    <div class="row clearfix">
+        <div class="col-md-12 column" id="nav">
+            <div  class="navbar-header" >
+                <h1>
+                    <strong><p id="title">校园霸凌举报系统</p></strong>
+                </h1>
+            </div>
+
+            <div class="navitems">
+                <ul class="nav nav-tabs" >
+                    <li >
+                        <a href="#" style="color:white">首页</a>
+                    </li>
+                    <li>
+                        <a href="#" style="color:white">举报页</a>
+                    </li>
+                    <li class="active" >
+                        <a href="#" >案例</a>
+                    </li>
+                    <li class="dropdown pull-right">
+                        <a class="dropdown-toggle" href="#" data-toggle="dropdown" style="color:white">个人<strong class="caret"></strong></a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="#">个人中心</a>
+                            </li>
+                            <li>
+                                <a href="#">信息通知</a>
+                            </li>
+                            <li class="divider">
+                            </li>
+                            <li>
+                                <a href="#">退出登录</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+                </div>
+
+                </div>
+            </div>
+
+
+            <div class="container">
+                <a class="btn" href="#" style="color:white">
+                    《《《返回上一页
+                </a>
+            </div>
+
+            <div class="row clearfix">
+                <div class="col-md-12" id="id">
+                    <h3>
+                        <strong>事件编号：</strong><strong id="eventid"><%= eventid %></strong><strong id="eventkind" style="visibility: hidden"><%= eventkind %></strong>
+                    <br/>
+                        <strong>事件进度：{{Status}}</strong>
+                    </h3>
+                </div>
+                <button @click="toResearch()" v-if="Status==='未受理'">进行受理</button>
+
+                <div class="col-md-12 column" id="event">
+                    <h3 id="userid"><%= userid %></h3>
+                    标题：{{title}}
+                    <h3>
+                        举报者的描述
+                    </h3>
+                    <p>
+                      {{detail}}
+                    </p>
+                    <p>
+                        <a class="btn" href="#">点击编辑 »</a>
+                    </p>
+                    <h3>
+                        学校的处理结果
+                    </h3>
+                    <p>
+                        Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.
+                    </p>
+                    <p>
+                        <a class="btn" href="#">点击编辑 »</a>
+                    </p>
+                    <h3>
+                        审核结果
+                    </h3>
+                    <p>
+                        Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.
+                    </p>
+                    <p>
+                        <a class="btn" href="#">点击编辑 »</a>
+                    </p>
+                </div>
+            </div>
+
+    <div class="row clearfix" v-if="Status==='已受理但没有结果'" id="text">
+        <div class="col-md-12 column">
+            <form role="form">
+                <div class="form-group">
+                    <label for="exampleInputEmail1">处理结果</label><input class="form-control" id="searchRe" v-model="resText"/>
+                </div>
+
+                <div class="form-group">
+                    <label for="exampleInputFile">附件上传</label><input type="file" id="exampleInputFile" />
+                    <p class="help-block">
+                    </p>
+                </div>
+                <div class="checkbox">
+                    <label><input type="checkbox" />确定</label>
+                </div>
+            </form>
+            <button  class="btn btn-default" @click="getRes()">提交</button>
+        </div>
+    </div>
+
+
+        <div class="footer container-fluid">
+            <div id="footer_div1">
+                <a href="http://rsgis.whu.edu.cn/">遥感信息工程学院 </a>|&nbsp;
+                <a href="http://www.whu.edu.cn/">武汉大学 </a>|&nbsp;
+                <a href="http://www.lib.whu.edu.cn/web/default.asp">武汉大学图书馆 </a>|&nbsp;
+                <a href="http://my.whu.edu.cn">信息门户</a>
+            </div>
+            <div id="footer_div2">
+                <p>中国 湖北 武汉市 珞喻路129号 武汉大学信息学部</p><br>
+                <p>空间信息与数字技术</p>
+                <p>© 2019 </p>
+            </div>
+        </div><!--页脚-->
+</div>
+</div>
+<script>
+    var userid=document.getElementById('userid').innerText;
+    var eventid=document.getElementById('eventid').innerText;
+    var eventkind=document.getElementById('eventkind').innerHTML;
+    console.log(eventkind);
+    var url="http://47.98.164.4:8080/server/appeal/getbyid"
+    $.ajax({
+        type: 'get', /*  请求方式  GET  、 POST 、 PUT 等.. */
+        url: url, /*  后台的接口(findApi)  使用相对路径即可 */
+        dateType: 'json', /*  期望服务器返回的数据类型格式 */
+        data:{
+            user_id:userid,
+            al_id:eventid,
+        },
+        success: function(result) { // 请求后台 应答成功返回来的数据
+            console.log(result);
+            // document.getElementById("content").innerText=result.data;
+            const app = new Vue({
+                el: '#app',
+                data: {
+                    title:result.data.title,
+                    address:result.data.address,
+                    time:result.data.al_time,
+                    detail:result.data.detail,
+                    pos:result.data.pos,
+                    redetail:"",
+                    retitle:"",
+                    reappeal:result.data.reapp,
+                    resText:""
+                },
+                computed:{
+                  Status(){
+                      switch (eventkind){
+                          case "1":
+                              return "未受理";
+                          case "2":
+                              return "已受理";
+                          case "3":
+                              return "已受理但没有结果";
+                          case "4":
+                              return "得出结果";
+                      }
+                  }
+                },
+                methods:{
+                     toResearch(){
+                         let url="http://47.98.164.4:8080/server/research/addone";
+                         $.ajax({
+                             type: 'get', /*  请求方式  GET  、 POST 、 PUT 等.. */
+                             url: url, /*  后台的接口(findApi)  使用相对路径即可 */
+                             dateType: 'json', /*  期望服务器返回的数据类型格式 */
+                             data:{
+                                 user_id:userid,
+                                 al_id:eventid,
+                             },
+                             success: function(result) { // 请求后台 应答成功返回来的数据
+                                 console.log(result);
+                                 alert("提交成功！")
+                             },
+                             error: function(xhr, status, error) { // 请求失败运行的函数
+                                 console.log(error);
+                             }})
+                     },
+                    getRes()
+                    {
+                        console.log(this.resText)
+                        var resText=this.resText;
+                        let url="http://47.98.164.4:8080/server/research/get_by_al_id";
+                        $.ajax({
+                            type: 'get', /*  请求方式  GET  、 POST 、 PUT 等.. */
+                            url: url, /*  后台的接口(findApi)  使用相对路径即可 */
+                            dateType: 'json', /*  期望服务器返回的数据类型格式 */
+                            data:{
+                                user_id:userid,
+                                al_id:eventid,
+                            },
+                            success: function(result) { // 请求后台 应答成功返回来的数据
+                                console.log("research相关信息！")
+                                console.log(result);
+                                var researchid=result.data.id;
+                                let url2="http://47.98.164.4:8080/server/research/submit_result";
+                                $.ajax({
+                                    type: 'get', /*  请求方式  GET  、 POST 、 PUT 等.. */
+                                    url: url2, /*  后台的接口(findApi)  使用相对路径即可 */
+                                    dateType: 'json', /*  期望服务器返回的数据类型格式 */
+                                    data:{
+                                        user_id:userid,
+                                        rh_id:researchid,
+                                        result:resText,
+                                    },
+                                    success: function(result) { // 请求后台 应答成功返回来的数据
+                                        console.log(result);
+                                        alert("提交成功！")
+
+                                    },
+                                    error: function(xhr, status, error) { // 请求失败运行的函数
+                                        console.log(error);
+                                    }})
+
+                            },
+                            error: function(xhr, status, error) { // 请求失败运行的函数
+                                console.log(error);
+                            }})
+                    }
+
+
+                }
+            })
+            // console.log(this.appeals);
+        },
+        error: function(xhr, status, error) { // 请求失败运行的函数
+            console.log(error);
+        }})
+</script>
+</body>
+</html>

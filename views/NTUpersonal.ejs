@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <title>校园霸凌举报系统</title>
+
+    <!-- jQuery (Bootstrap 的所有 JavaScript 插件都依赖 jQuery，所以必须放在前边) -->
+    <script src="/javascripts/jquery-3.4.1.min.js"></script>
+    <!-- 加载 Bootstrap 的所有 JavaScript 插件。你也可以根据需要只加载单个插件。 -->
+    <script src="/javascripts/bootstrap.min.js"></script>
+    <script src="/javascripts/vue.js"></script>
+    <!-- Bootstrap -->
+    <link href="/stylesheets/bootstrap.min.css" rel="stylesheet">
+</head>
+<style>
+    body {
+        background-size: cover;
+        background:url("/images/lvye2.jpg")fixed center 0 no-repeat;
+        background-size: cover;
+        -webkit-background-size: cover;
+        -o-background-size: cover;
+        -moz-background-size: cover;
+    }
+    .footer {
+        color: white;
+        text-align: center;
+    }
+
+    div.footer a {
+        color: white;
+    }
+    .navitems{
+        margin-top: 22px;
+        margin-left: 60px;
+    }
+
+    #title{
+        /*background-color: darkseagreen;*/
+        color: #CDBA96;
+        margin-right: 19px;
+        font-family: 方正粗黑宋简体;
+    }
+
+</style>
+<body style="overflow-y:hidden">
+<div id="app">
+<div class="container">
+    <div class="row clearfix">
+        <div class="col-md-12 column" id="nav" style="position:fixed;top:0px;">
+            <div  class="navbar-header" >
+                <h1>
+                    <strong><p id="title">校园霸凌举报系统</p></strong>
+                </h1>
+            </div>
+
+            <div class="navitems">
+                <ul class="nav nav-tabs" >
+                    <li >
+                        <a href="#" style="color:white">首页</a>
+                    </li>
+                    <li>
+                        <a href="#" style="color:white">举报页</a>
+                    </li>
+                    <li class="active" >
+                        <a href="#" >案例</a>
+                    </li>
+                    <li class="dropdown pull-right">
+                        <a class="dropdown-toggle" href="#" data-toggle="dropdown" style="color:white">个人<strong class="caret"></strong></a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="#">个人中心</a>
+                            </li>
+                            <li>
+                                <a href="#">信息通知</a>
+                            </li>
+                            <li class="divider">
+                            </li>
+                            <li>
+                                <a href="#">退出登录</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row clearfix">
+            <div class="col-md-12 column">
+                <div class="row clearfix">
+                    <div class="col-md-4 column" style="position:fixed;margin-top:100px;width:300px">
+                        <dl>
+                            <dt style="font-size: x-large">
+                                个人资料
+                            </dt>
+<!--                            <dd>-->
+<!--                                A description list is perfect for defining terms.-->
+<!--                            </dd>-->
+                            <dt>
+                                用户id
+                            </dt>
+                            <dd id="userid">
+                                <%= userid %>
+                            </dd>
+                            <dd>
+                                Donec id elit non mi porta gravida at eget metus.
+                            </dd>
+                            <dt>
+                                Malesuada porta
+                            </dt>
+                            <dd>
+                                Etiam porta sem malesuada magna mollis euismod.
+                            </dd>
+                            <dt>
+                                Felis euismod semper eget lacinia
+                            </dt>
+                            <dd>
+                                Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.
+                            </dd>
+                        </dl>
+                    </div>
+                    <div class="col-md-8 column" style="position:fixed;left:400px;top:80px;bottom:140px;overflow-y:auto;background-color: ">
+<!--                        <div v-for="(i,index) in appeals" @click="toevent(i.id)">-->
+<!--&lt;!&ndash;                             {{i}}&ndash;&gt;-->
+<!--                            <h2>编码{{i.id}}：{{i.title}}</h2>-->
+<!--                            <p>提交时间：{{i.al_time}}</p>-->
+<!--                            <p>经纬度：{{i.pos}}</p>-->
+<!--                            <p>事件地点：{{i.address}}</p>-->
+<!--                            <p>详情：{{i.detail}}</p>-->
+<!--                         </div>-->
+                        <div class="btn-group">
+                            <button class="btn btn-default" type="button" @click="raselect()">筛选举报信息</button>
+                            <input type="radio" id="nonwatch" value="Nonwatch"  name="s"> 未受理
+                            <input type="radio" id="watch" value="Watch"  name="s"> 已受理
+                            <input type="radio" id="nonres" value="Nonres"  name="s"> 已受理但未得出结果
+                            <input type="radio" id="result" value="Res"  name="s"> 得出结果
+                        </div>
+
+                        <div v-show="sselect==='Nonwatch'" v-cloak>
+                            未受理
+                            <div v-for="(i,index) in unwatched" @click="toevent1(i.id)">
+                                <!--                             {{i}}-->
+                                <h2>编码{{i.id}}：{{i.title}}</h2>
+                                <p>提交时间：{{i.al_time}}</p>
+                                <p>经纬度：{{i.pos}}</p>
+                                <p>事件地点：{{i.address}}</p>
+                                <p>详情：{{i.detail}}</p>
+                            </div>
+                        </div>
+                        <div v-show="sselect==='Watch'" v-cloak>
+                            受理
+                            <div v-for="(i,index) in watched" @click="toevent2(i.id)">
+                                <!--                             {{i}}-->
+                                <h2>编码{{i.id}}：{{i.title}}</h2>
+                                <p>提交时间：{{i.al_time}}</p>
+                                <p>经纬度：{{i.pos}}</p>
+                                <p>事件地点：{{i.address}}</p>
+                                <p>详情：{{i.detail}}</p>
+                            </div>
+                        </div>
+                        <div v-show="sselect==='Nonres'" v-cloak>
+                            无结果
+                            <div v-for="(i,index) in nores" @click="toevent3(i.id)">
+                                <!--                             {{i}}-->
+                                <h2>编码{{i.id}}：{{i.title}}</h2>
+                                <p>提交时间：{{i.al_time}}</p>
+                                <p>经纬度：{{i.pos}}</p>
+                                <p>事件地点：{{i.address}}</p>
+                                <p>详情：{{i.detail}}</p>
+                            </div>
+                        </div>
+                        <div v-show="sselect==='Res'" v-cloak>
+                            有结果
+                            <div v-for="(i,index) in res" @click="toevent4(i.id)">
+                                <!--                             {{i}}-->
+                                <h2>编码{{i.id}}：{{i.title}}</h2>
+                                <p>提交时间：{{i.al_time}}</p>
+                                <p>经纬度：{{i.pos}}</p>
+                                <p>事件地点：{{i.address}}</p>
+                                <p>详情：{{i.detail}}</p>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="footer container-fluid" style="position:fixed;bottom: 2px;left:0;right:0;margin: auto">
+        <div id="footer_div1">
+            <a href="http://rsgis.whu.edu.cn/">遥感信息工程学院 </a>|&nbsp;
+            <a href="http://www.whu.edu.cn/">武汉大学 </a>|&nbsp;
+            <a href="http://www.lib.whu.edu.cn/web/default.asp">武汉大学图书馆 </a>|&nbsp;
+            <a href="http://my.whu.edu.cn">信息门户</a>
+        </div>
+        <div id="footer_div2">
+            <p>中国 湖北 武汉市 珞喻路129号 武汉大学信息学部</p><br>
+            <p>空间信息与数字技术</p>
+            <p>© 2019 </p>
+        </div>
+    </div><!--页脚-->
+</div>
+</div>
+<script>
+    var userid=document.getElementById('userid').innerText;
+    var unwatched=[];
+    var watched=[];
+    var nores=[];
+    var res=[];
+    var url1="http://47.98.164.4:8080/server/appeal/get_unwatched_ns";
+    var url2="http://47.98.164.4:8080/server/appeal/get_watched_ns";
+    var url3="http://47.98.164.4:8080/server/appeal/get_noresult_ns";
+    var url4="http://47.98.164.4:8080/server/appeal/get_hasresult_ns";
+    console.log(userid);
+    $.ajax({
+        type: 'get', /*  请求方式  GET  、 POST 、 PUT 等.. */
+        url: url1, /*  后台的接口(findApi)  使用相对路径即可 */
+        dateType: 'json', /*  期望服务器返回的数据类型格式 */
+        data:{
+            user_id:userid,
+            is_first:0,
+        },
+        success: function(result) { // 请求后台 应答成功返回来的数据
+            unwatched=result.data;
+            console.log("unwatch");
+            console.log(unwatched);
+            $.ajax({
+                type: 'get', /*  请求方式  GET  、 POST 、 PUT 等.. */
+                url: url2, /*  后台的接口(findApi)  使用相对路径即可 */
+                dateType: 'json', /*  期望服务器返回的数据类型格式 */
+                data:{
+                    user_id:userid,
+                    is_first:0,
+                },
+                success: function(result) { // 请求后台 应答成功返回来的数据
+                    watched=result.data;
+                    console.log("watched");
+                    console.log(watched);
+                    $.ajax({
+                        type: 'get', /*  请求方式  GET  、 POST 、 PUT 等.. */
+                        url: url3, /*  后台的接口(findApi)  使用相对路径即可 */
+                        dateType: 'json', /*  期望服务器返回的数据类型格式 */
+                        data:{
+                            user_id:userid,
+                            is_first:0,
+                        },
+                        success: function(result) { // 请求后台 应答成功返回来的数据
+                            nores=result.data;
+                            console.log("nores");
+                            console.log(nores);
+                            $.ajax({
+                                type: 'get', /*  请求方式  GET  、 POST 、 PUT 等.. */
+                                url: url4, /*  后台的接口(findApi)  使用相对路径即可 */
+                                dateType: 'json', /*  期望服务器返回的数据类型格式 */
+                                data:{
+                                    user_id:userid,
+                                    is_first:0,
+                                },
+                                success: function(result) { // 请求后台 应答成功返回来的数据
+                                        res=result.data;
+                                        console.log("res");
+                                        console.log(res)
+                                        const app = new Vue({
+                                        el: '#app',
+                                        data: {
+                                            userid:"",
+                                            unwatched:unwatched,
+                                            watched:watched,
+                                            nores:nores,
+                                            res:res,
+                                            sselect:"Nonwatch",
+                                        },
+                                        methods:{
+                                            raselect(){
+                                                let val=$('input:radio:checked').val();
+                                                console.log(val);
+                                                this.sselect=val;
+                                            },
+                                            toevent1(id){
+                                                console.log(id);
+                                                let urlid="/event/"+id+"/1";
+                                                window.open(urlid);
+                                            },
+                                            toevent2(id){
+                                                console.log(id);
+                                                let urlid="/event/"+id+"/2";
+                                                window.open(urlid);
+                                            },
+                                            toevent3(id){
+                                                console.log(id);
+                                                let urlid="/event/"+id+"/3";
+                                                window.open(urlid);
+                                            },
+                                            toevent4(id){
+                                                console.log(id);
+                                                let urlid="/event/"+id+"/4";
+                                                window.open(urlid);
+                                            }
+
+                                        }
+                                    })
+
+
+
+                                },
+                                error: function(xhr, status, error) { // 请求失败运行的函数
+                                    console.log(error);
+                                }})
+
+                        },
+                        error: function(xhr, status, error) { // 请求失败运行的函数
+                            console.log(error);
+                        }})
+
+                },
+                error: function(xhr, status, error) { // 请求失败运行的函数
+                    console.log(error);
+                }})
+
+        },
+        error: function(xhr, status, error) { // 请求失败运行的函数
+            console.log(error);
+        }})
+
+</script>
+</body>
+</html>
