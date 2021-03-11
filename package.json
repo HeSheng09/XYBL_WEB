@@ -18,6 +18,7 @@
     "redis": "^3.0.2"
   },
   "devDependencies": {
-    "log4js": "^6.3.0"
+    "log4js": "^6.3.0",
+    "request": "^2.88.2"
   }
 }

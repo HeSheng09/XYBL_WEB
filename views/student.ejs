@@ -2,9 +2,41 @@
 <html lang="en">
 <head>
     <title>student</title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <link rel='stylesheet' href='/stylesheets/style.css'/>
+    <script src="/javascripts/jquery-3.4.1.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#get_user_info").click(function () {
+                $.ajax({
+                    type: "POST",
+                    url: "/student/get_user_info",
+                    data: {user_id: '<%= id %>'},
+                    dataType: "json",
+                    success: function (data) {
+                        if (data.role) {
+                            // ns {"id":"1615123447780013","name":null,"pwd":null,"role":false,"ns_name":"武汉大学","privilege":"S0","tel":"027-87328191","email":"jyt@gov.cn"}
+                            $('#user_info').append("<div><h3>管理员</h3><p>name:&nbsp;" + data.name + "</p><p>TEL:&nbsp;" + data.tel + "</p><p>E-mail:&nbsp;" + data.email + "</p>" + "</div>")
+                        } else {
+                            // student {"id":"1615378460723002","name":null,"pwd":null,"role":false,"stu_name":"付翔龙","tel":"null","address":"null","email":"null"}
+                            $('#user_info').append("<div><h3>学生</h3><p>name:&nbsp;" + data.name + "</p><p>TEL:&nbsp;" + data.tel + "</p><p>E-mail:&nbsp;" + data.email + "</p><p>Address:&nbsp;" + data.address + "</p></div>")
+                        }
+                        // $('#user_info').append("<p>" + JSON.stringify(data) + "</p>");
+                    }
+                })
+            })
+        })
+    </script>
 </head>
 <body>
-<h1><%= user %></h1>
+<h1><%= id %></h1>
+<h1><%= name %></h1>
+<h1><%= password %></h1>
+<h1><%= role %></h1>
+<br>
+<button type="button" id="get_user_info">获取用户信息</button>
+<br>
+<div id="user_info">
+
+</div>
 </body>
 </html>
