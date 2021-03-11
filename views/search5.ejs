@@ -105,21 +105,21 @@
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
                 <li class="active">
-                    <a href="#">随机</a>
+                    <a href="#"> </a>
                 </li>
             </ul>
-            <form class="navbar-form navbar-left" role="search">
+            <form class="navbar-form navbar-left">
                 <div class="form-group">
-                    <input class="form-control" type="text" />
-                </div> <button class="btn btn-default" type="submit">搜索</button>
+                    <input class="form-control" type="text" id="key" v-model="keyword"/>
+                </div>
             </form>
+            <button class="btn btn-default" @click="keysearch()">搜索</button>
             <div class="nav navbar-nav navbar-right" id="random">
                 <button class="btn btn-default">随机</button>
             </div>
         </div>
 
     </nav>
-
 
     <div class="row clearfix">
         <div class="col-md-12 column" id="event">
@@ -132,12 +132,14 @@
             <p>
                 <a class="btn" href="#">View details »</a>
             </p>
-
-            <div v-for="(m, index) in shijian" @click="xiangqing(m)">
-                <div style="cursor: hand"><button>试一试</button></div>
-                {{index}}-{{m}}
+            {{shijian}}
+            <div id="death"></div>
+<!--            <div id="test" >-->
+<!--            <div v-for="(m, index) in keysearch()" @click="xiangqing(m.id)" v-bind:key="m.id" v-if="shijianshow">-->
+<!--                <div style="cursor: hand"><button>试一试</button></div>-->
+<!--                {{index}}-{{m}}-->
+<!--            </div>-->
             </div>
-
         </div>
     </div>
 </div>
@@ -188,14 +190,61 @@
     const app = new Vue({
         el: '#app',
         data: {
-            shijian: ['321321', '321312', '4341', '43431']
+            shijian: [],
+            shijianshow:false,
+            keyword:"",
         },
-        methods:{
-            xiangqing(id){
-                console.log("事件id为"+id);
-                window.location.href="http://localhost:3000/event/"+id;
+        watch: {
+            shijian(newVal, oldVal) {
+                // 监听 num 属性的数据变化
+                // 作用 : 只要 num 的值发生变化,这个方法就会被调用
+                // 第一个参数 : 新值
+                // 第二个参数 : 旧值,之前的值
+                console.log('oldVal:',oldVal)
+                console.log('newVal:',newVal)
             }
+        },
+        methods: {
+            xiangqing(id) {
+                console.log("事件id为" + id);
+                window.location.href = "http://localhost:3000/event/" + id;
+            },
 
+            keysearch() {
+                console.log(this.keyword);
+                $.ajax({
+                    type: 'get', /*  请求方式  GET  、 POST 、 PUT 等.. */
+                    url: 'http://47.98.164.4:8080/server/appeal/search_al?user_id=1615123447780013&keys=' + this.keyword, /*  后台的接口(findApi)  使用相对路径即可 */
+                    dateType: 'json', /*  期望服务器返回的数据类型格式 */
+                    // data:{
+                    //     user_id:userid,
+                    //     al_address:this.address,
+                    //     al_pos:this.pos,
+                    //     al_title:this.retitle,
+                    //     al_detail:this.redetail,
+                    //     handler:"1615123157287011",
+                    //     last_al:eventid
+                    // },
+                    success: function (result) { // 请求后台 应答成功返回来的数据
+                        this.shijian = result.data;
+                        // for(let i in result.data){
+                        //     this.shijian.push(i);
+                        // }
+                        console.log(this.shijian);
+                        let inhtml="事件：<ul>";
+                        for (i in this.shijian){
+                            let href="/event/"+this.shijian[i].id;
+                            inhtml+="<li>"+ this.shijian[i].id + "<a href=" +href+ ">跳转链接</a></li>";
+                        }
+                        inhtml+="</ul>";
+                        document.getElementById("death").innerHTML=inhtml;
+                    },
+                    error: function (xhr, status, error) { // 请求失败运行的函数
+                        console.log(error);
+                    }
+                })
+
+            }
         }
     })
 </script>

@@ -122,10 +122,10 @@
                 </div>
 
                 <div class="col-md-12 column" id="event">
-                    <h3 id="userid"><%= userid %></h3> <button class="btn" @click="reappeal()">再次举报</button>
-                    标题：{{title}} <input id="re_title" v-model="retitle"/>
+                    <h3 id="userid"><%= userid %></h3>
+                    标题：{{title}}
                     <h3>
-                        举报者的描述 <input id="re_input" v-model="redetail"/>
+                        举报者的描述
                     </h3>
                     <p>
                       {{detail}}
@@ -153,6 +153,16 @@
                     </p>
                 </div>
             </div>
+
+    <div id="reappeal">
+        再次举报的题目<input id="re_title" v-model="retitle"/>
+        再次举报的细节信息<input id="re_input" v-model="redetail"/>
+        <button class="btn" @click="Reappeal()">再次举报</button>
+    </div>
+
+
+
+
         <div class="footer container-fluid">
             <div id="footer_div1">
                 <a href="http://rsgis.whu.edu.cn/">遥感信息工程学院 </a>|&nbsp;
@@ -201,7 +211,7 @@
                         let urlid="/event/"+id;
                         window.open(urlid);
                     },
-                    reappeal(){
+                    Reappeal(){
                         console.log(this.redetail);
                         console.log(this.retitle)
                         $.ajax({
@@ -233,6 +243,24 @@
         error: function(xhr, status, error) { // 请求失败运行的函数
             console.log(error);
         }})
+
+    let url2="http://47.98.164.4:8080/server/route/get_complete";
+    $.ajax({
+        type: 'get', /*  请求方式  GET  、 POST 、 PUT 等.. */
+        url: url2, /*  后台的接口(findApi)  使用相对路径即可 */
+        dateType: 'json', /*  期望服务器返回的数据类型格式 */
+        data:{
+            user_id:userid,
+            al_id:eventid,
+        },
+        success: function(result) {// 请求后台 应答成功返回来的数据
+            console.log("完整时间线")
+            console.log(result);
+        },
+        error: function(xhr, status, error) { // 请求失败运行的函数
+            console.log(error);
+        }})
+
 </script>
 </body>
 </html>

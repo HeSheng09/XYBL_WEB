@@ -273,19 +273,15 @@
     var userid=document.getElementById('userid').innerText;
     var appeals=[]
     console.log(userid);
-    let url="http://47.98.164.4:8080/server/appeal/getbyuserid?user_id="+userid;
+    let url="http://47.98.164.4:8080/server/appeal/get_bs";
     $.ajax({
         type: 'get', /*  请求方式  GET  、 POST 、 PUT 等.. */
         url: url, /*  后台的接口(findApi)  使用相对路径即可 */
         dateType: 'json', /*  期望服务器返回的数据类型格式 */
-        // data:{
-        //     user_id:id,
-        //     al_address:add2,
-        //     al_pos:pos,
-        //     al_title:aptitle,
-        //     al_detail:detail,
-        //     handler:this.deid,
-        // },
+        data:{
+            user_id:userid,
+            is_first:1,
+        },
         success: function(result) { // 请求后台 应答成功返回来的数据
             // console.log(result);
             // document.getElementById("content").innerText=result.data;
