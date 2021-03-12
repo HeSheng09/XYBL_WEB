@@ -217,6 +217,39 @@
     var url3="http://47.98.164.4:8080/server/appeal/get_noresult_ns";
     var url4="http://47.98.164.4:8080/server/appeal/get_hasresult_ns";
     console.log(userid);
+    let URL="http://47.98.164.4:8080/server/user/getuserinfo";
+    $.ajax({
+        type: 'get', /*  请求方式  GET  、 POST 、 PUT 等.. */
+        url: URL, /*  后台的接口(findApi)  使用相对路径即可 */
+        dateType: 'json', /*  期望服务器返回的数据类型格式 */
+        data:{
+            requestId:userid,
+            id:userid,
+        },
+        success: function(result) { // 请求后台 应答成功返回来的数据
+            console.log("个人信息");
+            console.log(result);
+                       // res=result.data;
+            // console.log("res");
+            // console.log(res)
+            // const app = new Vue({
+            //     el: '#app',
+            //     data: {
+            //         userid:"",
+            //         unwatched:unwatched,
+            //         watched:watched,
+            //         nores:nores,
+            //         res:res,
+            //         sselect:"Nonwatch",
+            //     },
+            //     methods: {}
+            // })
+
+        },
+        error: function(xhr, status, error) { // 请求失败运行的函数
+            console.log(error);
+        }})
+
     $.ajax({
         type: 'get', /*  请求方式  GET  、 POST 、 PUT 等.. */
         url: url1, /*  后台的接口(findApi)  使用相对路径即可 */
