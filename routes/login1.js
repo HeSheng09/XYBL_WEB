@@ -17,4 +17,11 @@ router.post('/commit',function (req,res,next) {
     res.redirect("/firstpage");
 })
 
+//退出登录状态
+router.get("/logout",function (req,res,next) {
+    delete req.session.user;
+    delete req.session.role;
+    res.redirect("/login1");
+})
+
 module.exports = router;

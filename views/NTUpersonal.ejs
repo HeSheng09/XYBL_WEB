@@ -93,7 +93,7 @@
         <div class="row clearfix">
             <div class="col-md-12 column">
                 <div class="row clearfix">
-                    <div class="col-md-4 column" style="position:fixed;margin-top:100px;width:300px">
+                    <div class="col-md-4 column" style="position:fixed;margin-top:100px;width:300px;box-shadow: 3px 3px 4px 0 rgba(0,0,0,0.4) ; border-radius: 8px;  border: 2px solid;background-color: rgba(255,255,255,0.7);">
                         <dl>
                             <dt style="font-size: x-large">
                                 个人资料
@@ -124,7 +124,7 @@
                             </dd>
                         </dl>
                     </div>
-                    <div class="col-md-8 column" style="position:fixed;left:400px;top:80px;bottom:140px;overflow-y:auto;background-color: ">
+                    <div class="col-md-8 column" style="position:fixed;left:420px;top:80px;bottom:140px;overflow-y:auto;border-left:1px solid white">
 <!--                        <div v-for="(i,index) in appeals" @click="toevent(i.id)">-->
 <!--&lt;!&ndash;                             {{i}}&ndash;&gt;-->
 <!--                            <h2>编码{{i.id}}：{{i.title}}</h2>-->
@@ -143,7 +143,7 @@
 
                         <div v-show="sselect==='Nonwatch'" v-cloak>
                             未受理
-                            <div v-for="(i,index) in unwatched" @click="toevent1(i.id)">
+                            <div v-for="(i,index) in unwatched" @click="toevent1(i.id)" style="background-color: rgba(255,255,255,0.6);border-radius: 7px">
                                 <!--                             {{i}}-->
                                 <h2>编码{{i.id}}：{{i.title}}</h2>
                                 <p>提交时间：{{i.al_time}}</p>
@@ -154,7 +154,7 @@
                         </div>
                         <div v-show="sselect==='Watch'" v-cloak>
                             受理
-                            <div v-for="(i,index) in watched" @click="toevent2(i.id)">
+                            <div v-for="(i,index) in watched" @click="toevent2(i.id)" style="background-color: rgba(255,255,255,0.6);border-radius: 7px">
                                 <!--                             {{i}}-->
                                 <h2>编码{{i.id}}：{{i.title}}</h2>
                                 <p>提交时间：{{i.al_time}}</p>
@@ -165,7 +165,7 @@
                         </div>
                         <div v-show="sselect==='Nonres'" v-cloak>
                             无结果
-                            <div v-for="(i,index) in nores" @click="toevent3(i.id)">
+                            <div v-for="(i,index) in nores" @click="toevent3(i.id)" style="background-color: rgba(255,255,255,0.6);border-radius: 7px">
                                 <!--                             {{i}}-->
                                 <h2>编码{{i.id}}：{{i.title}}</h2>
                                 <p>提交时间：{{i.al_time}}</p>
@@ -176,7 +176,7 @@
                         </div>
                         <div v-show="sselect==='Res'" v-cloak>
                             有结果
-                            <div v-for="(i,index) in res" @click="toevent4(i.id)">
+                            <div v-for="(i,index) in res" @click="toevent4(i.id)" style="background-color: rgba(255,255,255,0.6);border-radius: 7px">
                                 <!--                             {{i}}-->
                                 <h2>编码{{i.id}}：{{i.title}}</h2>
                                 <p>提交时间：{{i.al_time}}</p>

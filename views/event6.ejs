@@ -11,6 +11,7 @@
     <!-- 加载 Bootstrap 的所有 JavaScript 插件。你也可以根据需要只加载单个插件。 -->
     <script src="/javascripts/bootstrap.min.js"></script>
     <script src="/javascripts/vue.js"></script>
+    <script src="/javascripts/echart/echarts.js"></script>
     <!-- Bootstrap -->
     <link href="/stylesheets/bootstrap.min.css" rel="stylesheet">
 </head>
@@ -114,53 +115,96 @@
                 </a>
             </div>
 
-            <div class="row clearfix">
-                <div class="col-md-12" id="id">
-                    <h3>
-                        <strong>初次举报事件编号：</strong><strong id="eventid"><%= eventid %></strong>
-                    </h3>
+            <div class="row">
+                <div class="col-md-3">
+                    <div id="chart" style="height:600px">ferfefw</div>
                 </div>
+<!--                <div class="col-md-12" id="id">-->
+<!--                    <h3>-->
+<!--                        <strong>初次举报事件编号：</strong><strong id="eventid"><%= eventid %></strong>-->
+<!--                    </h3>-->
+<!--                </div>-->
+                <div class="col-md-9 column" id="event">
+                    <div id="Aplist" class="panel-group">
+                        <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">
+                                <a data-toggle="collapse" data-parent="#Aplist" href="#collapseOne">初次举报相关信息</a>
+                            </h3>
+                        </div>
+                            <div id="collapseOne" class="panel-collapse collapse in">
+                                <div class="panel-body">
+                                    <h3 id="userid"><%= userid %></h3>
+                                    标题：{{title}}
+                                    <h3>
+                                        举报者的描述
+                                    </h3>
+                                    <p>
+                                        {{detail}}
+                                    </p>
+                                    <p>
+                                        <a class="btn" href="#">点击编辑 »</a>
+                                    </p>
+                                </div>
+                        </div>
+                        </div>
 
-                <div class="col-md-12 column" id="event">
-                    <h3 id="userid"><%= userid %></h3>
-                    标题：{{title}}
-                    <h3>
-                        举报者的描述
-                    </h3>
-                    <p>
-                      {{detail}}
-                    </p>
-                    <p>
-                        <a class="btn" href="#">点击编辑 »</a>
-                    </p>
-                    <div v-if="research!=null">
-                    <h3>
-                        处理结果
-                    </h3>
-                    <label>受理时间</label>{{research.pro_time}}  <label>结果提交时间</label>{{research.res_time}}
-                    <p>
-                        {{research.result}}
-                    </p>
-                        <div v-if="research.app_comment===null">
-                            <input id="Icomment"/>
-                            <button @click="initcomment()">提交对处理结果的意见</button>
-                        </div>
-                        <div v-else>
-                            对结果的意见是：{{research.app_comment}}
-                        </div>
-                    <p>
-                        <a class="btn" href="#">点击编辑 »</a>
-                    </p>
-                    </div>
-                    <h3>
-                        审核结果
-                    </h3>
-                    <p>
-                        Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.
-                    </p>
-                    <p>
-                        <a class="btn" href="#">点击编辑 »</a>
-                    </p>
+<!--折叠收起实例-->
+<!--                        <div class="panel panel-default">-->
+<!--                            <div class="panel-heading">-->
+<!--                                <h3 class="panel-title">-->
+<!--                                    <a data-toggle="collapse" data-parent="#Aplist" href="#collapseTwo">初次举报的处理结果</a>-->
+<!--                                </h3>-->
+<!--                            </div>-->
+<!--                            <div id="collapseTwo" class="panel-collapse collapse in">-->
+<!--                                <div class="panel-body">-->
+<!--                                    试一试-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+
+
+
+                   <div v-if="research!=null">
+                       <div class="panel panel-default">
+                           <div class="panel-heading">
+                               <h3 class="panel-title">
+                                   <a data-toggle="collapse" data-parent="#Aplist" href="#collapseTwo">初次举报的处理结果</a>
+                               </h3>
+                           </div>
+                           <div id="collapseTwo" class="panel-collapse collapse in">
+                               <div class="panel-body">
+
+                                   <label>受理时间</label>{{research.pro_time}}  <label>结果提交时间</label>{{research.res_time}}
+                                   <p>
+                                       {{research.result}}
+                                   </p>
+                                   <div v-if="research.app_comment===null">
+                                       <input id="Icomment"/>
+                                       <button @click="initcomment()">提交对处理结果的意见</button>
+                                   </div>
+                                   <div v-else>
+                                       对结果的意见是：{{research.app_comment}}
+                                   </div>
+                                   <p>
+                                       <a class="btn" href="#">点击编辑 »</a>
+                                   </p>
+                                   <h3>
+                                       审核结果
+                                   </h3>
+                                   <p>
+                                       Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.
+                                   </p>
+                                   <p>
+                                       <a class="btn" href="#">点击编辑 »</a>
+                                   </p>
+
+
+                               </div>
+                           </div>
+                       </div>
+                   </div>
+                </div>
 
                     <div v-for="(i,index) in follows">
                         第{{index+2}}次举报详情如下：
@@ -173,6 +217,8 @@
                 </div>
             </div>
 
+
+    <div id="reAp" style="background-color: rgba(234,234,214,0.8);border-radius: 10px;margin-top: 10px;margin-bottom: 10px">
     再次举报的部门<select @change="changede">
         <option disabled value="">请选择</option>
         <option  v-for="(i,index) in de_id" :value="i[1]">{{i[0]}}</option>
@@ -182,7 +228,7 @@
         再次举报的细节信息<input id="re_input" v-model="redetail"/>
         <button class="btn" @click="Reappeal()">再次举报</button>
     </div>
-
+    </div>
 
 
 
@@ -202,6 +248,94 @@
 </div>
 </div>
 <script>
+    // var data2={
+    //     "name":"第一次举报",
+    //     "value":"32332312321",
+    //     "children":
+    //         [{
+    //             "name":"第二次举报",
+    //             "value":"3232",
+    //             "children":[{
+    //                 "name":"第三次举报"
+    // }]
+    //         }]
+    // }
+
+    function subtime(time)
+    {
+        return time.substring(0,4)+0+time.substring(5,7)+0+time.substring(8,10);
+    }
+    // subtime("2021-03-09 16:11:35");
+
+    function initchart(data)
+    {    //echarts
+
+        var ROOT_PATH = 'https://cdn.jsdelivr.net/gh/apache/echarts-website@asf-site/examples';
+
+        var chartDom = document.getElementById('chart');
+        var myChart = echarts.init(chartDom);
+        var option;
+
+        myChart.showLoading();
+            console.log(data);
+            myChart.hideLoading();
+
+            myChart.setOption(option = {
+                tooltip: {
+                    trigger: 'item',
+                    triggerOn: 'mousemove',
+                    position:"right",
+                    formatter:function(params)
+                    {
+                        // console.log("values");
+                        // console.log(params);
+                        return "时间："+params.value;
+                    }
+                },
+                series:[
+                    {
+                        type: 'tree',
+
+                        data: [data],
+
+                        left: '2%',
+                        right: '2%',
+                        top: '8%',
+                        bottom: '20%',
+
+                        symbol: 'emptyCircle',
+
+                        orient: 'vertical',
+
+                        expandAndCollapse: true,
+                        symbolSize:7,
+
+                        label: {
+                            position: 'top',
+                            rotate: 0,
+                            verticalAlign: 'middle',
+                            align: 'right',
+                            fontSize: 15
+                        },
+
+                        leaves: {
+                            label: {
+                                position: 'bottom',
+                                rotate: 0,
+                                verticalAlign: 'middle',
+                                align: 'right'
+                            }
+                        },
+
+                        animationDurationUpdate: 750
+                    }
+                ]
+            });
+
+        option && myChart.setOption(option);
+
+    }
+
     console.log("测试用户id！！")
     console.log('<%= userid %>');
     var userid='<%= userid %>';
@@ -217,10 +351,71 @@
             al_id:eventid,
         },
         success: function(result) { // 请求后台 应答成功返回来的数据
-            console.log(result);
+            // console.log(result);
+            // console.log("类型！！")
+            // console.log(typeof (result.data.current.appeal.al_time));
             let initAp=result.data.current.appeal;
             let initRes=result.data.current.research;
             let follows=result.data.follows;
+            var data={
+                "name":"第一次举报",
+                "value":result.data.current.appeal.al_time,
+                "label":result.data.current.appeal.al_time,
+                "children":[]
+            }
+            var lastnode=data.children;
+            if(result.data.current.research!=null){
+                let node={
+                    "name":"受理",
+                    "value":result.data.current.research.pro_time,
+                    "children": []
+                }
+                lastnode.push(node);
+                console.log(lastnode);
+                lastnode=node.children;
+                console.log(lastnode);
+                if(result.data.current.research.res_time!=null)
+                {
+                    let node={
+                        "name":"第一次得到处理",
+                        "value":result.data.current.research.res_time,
+                        "children": []
+                    }
+                    console.log(lastnode);
+                    lastnode.push(node);
+                    lastnode=node.children;
+                }
+            }
+
+                for(let i=0;i<follows.length;i++) {
+                    let n = i + 2;
+                    let node = {
+                        "name": "第" + n + "次举报",
+                        "value": result.data.follows[i].appeal.al_time,
+                        "children": []
+                    }
+                    lastnode.push(node);
+                    lastnode=node.children;
+                    if (result.data.follows[i].research != null) {
+                        let node = {
+                            "name": "受理",
+                            "value": result.data.follows[i].research.pro_time,
+                            "children": []
+                        }
+                        lastnode.push(node);
+                        lastnode=node.children;
+                        if (result.data.follows[i].research.res_time != null) {
+                            let node = {
+                                "name": "第" + n + "次处理结果",
+                                "value": result.data.follows[i].research.res_time,
+                                "children": []
+                            }
+                            lastnode.push(node);
+                            lastnode=node.children;
+                        }
+                    }
+                }
+
             // document.getElementById("content").innerText=result.data;
             const app = new Vue({
                 el: '#app',
@@ -265,7 +460,62 @@
                                 console.log(error);
                             }
                         })
+                    },
+                    followcomment(){
 
+                    },
+                    initChange()
+                    {
+                        if(this.research===null)
+                        {
+                            alert("案件已受理！不能再修改信息");
+                        }
+                        let urll="http://47.98.164.4:8080/server/appeal/updatebyid";
+                        $.ajax({
+                            type: 'get', /*  请求方式  GET  、 POST 、 PUT 等.. */
+                            url: urll, /*  后台的接口(findApi)  使用相对路径即可 */
+                            dateType: 'json', /*  期望服务器返回的数据类型格式 */
+                            data:{
+                                user_id:userid,
+                                al_id:eventid,
+                                al_title:null,
+                                al_detail:null,
+                            },
+                            success: function(result) { // 请求后台 应答成功返回来的数据
+                                console.log(result);
+                                alert("提交成功！");
+                            },
+                            error: function(xhr, status, error) { // 请求失败运行的函数
+                                console.log(error);
+                            }
+                        })
+
+                    },
+                    followChange(){
+                        let urll="http://47.98.164.4:8080/server/appeal/updatebyid";
+                        if(this.research===null)
+                        {
+                            alert("案件已受理！不能再修改信息");
+                        }
+                        // let urll="http://47.98.164.4:8080/server/appeal/updatebyid";
+                        $.ajax({
+                            type: 'get', /*  请求方式  GET  、 POST 、 PUT 等.. */
+                            url: urll, /*  后台的接口(findApi)  使用相对路径即可 */
+                            dateType: 'json', /*  期望服务器返回的数据类型格式 */
+                            data:{
+                                user_id:userid,
+                                al_id:eventid,
+                                al_title:null,
+                                al_detail:null,
+                            },
+                            success: function(result) { // 请求后台 应答成功返回来的数据
+                                console.log(result);
+                                alert("提交成功！");
+                            },
+                            error: function(xhr, status, error) { // 请求失败运行的函数
+                                console.log(error);
+                            }
+                        })
                     },
                     changede(){
                         this.deid=this.selected;
@@ -299,15 +549,18 @@
                                 console.log(error);
                             }
                         })
-                    }
-
+                    },
                 }
             })
-            // console.log(this.appeals);
+            console.log(data);
+            initchart(data);
         },
         error: function(xhr, status, error) { // 请求失败运行的函数
             console.log(error);
-        }})
+        }
+            })
+
+
 
     // $.ajax({
     //     type: 'get', /*  请求方式  GET  、 POST 、 PUT 等.. */

@@ -18,55 +18,57 @@
             $('[data-toggle="popover"]').popover()
         });
 
+        var show_num = [];
+
         $(function () {
             //验证码
-            var show_num = [];
             draw(show_num);
             $("#canvas").on('click', function () {
                 draw(show_num);
             });
-            $(".btn").on('click', function () {
-                var val = $("#register-input").val().toLowerCase();
-                var num = show_num.join("");
-                if (val !== num) {
-                    $("#register-input").val('');
-                    draw(show_num);
-                    return false;
-                }
-            });
-            //正则表达式检查格式
-            $("#email").blur(checkEmail);
-            $("#tel").blur(checkTel);
-            $("#password").blur(checkPassword);
-            $("#name").blur(checkName);
-            $("#stu_class").blur(checkClass);
-            //检查不通过则不允许提交表单
-            $("#register-form").submit(function(){
-                if(checkId() && checkPassword()&&checkEmail()&&checkTel()){
-                    $.post("${basepath}submit/register",$(this).serialize(),function(data){
-                        if(data.flag){
-                            location.href="/login";
-                        }else {
-                            return false;
-                        }
-                    });
-                }
-                return false;
-            });
-            //检查id是否注册过
-            $("#id").blur(function () {
-                checkId();
-                var id = $(this).val();
-                $.get("/checkid", {id: id}, function (data) {
-                    var span = $("#id-error")
-                    if (!data.flag) {
-                        span.css("color", "red");
-                        span.html("该学号已被注册");
-                    }else{
-                        span.html("");
-                    }
-                })
-            })
+            // $(".btn").on('click', function () {
+            //     var val = $("#register-input").val().toLowerCase();
+            //     var num = show_num.join("");
+            //     if (val !== num) {
+            //         $("#register-input").val('');
+            //         draw(show_num);
+            //         $("#errorMsg").html("验证码错误");
+            //         return false;
+            //     }
+            // });
+            // //正则表达式检查格式
+            // $("#email").blur(checkEmail);
+            // $("#tel").blur(checkTel);
+            // $("#password").blur(checkPassword);
+            // $("#name").blur(checkName);
+            // $("#stu_class").blur(checkClass);
+            // //检查不通过则不允许提交表单
+            // $("#register-form").submit(function(){
+            //     if(checkId() && checkPassword()&&checkEmail()&&checkTel()){
+            //         $.post("${basepath}submit/register",$(this).serialize(),function(data){
+            //             if(data.flag){
+            //                 location.href="/login";
+            //             }else {
+            //                 return false;
+            //             }
+            //         });
+            //     }
+            //     return false;
+            // });
+            // //检查id是否注册过
+            // $("#id").blur(function () {
+            //     checkId();
+            //     var id = $(this).val();
+            //     $.get("/checkid", {id: id}, function (data) {
+            //         var span = $("#id-error")
+            //         if (!data.flag) {
+            //             span.css("color", "red");
+            //             span.html("该学号已被注册");
+            //         }else{
+            //             span.html("");
+            //         }
+            //     })
+            // })
         });
 
         function checkTel() {
@@ -313,6 +315,7 @@
                                 <canvas id="canvas" width="100" height="30"></canvas>
                             </td>
                         </tr>
+                        <div id="errorMsg" style="color:#ff0000;text-align: center"></div>
                     </table>
 
                     <input class="btn  btn-primary btn-block "value="立即注册" id="rregister" style="background-color: #008080"/>
@@ -327,6 +330,14 @@
 </div>
 <script>
         document.querySelector('#rregister').onclick = function () {
+            var val = $("#register-input").val().toLowerCase();
+            var num = show_num.join("");
+            if (val !== num) {
+                $("#register-input").val('');
+                draw(show_num);
+                $("#errorMsg").html("验证码错误");
+                return false;
+            }
             let name=document.getElementById('name').value;
             let pwd=document.getElementById('pwd').value;
             let stu_name=document.getElementById('stu_name').value;
@@ -358,6 +369,7 @@
                     if(result.msg==="ok")
                     {
                         var boo = confirm('注册成功！');
+                        return true;
                         //confirm 会返回你选择的选项,然后可以依据选择执行逻辑
                         if(boo){
                             window.location.href("/login1");
