@@ -15,6 +15,38 @@
 
 </head>
 <style>
+    .footer {
+        color: white;
+        text-align: center;
+    }
+
+    div.footer a {
+        color: white;
+    }
+    .navitems{
+        margin-top: 22px;
+        margin-left: 60px;
+    }
+
+    #title{
+        /*background-color: darkseagreen;*/
+        color: #CDBA96;
+        margin-right: 19px;
+        font-family: 方正粗黑宋简体;
+    }
+    #text{
+        /*opacity: 0.8;*/
+        background-color: white;
+        margin-top: 50px;
+        background-color: rgba(255, 255, 255, 0.8);
+    }
+    #select{
+        /*opacity: 0.8;*/
+        margin-top: 15px;
+    }
+    #column{
+        opacity: 0.9
+    }
 
     *{margin:0;padding:0}
 
@@ -41,12 +73,71 @@
     /*建议长宽比0.75，符合审美*/
 
 </style>
+
 <body style="background-color:#333;"><!--  -->
+<div id="app">
+    <div class="container">
+    <div class="row clearfix">
+        <div class="col-md-10 column" id="nav">
+            <div  class="navbar-header" >
+                <h1>
+                    <strong><p id="title">校园霸凌举报系统</p></strong>
+                </h1>
+            </div>
+
+            <div class="navitems">
+                <ul class="nav nav-tabs" >
+                    <li >
+                        <a href="#" style="color:white">首页</a>
+                    </li>
+                    <li>
+                        <a href="#" style="color:white">举报页</a>
+                    </li>
+                    <li class="active" >
+                        <a href="#" >案例</a>
+                    </li>
+                    <li class="dropdown pull-right">
+                        <a class="dropdown-toggle" href="#" data-toggle="dropdown" style="color:white">个人<strong class="caret"></strong></a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="#">个人中心</a>
+                            </li>
+                            <li>
+                                <a href="#">信息通知</a>
+                            </li>
+                            <li class="divider">
+                            </li>
+                            <li>
+                                <a href="#">退出登录</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+
+        </div>
+    </div>
+
 
 <div id="_top" style="width:600px;height: 400px;margin-top:100px;margin-left: 300px;">
 </div>
 <div id="main">
+    <div class="footer container-fluid">
+        <div id="footer_div1">
+            <a href="http://rsgis.whu.edu.cn/">遥感信息工程学院 </a>|&nbsp;
+            <a href="http://www.whu.edu.cn/">武汉大学 </a>|&nbsp;
+            <a href="http://www.lib.whu.edu.cn/web/default.asp">武汉大学图书馆 </a>|&nbsp;
+            <a href="http://my.whu.edu.cn">信息门户</a>
+        </div>
+        <div id="footer_div2">
+            <p>中国 湖北 武汉市 珞喻路129号 武汉大学信息学部</p><br>
+            <p>空间信息与数字技术</p>
+            <p>© 2019 </p>
+        </div>
+    </div><!--页脚-->
 
+</div>
+</div>
 </div>
 </body>
 <script type="text/javascript">

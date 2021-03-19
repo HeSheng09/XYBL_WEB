@@ -117,7 +117,7 @@
 
             <div class="row">
                 <div class="col-md-3">
-                    <div id="chart" style="height:600px">ferfefw</div>
+                    <div id="chart" style="height:700px">ferfefw</div>
                 </div>
 <!--                <div class="col-md-12" id="id">-->
 <!--                    <h3>-->
@@ -129,7 +129,7 @@
                         <div class="panel panel-default">
                         <div class="panel-heading">
                             <h3 class="panel-title">
-                                <a data-toggle="collapse" data-parent="#Aplist" href="#collapseOne">初次举报相关信息</a>
+                                <a data-toggle="collapse" data-parent="#Aplist" href="#collapseOne">初次举报</a>
                             </h3>
                         </div>
                             <div id="collapseOne" class="panel-collapse collapse in">
@@ -142,9 +142,9 @@
                                     <p>
                                         {{detail}}
                                     </p>
-                                    <p>
-                                        <a class="btn" href="#">点击编辑 »</a>
-                                    </p>
+                                        <div v-if="research===null">
+                                        <a class="btn" :href="alterurl">点击编辑</a>
+                                       </div>
                                 </div>
                         </div>
                         </div>
@@ -169,7 +169,7 @@
                        <div class="panel panel-default">
                            <div class="panel-heading">
                                <h3 class="panel-title">
-                                   <a data-toggle="collapse" data-parent="#Aplist" href="#collapseTwo">初次举报的处理结果</a>
+                                   <a data-toggle="collapse" data-parent="#Aplist" href="#collapseTwo">初次举报处理结果相关信息</a>
                                </h3>
                            </div>
                            <div id="collapseTwo" class="panel-collapse collapse in">
@@ -186,48 +186,67 @@
                                    <div v-else>
                                        对结果的意见是：{{research.app_comment}}
                                    </div>
-                                   <p>
-                                       <a class="btn" href="#">点击编辑 »</a>
-                                   </p>
                                    <h3>
                                        审核结果
                                    </h3>
                                    <p>
                                        Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.
                                    </p>
-                                   <p>
-                                       <a class="btn" href="#">点击编辑 »</a>
-                                   </p>
-
-
                                </div>
                            </div>
                        </div>
                    </div>
                 </div>
 
+
                     <div v-for="(i,index) in follows">
-                        第{{index+2}}次举报详情如下：
-                        <label>标题：</label>{{i.appeal.title}}
-                        <label>细节：</label>{{i.appeal.detail}}
-                        <div v-if="i.research!=null">
-                            调查之类的东西
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">
+                                    <a data-toggle="collapse" data-parent="#Aplist" :href="forIDs2(index)">第{{index+2}}次举报详情</a>
+                                </h3>
+                            </div>
+                            <div :id="forIDs(index)" class="panel-collapse collapse in">
+                                <div class="panel-body">
+                                    举报相关：
+                                    标题：{{i.appeal.title}}
+                                    细节：{{i.appeal.detail}}
+                                    调查相关：
+                                    调查结果：
+                                    评论结果：
+                                    审查：
+                                    <div v-if="i.research===null">
+                                        <a class="btn" :href="followAltURL(i.appeal.id)">点击编辑</a>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
+
+
+
+<!--                    <div v-for="(i,index) in follows">-->
+<!--                        第{{index+2}}次举报详情如下：-->
+<!--                        <label>标题：</label>{{i.appeal.title}}-->
+<!--                        <label>细节：</label>{{i.appeal.detail}}-->
+<!--                        <div v-if="i.research!=null">-->
+<!--                            调查之类的东西-->
+<!--                        </div>-->
+<!--                    </div>-->
                 </div>
             </div>
 
 
     <div id="reAp" style="background-color: rgba(234,234,214,0.8);border-radius: 10px;margin-top: 10px;margin-bottom: 10px">
-    再次举报的部门<select @change="changede">
-        <option disabled value="">请选择</option>
-        <option  v-for="(i,index) in de_id" :value="i[1]">{{i[0]}}</option>
-    </select>
-    <div id="reappeal">
-        再次举报的题目<input id="re_title" v-model="retitle"/>
-        再次举报的细节信息<input id="re_input" v-model="redetail"/>
-        <button class="btn" @click="Reappeal()">再次举报</button>
-    </div>
+            再次举报的部门<select @change="changede">
+                <option disabled value="">请选择</option>
+                <option  v-for="(i,index) in de_id" :value="i[1]">{{i[0]}}</option>
+            </select>
+            <div id="reappeal">
+                再次举报的题目<input id="re_title" v-model="retitle"/>
+                再次举报的细节信息<input id="re_input" v-model="redetail"/>
+                <button class="btn" @click="Reappeal()">再次举报</button>
+            </div>
     </div>
 
 
@@ -267,17 +286,15 @@
     }
     // subtime("2021-03-09 16:11:35");
 
-    function initchart(data)
+    function initchart(data,n)
     {    //echarts
-
-        var ROOT_PATH = 'https://cdn.jsdelivr.net/gh/apache/echarts-website@asf-site/examples';
 
         var chartDom = document.getElementById('chart');
         var myChart = echarts.init(chartDom);
         var option;
 
         myChart.showLoading();
-            console.log(data);
+            // console.log(data);
             myChart.hideLoading();
 
             myChart.setOption(option = {
@@ -308,6 +325,7 @@
                         orient: 'vertical',
 
                         expandAndCollapse: true,
+                        initialTreeDepth:n,
                         symbolSize:7,
 
                         label: {
@@ -351,7 +369,7 @@
             al_id:eventid,
         },
         success: function(result) { // 请求后台 应答成功返回来的数据
-            // console.log(result);
+            console.log(result);
             // console.log("类型！！")
             // console.log(typeof (result.data.current.appeal.al_time));
             let initAp=result.data.current.appeal;
@@ -363,6 +381,7 @@
                 "label":result.data.current.appeal.al_time,
                 "children":[]
             }
+            var n=0;
             var lastnode=data.children;
             if(result.data.current.research!=null){
                 let node={
@@ -371,6 +390,7 @@
                     "children": []
                 }
                 lastnode.push(node);
+                n++;
                 console.log(lastnode);
                 lastnode=node.children;
                 console.log(lastnode);
@@ -383,18 +403,20 @@
                     }
                     console.log(lastnode);
                     lastnode.push(node);
+                    n++;
                     lastnode=node.children;
                 }
             }
 
                 for(let i=0;i<follows.length;i++) {
-                    let n = i + 2;
+                    let m = i + 2;
                     let node = {
-                        "name": "第" + n + "次举报",
+                        "name": "第" + m + "次举报",
                         "value": result.data.follows[i].appeal.al_time,
                         "children": []
                     }
                     lastnode.push(node);
+                    n++;
                     lastnode=node.children;
                     if (result.data.follows[i].research != null) {
                         let node = {
@@ -403,14 +425,16 @@
                             "children": []
                         }
                         lastnode.push(node);
+                        n++;
                         lastnode=node.children;
                         if (result.data.follows[i].research.res_time != null) {
                             let node = {
-                                "name": "第" + n + "次处理结果",
+                                "name": "第" + m + "次处理结果",
                                 "value": result.data.follows[i].research.res_time,
                                 "children": []
                             }
                             lastnode.push(node);
+                            n++;
                             lastnode=node.children;
                         }
                     }
@@ -420,6 +444,7 @@
             const app = new Vue({
                 el: '#app',
                 data: {
+                    alterurl:"/alter/"+initAp.id,
                     title:initAp.title,
                     address:initAp.address,
                     time:initAp.al_time,
@@ -437,8 +462,17 @@
                     ],
                     deid:"",
                     follows:follows,
+                    followIDs:['second','third','fourth','fifth','sixth']
                 },
                 methods:{
+                    followAltURL(id)
+                    {
+                      return "/alter/"+id;
+                    },
+                    showalter()
+                    {
+                        this.displayalter=true;
+                    },
                     initcomment(){
                       let comment=document.getElementById("Icomment").value;
                       console.log(comment);
@@ -461,36 +495,44 @@
                             }
                         })
                     },
+                    forIDs(index)
+                    {
+                      return this.followIDs[index];
+                    },
+                    forIDs2(index)
+                    {
+                        return "#"+this.followIDs[index];
+                    },
                     followcomment(){
 
                     },
-                    initChange()
-                    {
-                        if(this.research===null)
-                        {
-                            alert("案件已受理！不能再修改信息");
-                        }
-                        let urll="http://47.98.164.4:8080/server/appeal/updatebyid";
-                        $.ajax({
-                            type: 'get', /*  请求方式  GET  、 POST 、 PUT 等.. */
-                            url: urll, /*  后台的接口(findApi)  使用相对路径即可 */
-                            dateType: 'json', /*  期望服务器返回的数据类型格式 */
-                            data:{
-                                user_id:userid,
-                                al_id:eventid,
-                                al_title:null,
-                                al_detail:null,
-                            },
-                            success: function(result) { // 请求后台 应答成功返回来的数据
-                                console.log(result);
-                                alert("提交成功！");
-                            },
-                            error: function(xhr, status, error) { // 请求失败运行的函数
-                                console.log(error);
-                            }
-                        })
-
-                    },
+                    // initChange()
+                    // {
+                    //     if(this.research===null)
+                    //     {
+                    //         alert("案件已受理！不能再修改信息");
+                    //     }
+                    //     let urll="http://47.98.164.4:8080/server/appeal/updatebyid";
+                    //     $.ajax({
+                    //         type: 'get', /*  请求方式  GET  、 POST 、 PUT 等.. */
+                    //         url: urll, /*  后台的接口(findApi)  使用相对路径即可 */
+                    //         dateType: 'json', /*  期望服务器返回的数据类型格式 */
+                    //         data:{
+                    //             user_id:userid,
+                    //             al_id:eventid,
+                    //             al_title:null,
+                    //             al_detail:null,
+                    //         },
+                    //         success: function(result) { // 请求后台 应答成功返回来的数据
+                    //             console.log(result);
+                    //             alert("提交成功！");
+                    //         },
+                    //         error: function(xhr, status, error) { // 请求失败运行的函数
+                    //             console.log(error);
+                    //         }
+                    //     })
+                    //
+                    // },
                     followChange(){
                         let urll="http://47.98.164.4:8080/server/appeal/updatebyid";
                         if(this.research===null)
@@ -552,7 +594,7 @@
                     },
                 }
             })
-            console.log(data);
+            // console.log(data);
             initchart(data);
         },
         error: function(xhr, status, error) { // 请求失败运行的函数

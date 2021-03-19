@@ -21,7 +21,9 @@ var login1Router=require('./routes/login1');
 var registerRouter=require('./routes/register');
 var tongjiRouter=require('./routes/tongjitest');
 var personRouter=require('./routes/personal');
-var researchRouter=require('./routes/research')
+var researchRouter=require('./routes/research');
+var helpRouter=require('./routes/help');
+var alterRouter=require('./routes/alter')
 
 
 
@@ -98,6 +100,8 @@ app.use('/register',registerRouter);
 app.use('/tongji',tongjiRouter);
 app.use('/personal',personRouter);
 app.use('/research',researchRouter);
+app.use('/help',helpRouter);
+app.use('/alter',alterRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

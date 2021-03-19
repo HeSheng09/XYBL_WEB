@@ -2,9 +2,9 @@ var express = require('express');
 // var cookieParser=require('cookie-parser');
 var router = express.Router();
 
-// 跳转到搜索页
+// 跳转到学生首页
 router.get('/',function (req,res,next) {
-    res.render('firstpage',{userid:req.session.userid,role:req.session.role});
+    res.render('help');
 })
 
 module.exports = router;

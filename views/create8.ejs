@@ -19,7 +19,7 @@
 <style>
     body {
         background-size: cover;
-        background:url("/images/ivy2.jpg")fixed center 0 no-repeat;
+        background:url("/images/ivy9.jpg")fixed center 0 no-repeat;
         background-size: cover;
         -webkit-background-size: cover;
         -o-background-size: cover;
@@ -61,9 +61,8 @@
 <body>
 <div id="app">
   <div class="container">
-    <a href="/baidutest">百度地图</a>
     <div class="row clearfix">
-        <div class="col-md-10 column" id="nav">
+        <div class="col-md-12 column" id="nav">
             <div  class="navbar-header" >
                 <h1>
                     <strong><p id="title">校园霸凌举报系统</p></strong>
@@ -102,14 +101,11 @@
 
         </div>
     </div>
-  </div>
 
 
-
-
-<div class="container">
-    <div class="row clearfix" id="select">
+    <div class="row clearfix" id="select" style="background-color: rgba(255,255,255,0.6);border-radius: 10px">
         <div class="col-md-7 column">
+            <label>当前时间：{{fnDate()}}</label>
             <div class="btn-group">
                 <label>受理对象</label>
 <!--                    <li v-for="(i,index) in de_id">-->
@@ -129,18 +125,86 @@
 <!--                </select>-->
             </div>
         </div>
-        <div class="col-md-4 column">
-<!--            <button class="btn btn-default" type="button">baidu</button>-->
+<!--        <div class="col-md-4 column">-->
+<!--&lt;!&ndash;            <button class="btn btn-default" type="button">baidu</button>&ndash;&gt;-->
 
+<!--&lt;!&ndash;            <div>&ndash;&gt;-->
+<!--&lt;!&ndash;                <button class="btn" onclick="show()">百度地图确定地点</button>&ndash;&gt;-->
+<!--&lt;!&ndash;                &lt;!&ndash; 弹窗遮罩层 &ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;                <div class="dialog">&ndash;&gt;-->
+<!--&lt;!&ndash;                    &lt;!&ndash; 弹窗内容 &ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;                    <div class="content">&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;                        <div class="aclose">&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;                            <a class="close" href="javascript:close();">&times;</a>&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;                        </div>&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;                        <div class="contain">&ndash;&gt;-->
+
+<!--&lt;!&ndash;                            <input name="address2" type="text" id="address2" class="inp" style="margin-bottom: 10px;width:600px" value="">&ndash;&gt;-->
+<!--&lt;!&ndash;                            <input type="button" value=" 搜索位置 " onclick="codeAddress()" class="ana">&ndash;&gt;-->
+
+<!--&lt;!&ndash;                            <br/>&ndash;&gt;-->
+<!--&lt;!&ndash;                            <div class="main-div">&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;                                <form method="post" action="" name="theForm" enctype="multipart/form-data" οnsubmit="return validate()">&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;                                    <table cellspacing="1" cellpadding="3" width="100%">&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;                                        <tr>&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;                                            <td>经度<input type="text" name="lng" id="lng" value=""/>&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;                                            </td>&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;                                        </tr>&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;                                        <tr>&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;                                            <td>纬度<input type="text" name="lat" id="lat" value=""/>&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;                                            </td>&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;                                        </tr>&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;                                        <tr>&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;                                            <td>&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;                                                地址<textarea name="" rows="1" cols="40" name='sever_add' id='sever_add' readonly placeholder="点击地图获取位置信息"></textarea>&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;                                            </td>&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;                                        </tr>&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;                                        <tr>&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;                                            <td>&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;                                                省<textarea name="" rows="1" cols="40" name='sever_add' id='sever_p' readonly placeholder="点击地图获取位置信息"></textarea>&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;                                            </td>&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;                                        </tr>&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;                                        <tr>&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;                                            <td>&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;                                                市<textarea name="" rows="1" cols="40" name='sever_add' id='sever_c' readonly placeholder="点击地图获取位置信息"></textarea>&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;                                            </td>&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;                                        </tr>&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;                                    </table>&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;                                </form>&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;                                <div style="margin-left:100px;width:800px;height:400px;border:1px solid gray;" id="allmap"></div>&ndash;&gt;-->
+<!--&lt;!&ndash;                                <label for="lng">经度：</label> <input style=" border: 0;outline: none;background-color: rgba(0, 0, 0, 0);width:150px" id="lng" readonly/>&ndash;&gt;-->
+<!--&lt;!&ndash;                                <label for="lat">纬度：</label> <input style=" border: 0;outline: none;background-color: rgba(0, 0, 0, 0);width:150px" id="lat" readonly/>&ndash;&gt;-->
+<!--&lt;!&ndash;                                <label for="sever_p">省：</label>  <input style=" border: 0;outline: none;background-color: rgba(0, 0, 0, 0);width:100px" id="sever_p" readonly/>&ndash;&gt;-->
+<!--&lt;!&ndash;                                <label for="sever_c">市：</label> <input style=" border: 0;outline: none;background-color: rgba(0, 0, 0, 0);width:100px" id="sever_c" readonly/>&ndash;&gt;-->
+<!--&lt;!&ndash;                                <label for="sever_add">地址：</label>  <input style=" border: 0;outline: none;background-color: rgba(0, 0, 0, 0);" id='sever_add' readonly/>&ndash;&gt;-->
+<!--&lt;!&ndash;                            </div>&ndash;&gt;-->
+
+<!--&lt;!&ndash;                            <button class="btn"  onclick="sure()" style="margin-left: 350px;width:100px;">确定</button>&ndash;&gt;-->
+<!--&lt;!&ndash;                            <button class="btn"  onclick="close()" style="width:100px;">取消</button>&ndash;&gt;-->
+
+<!--&lt;!&ndash;                        </div>&ndash;&gt;-->
+<!--&lt;!&ndash;                    </div>&ndash;&gt;-->
+
+<!--&lt;!&ndash;                </div>&ndash;&gt;-->
+
+<!--&lt;!&ndash;            </div>&ndash;&gt;-->
+
+
+
+<!--        </div>-->
+        <div class="col-md-12">
+        <label for="filon">经度：</label><input id="filon"/>
+        <label for="filat">纬度：</label><input id="filat"/>
+        <label for="didian">地点：</label><input id="didian"/>
             <div>
-                <button class="btn" onclick="show()">百度地图确定地点</button>
+                <button onclick="show()">百度地图确定地点</button>
                 <!-- 弹窗遮罩层 -->
                 <div class="dialog">
                     <!-- 弹窗内容 -->
                     <div class="content">
-<!--                        <div class="aclose">-->
-<!--                            <a class="close" href="javascript:close();">&times;</a>-->
-<!--                        </div>-->
+                        <!--                        <div class="aclose">-->
+                        <!--                            <a class="close" href="javascript:close();">&times;</a>-->
+                        <!--                        </div>-->
                         <div class="contain">
 
                             <input name="address2" type="text" id="address2" class="inp" style="margin-bottom: 10px;width:600px" value="">
@@ -148,33 +212,33 @@
 
                             <br/>
                             <div class="main-div">
-<!--                                <form method="post" action="" name="theForm" enctype="multipart/form-data" οnsubmit="return validate()">-->
-<!--                                    <table cellspacing="1" cellpadding="3" width="100%">-->
-<!--                                        <tr>-->
-<!--                                            <td>经度<input type="text" name="lng" id="lng" value=""/>-->
-<!--                                            </td>-->
-<!--                                        </tr>-->
-<!--                                        <tr>-->
-<!--                                            <td>纬度<input type="text" name="lat" id="lat" value=""/>-->
-<!--                                            </td>-->
-<!--                                        </tr>-->
-<!--                                        <tr>-->
-<!--                                            <td>-->
-<!--                                                地址<textarea name="" rows="1" cols="40" name='sever_add' id='sever_add' readonly placeholder="点击地图获取位置信息"></textarea>-->
-<!--                                            </td>-->
-<!--                                        </tr>-->
-<!--                                        <tr>-->
-<!--                                            <td>-->
-<!--                                                省<textarea name="" rows="1" cols="40" name='sever_add' id='sever_p' readonly placeholder="点击地图获取位置信息"></textarea>-->
-<!--                                            </td>-->
-<!--                                        </tr>-->
-<!--                                        <tr>-->
-<!--                                            <td>-->
-<!--                                                市<textarea name="" rows="1" cols="40" name='sever_add' id='sever_c' readonly placeholder="点击地图获取位置信息"></textarea>-->
-<!--                                            </td>-->
-<!--                                        </tr>-->
-<!--                                    </table>-->
-<!--                                </form>-->
+                                <!--                                <form method="post" action="" name="theForm" enctype="multipart/form-data" οnsubmit="return validate()">-->
+                                <!--                                    <table cellspacing="1" cellpadding="3" width="100%">-->
+                                <!--                                        <tr>-->
+                                <!--                                            <td>经度<input type="text" name="lng" id="lng" value=""/>-->
+                                <!--                                            </td>-->
+                                <!--                                        </tr>-->
+                                <!--                                        <tr>-->
+                                <!--                                            <td>纬度<input type="text" name="lat" id="lat" value=""/>-->
+                                <!--                                            </td>-->
+                                <!--                                        </tr>-->
+                                <!--                                        <tr>-->
+                                <!--                                            <td>-->
+                                <!--                                                地址<textarea name="" rows="1" cols="40" name='sever_add' id='sever_add' readonly placeholder="点击地图获取位置信息"></textarea>-->
+                                <!--                                            </td>-->
+                                <!--                                        </tr>-->
+                                <!--                                        <tr>-->
+                                <!--                                            <td>-->
+                                <!--                                                省<textarea name="" rows="1" cols="40" name='sever_add' id='sever_p' readonly placeholder="点击地图获取位置信息"></textarea>-->
+                                <!--                                            </td>-->
+                                <!--                                        </tr>-->
+                                <!--                                        <tr>-->
+                                <!--                                            <td>-->
+                                <!--                                                市<textarea name="" rows="1" cols="40" name='sever_add' id='sever_c' readonly placeholder="点击地图获取位置信息"></textarea>-->
+                                <!--                                            </td>-->
+                                <!--                                        </tr>-->
+                                <!--                                    </table>-->
+                                <!--                                </form>-->
                                 <div style="margin-left:100px;width:800px;height:400px;border:1px solid gray;" id="allmap"></div>
                                 <label for="lng">经度：</label> <input style=" border: 0;outline: none;background-color: rgba(0, 0, 0, 0);width:150px" id="lng" readonly/>
                                 <label for="lat">纬度：</label> <input style=" border: 0;outline: none;background-color: rgba(0, 0, 0, 0);width:150px" id="lat" readonly/>
@@ -192,19 +256,10 @@
                 </div>
 
             </div>
-
-
-
         </div>
-        <label>当前时间：{{fnDate()}}</label>
-        <label>经度：</label><input id="filon"/>
-        <label>纬度：</label><input id="filat"/>
-        <label>地点：</label><input id="didian"/>
-    </div>
-    用户id:<p id="userid"><%= userid %></p>
-    角色<%= role %>
+    </div >
 
-    <div class="row clearfix">
+    <div class="row clearfix" >
         <div class="col-md-12 column" id="text">
             <form role="form">
                 <div class="form-group">
@@ -289,7 +344,7 @@
         let lng2=document.getElementById('filon').value;
         let lat2=document.getElementById('filat').value;
         let add2=document.getElementById('didian').value;
-        let id=document.getElementById('userid').innerText;
+        let id='<%=userid%>';
         let aptitle= document.getElementById('aptitle').value;
         let detail=document.getElementById('detail').value;
         let pos=lng2+","+lat2;

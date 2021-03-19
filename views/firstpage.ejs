@@ -10,6 +10,7 @@
     <script src="/javascripts/jquery-3.4.1.min.js"></script>
     <!-- 加载 Bootstrap 的所有 JavaScript 插件。你也可以根据需要只加载单个插件。 -->
     <script src="/javascripts/bootstrap.min.js"></script>
+    <script src="/javascripts/vue.js"></script>
     <!-- Bootstrap -->
     <link href="/stylesheets/bootstrap.min.css" rel="stylesheet">
 </head>
@@ -58,6 +59,7 @@
     }
 </style>
 <body>
+<div id="app">
 <div class="container">
     <div class="row clearfix">
         <div class="col-md-12 column" id="nav">
@@ -73,10 +75,10 @@
                         <a >首页</a>
                     </li>
                     <li>
-                        <a href="#" style="color:white">举报页</a>
+                        <a href="/search" style="color:white">搜索页</a>
                     </li>
                     <li>
-                        <a href="#" style="color:white">案例</a>
+                        <a href="" style="color:white">案例</a>
                     </li>
                     <li class="dropdown pull-right">
                         <a class="dropdown-toggle" href="#" data-toggle="dropdown" style="color:white">个人<strong class="caret"></strong></a>
@@ -90,7 +92,7 @@
                             <li class="divider">
                             </li>
                             <li>
-                                <a href="#">退出登录</a>
+                                <a href="/login1/logout">退出登录</a>
                             </li>
                         </ul>
                     </li>
@@ -222,6 +224,15 @@
         </div>
     </div><!--页脚-->
 </div>
+<script>
+    const app=new Vue({
+        el:"#app",
+        data:{
+            userid:'<%=userid%>',
+            role:'<%=userid%>',
+        }
+    })
+</script>
 
 </body>
 </html>

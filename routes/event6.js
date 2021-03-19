@@ -16,7 +16,7 @@ router.get('/:eventid',function (req,res,next) {
     if(req.session.role==="false"){
         console.log("是学生");
         res.render('event6',{userid:req.session.userid,role:req.session.role,eventid:req.session.eventid});
-        }
+    }
 })
 router.get('/:eventid/:eventkind',function (req,res,next) {
     console.log("wolaile!!!!")
