@@ -157,6 +157,8 @@
     </div>
 </div>
 <script>
+    var host="47.98.164.4";
+    // var host='localhost';
 
     var show_num = [];
     $(function () {
@@ -187,7 +189,7 @@
         // console.log(name);
         // console.log(pwd);
         // （2）设置请求的参数。包括：请求的方法、请求的url。
-        ajaxObj.open('get', 'http://47.98.164.4:8080/server/user/login?'+"name="+name+"&pwd="+pwd);
+        ajaxObj.open('get', 'http://'+host+':8080/server/user/login?'+"name="+name+"&pwd="+pwd);
 
         // （3）发送请求
         ajaxObj.send();

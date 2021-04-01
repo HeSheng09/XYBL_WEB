@@ -194,7 +194,9 @@
 </div><!--页脚-->
 </div>
 <script>
-    var url2 = "http://47.98.164.4:8080/server/msg/unseen"
+    var host="47.98.164.4";
+    // var host='localhost';
+    var url2 = "http://"+host+":8080/server/msg/unseen"
     $.ajax({
         type: 'post', /*  请求方式  GET  、 POST 、 PUT 等.. */
         url: url2, /*  后台的接口(findApi)  使用相对路径即可 */
@@ -242,8 +244,8 @@
                 console.log(this.keyword);
                 $.ajax({
                     type: 'get', /*  请求方式  GET  、 POST 、 PUT 等.. */
-                    // url: 'http://47.98.164.4:8080/server/appeal/search_al?user_id=1615123447780013&keys=' + this.keyword,
-                    url: 'http://47.98.164.4:8080/server/appeal/search_al?user_id=1615123447780013&keys=' + this.keyword, /*  后台的接口(findApi)  使用相对路径即可 */
+                    // url: 'http://'+host+':8080/server/appeal/search_al?user_id=1615123447780013&keys=' + this.keyword,
+                    url: 'http://'+host+':8080/server/appeal/search_al?user_id=1615123447780013&keys=' + this.keyword, /*  后台的接口(findApi)  使用相对路径即可 */
                     dateType: 'json', /*  期望服务器返回的数据类型格式 */
                     // data:{
                     //     user_id:userid,

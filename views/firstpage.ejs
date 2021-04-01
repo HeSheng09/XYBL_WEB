@@ -241,6 +241,8 @@
 </div>
 </div>
 <script>
+    var host="47.98.164.4";
+    // var host='localhost';
     function CreateVue(n)
     {
      const app=new Vue({
@@ -252,7 +254,7 @@
         }
     })
     }
-    var url2 = "http://47.98.164.4:8080/server/msg/unseen"
+    var url2 = "http://"+host+":8080/server/msg/unseen"
     $.ajax({
         type: 'post', /*  请求方式  GET  、 POST 、 PUT 等.. */
         url: url2, /*  后台的接口(findApi)  使用相对路径即可 */

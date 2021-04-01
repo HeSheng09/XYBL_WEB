@@ -170,6 +170,8 @@
 </div>
 </div>
 <script>
+    var host='47.98.164.4';
+    // var host='localhost';
     function createVue(Allmsg,msg)
     {
         const app = new Vue({
@@ -199,7 +201,7 @@
                 {// console.log(i.msg);
                     let iid=i.msg.substring(i.msg.indexOf("=")+1,i.msg.indexOf(")"));
                     // console.log(iid);
-                    let urlread=" http://47.98.164.4:8080/server/msg/change_flag";
+                    let urlread=" http://"+host+":8080/server/msg/change_flag";
                     $.ajax({
                         type: 'get', /*  请求方式  GET  、 POST 、 PUT 等.. */
                         url: urlread, /*  后台的接口(findApi)  使用相对路径即可 */
@@ -225,8 +227,8 @@
     // console.log(idlist)
 
     var userid='<%=userid%>';
-    var URL="http://47.98.164.4:8080/server/msg/all";
-    var url2="http://47.98.164.4:8080/server/msg/unseen"
+    var URL="http://"+host+":8080/server/msg/all";
+    var url2="http://"+host+":8080/server/msg/unseen"
     $.ajax({
         type: 'post', /*  请求方式  GET  、 POST 、 PUT 等.. */
         url: URL, /*  后台的接口(findApi)  使用相对路径即可 */

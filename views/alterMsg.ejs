@@ -342,6 +342,8 @@
 </div>
 </div>
 <script>
+    var host='47.98.164.4';
+    // var host='localhost';
         document.querySelector('#rregister').onclick = function () {
             var val = $("#register-input").val().toLowerCase();
             var num = show_num.join("");
@@ -357,7 +359,7 @@
             let email=document.getElementById('email').value;
             let tel=document.getElementById('tel').value;
             let address=document.getElementById('address').value;
-            let url="http://47.98.164.4:8080/server/user/update/?"+name+"&pwd="+pwd+"&stu_name="+stu_name;
+            let url="http://"+host+":8080/server/user/update/?"+name+"&pwd="+pwd+"&stu_name="+stu_name;
             if(email.length>0)
             {
                 url=url+"&email="+email;
@@ -393,7 +395,7 @@
                 }
             });
     }
-    var url2="http://47.98.164.4:8080/server/dmsch/getallsch?id=1615123277120012";
+    var url2="http://"+host+":8080/server/dmsch/getallsch?id=1615123277120012";
         $.ajax({
             type: 'get', /*  请求方式  GET  、 POST 、 PUT 等.. */
             url: url2, /*  后台的接口(findApi)  使用相对路径即可 */

@@ -209,10 +209,12 @@
 </div>
 </div>
     <script type="text/javascript">
+        var host='47.98.164.4';
+        // var host='localhost';
         var userid='<%= userid %>';
         var initid='<%= eventid %>';
         var eventid='<%= noweid %>';
-        var url="http://47.98.164.4:8080/server/appeal/getbyid";
+        var url="http://"+host+":8080/server/appeal/getbyid";
         $.ajax({
             type: 'get', /*  请求方式  GET  、 POST 、 PUT 等.. */
             url: url, /*  后台的接口(findApi)  使用相对路径即可 */
@@ -274,7 +276,7 @@
                     // let pos=lng2+","+lat2;
                     $.ajax({
                         type: 'get', /*  请求方式  GET  、 POST 、 PUT 等.. */
-                        url: 'http://47.98.164.4:8080/server/appeal/updatebyid', /*  后台的接口(findApi)  使用相对路径即可 */
+                        url: 'http://'+host+':8080/server/appeal/updatebyid', /*  后台的接口(findApi)  使用相对路径即可 */
                         dateType: 'json', /*  期望服务器返回的数据类型格式 */
                         data:{
                             user_id:userid,

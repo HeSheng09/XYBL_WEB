@@ -149,7 +149,8 @@
 </div>
 </div>
 <script>
-
+    var host="47.98.164.4";
+    // var host='localhost';
     function subtime(time)
     {
         return time.substring(0,4)+0+time.substring(5,7)+0+time.substring(8,10);
@@ -241,8 +242,8 @@
     console.log('<%= userid %>');
     var userid='<%= userid %>';
     var eventid='<%= eventid %>';
-    var url1="http://47.98.164.4:8080/server/route/get_before_com";
-    var url2="http://47.98.164.4:8080/server/route/get_complete";
+    var url1="http://"+host+":8080/server/route/get_before_com";
+    var url2="http://"+host+":8080/server/route/get_complete";
     $.ajax({
         type: 'post', /*  请求方式  GET  、 POST 、 PUT 等.. */
         url: url1, /*  后台的接口(findApi)  使用相对路径即可 */

@@ -311,6 +311,8 @@
 </div>
 </div>
 <script>
+    // var host='localhost';
+    var host='47.98.164.4';
     const app = new Vue({
         el: '#app',
         data: {
@@ -380,7 +382,7 @@
             return false;
         }
         console.log(this.deid)
-        let urladd= 'http://47.98.164.4:8080/server/appeal/addone?user_id='+id+'&al_address='+add2+"&al_pos="+pos+"&al_title="+aptitle+"&al_detail="+detail+"&handler="+this.deid
+        let urladd= 'http://'+host+':8080/server/appeal/addone?user_id='+id+'&al_address='+add2+"&al_pos="+pos+"&al_title="+aptitle+"&al_detail="+detail+"&handler="+this.deid
          console.log(urladd)
              // 北省武汉市洪山区&al_pos=114.519264,30.473424&al_title=测试&ap_detail测试&handler=undefinedconsole.log(urladd);
             $.ajax({

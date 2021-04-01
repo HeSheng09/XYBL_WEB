@@ -329,11 +329,13 @@
 </div>
 </div>
 <script>
+    var host="47.98.164.4";
+    // var host='localhost';
     var userid='<%=userid%>';
     var eventid='<%=eventid%>';
-    var url="http://47.98.164.4:8080/server/appeal/getbyid"
-    var url2="http://47.98.164.4:8080/server/route/get_before_com"
-    var url3="http://47.98.164.4:8080/server/user/getuserinfo";
+    var url="http://"+host+":8080/server/appeal/getbyid"
+    var url2="http://"+host+":8080/server/route/get_before_com"
+    var url3="http://"+host+":8080/server/user/getuserinfo";
 
     $.ajax({
         type: 'get', /*  请求方式  GET  、 POST 、 PUT 等.. */
@@ -484,7 +486,7 @@
 
 
                 toResearch(){
-                    let url="http://47.98.164.4:8080/server/research/addone";
+                    let url="http://"+host+":8080/server/research/addone";
                     $.ajax({
                         type: 'get', /*  请求方式  GET  、 POST 、 PUT 等.. */
                         url: url, /*  后台的接口(findApi)  使用相对路径即可 */
@@ -507,7 +509,7 @@
                 {
                     console.log(this.auText);
                     var auText=this.auText;
-                    let url="http://47.98.164.4:8080/server/research/get_by_al_id";
+                    let url="http://"+host+":8080/server/research/get_by_al_id";
                     $.ajax({
                         type: 'get', /*  请求方式  GET  、 POST 、 PUT 等.. */
                         url: url, /*  后台的接口(findApi)  使用相对路径即可 */
@@ -520,7 +522,7 @@
                             console.log("research相关信息！")
                             console.log(result);
                             var researchid=result.data.id;
-                            let url2="http://47.98.164.4:8080/server/research/super_audit";
+                            let url2="http://"+host+":8080/server/research/super_audit";
                             $.ajax({
                                 type: 'get', /*  请求方式  GET  、 POST 、 PUT 等.. */
                                 url: url2, /*  后台的接口(findApi)  使用相对路径即可 */
@@ -556,7 +558,7 @@
                 {
                     // console.log(this.resText)
                     var resText=this.resText;
-                    let url="http://47.98.164.4:8080/server/research/get_by_al_id";
+                    let url="http://"+host+":8080/server/research/get_by_al_id";
                     $.ajax({
                         type: 'get', /*  请求方式  GET  、 POST 、 PUT 等.. */
                         url: url, /*  后台的接口(findApi)  使用相对路径即可 */
@@ -569,7 +571,7 @@
                             console.log("research相关信息！")
                             console.log(result);
                             var researchid=result.data.id;
-                            let url2="http://47.98.164.4:8080/server/research/submit_result";
+                            let url2="http://"+host+":8080/server/research/submit_result";
                             $.ajax({
                                 type: 'get', /*  请求方式  GET  、 POST 、 PUT 等.. */
                                 url: url2, /*  后台的接口(findApi)  使用相对路径即可 */

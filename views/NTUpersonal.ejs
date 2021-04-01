@@ -250,6 +250,8 @@
 </div>
 </div>
 <script>
+    var host="47.98.164.4";
+    // var host='localhost';
     console.log('<%=role%>');
     <!--console.log('<%=kind%>');-->
     function createVue(isresearch,isaudit)
@@ -322,12 +324,12 @@
     var res=[];
     var unau=[];
     var au=[];
-    var url1="http://47.98.164.4:8080/server/appeal/get_unwatched_ns";
-    var url2="http://47.98.164.4:8080/server/appeal/get_watched_ns";
-    var url3="http://47.98.164.4:8080/server/appeal/get_noresult_ns";
-    var url4="http://47.98.164.4:8080/server/appeal/get_hasresult_ns";
-    var url5="http://47.98.164.4:8080/server/appeal/wait_audit";
-    var url6="http://47.98.164.4:8080/server/appeal/get_audited";
+    var url1="http://"+host+":8080/server/appeal/get_unwatched_ns";
+    var url2="http://"+host+":8080/server/appeal/get_watched_ns";
+    var url3="http://"+host+":8080/server/appeal/get_noresult_ns";
+    var url4="http://"+host+":8080/server/appeal/get_hasresult_ns";
+    var url5="http://"+host+":8080/server/appeal/wait_audit";
+    var url6="http://"+host+":8080/server/appeal/get_audited";
     // console.log("用户id！！！！")
     // console.log(userid);
 
@@ -402,8 +404,8 @@
                                                 },
                                                 success: function(result) { // 请求后台 应答成功返回来的数据
                                                     au=result.data;
-                                                    let URL="http://47.98.164.4:8080/server/user/getuserinfo";
-                                                    let URL1="http://47.98.164.4:8080/server/dmsch/get"
+                                                    let URL="http://"+host+":8080/server/user/getuserinfo";
+                                                    let URL1="http://"+host+":8080/server/dmsch/get"
                                                     if('<%=role%>'!=='noperson'){
                                                     $.ajax({
                                                         type: 'get', /*  请求方式  GET  、 POST 、 PUT 等.. */

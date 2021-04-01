@@ -223,13 +223,15 @@
 </div>
 </div>
 <script>
+    var host="47.98.164.4";
+    // var host='localhost';
     var userid="<%=userid%>";
     var appeals=[];
     var user=null;
     var dmsch=null;
-    let URL="http://47.98.164.4:8080/server/user/getuserinfo";
+    let URL="http://"+host+":8080/server/user/getuserinfo";
     // console.log(userid);
-    let url="http://47.98.164.4:8080/server/appeal/get_bs";
+    let url="http://"+host+":8080/server/appeal/get_bs";
     $.ajax({
         type: 'get', /*  请求方式  GET  、 POST 、 PUT 等.. */
         url: url, /*  后台的接口(findApi)  使用相对路径即可 */
@@ -239,7 +241,7 @@
             is_first:1,
         },
         success: function(result1) { // 请求后台 应答成功返回来的数据
-            let URL="http://47.98.164.4:8080/server/user/getuserinfo";
+            let URL="http://"+host+":8080/server/user/getuserinfo";
             $.ajax({
                 type: 'get', /*  请求方式  GET  、 POST 、 PUT 等.. */
                 url: URL, /*  后台的接口(findApi)  使用相对路径即可 */

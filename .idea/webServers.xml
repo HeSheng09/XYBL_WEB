@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="d2b5a8ca-1f7d-4ee0-b694-f3c01ce7bc50" name="aliyun" url="http://47.98.164.4:3000/XYBL">
+        <fileTransfer rootFolder="/usr/wb-server/XYBL_WEB" accessType="SFTP" host="47.98.164.4" port="22" sshConfigId="5c9c3ca5-e653-446a-be75-45debaa16d08" sshConfig="root@47.98.164.4:22 password">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>
