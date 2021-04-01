@@ -18,7 +18,7 @@
 <style>
     body {
         background-size: cover;
-        background:url("/images/ivy0306.jpg")fixed center 0 no-repeat;
+        background:url("/images/ivy0316.jpg")fixed center 0 no-repeat;
         background-size: cover;
         -webkit-background-size: cover;
         -o-background-size: cover;
@@ -35,6 +35,7 @@
     .navitems{
         margin-top: 22px;
         margin-left: 60px;
+        margin-right: 90px;
     }
 
     #title{
@@ -58,28 +59,39 @@
 
             <div class="navitems">
                 <ul class="nav nav-tabs" >
-                    <li >
-                        <a href="#" style="color:white">首页</a>
+                    <li>
+                        <a href="/firstpage" style="color:white">首页</a>
                     </li>
                     <li>
-                        <a href="#" style="color:white">举报页</a>
+                        <a href="/search" style="color:white">搜索</a>
                     </li>
-                    <li class="active" >
-                        <a href="#" >案例</a>
+                    <li>
+                        <a href="/tongji" style="color:white">统计</a>
                     </li>
-                    <li class="dropdown pull-right">
-                        <a class="dropdown-toggle" href="#" data-toggle="dropdown" style="color:white">个人<strong class="caret"></strong></a>
+                    <li v-if="'<%=role%>'==='false'">
+                        <a href="/create" style="color:white">进行举报</a>
+                    </li>
+                    <li v-if="'<%=role%>'!=='false'">
+                        <a href="/personal/research" style="color:white">处理举报</a>
+                    </li>
+                    <li v-if="'<%=role%>'!=='false'">
+                        <a href="/personal/audit" style="color:white">审核结果</a>
+                    </li>
+                    <li class="dropdown pull-right" style="z-index:9999">
+                        <a class="dropdown-toggle" href="#" data-toggle="dropdown" style="color:white;">个人<strong class="caret"></strong></a>
                         <ul class="dropdown-menu">
                             <li>
-                                <a href="#">个人中心</a>
+                                <a href="/personal">个人中心</a>
                             </li>
                             <li>
-                                <a href="#">信息通知</a>
+                                <a href="/message" title="消息" class="fa fa-bell">信息通知
+                                    <label v-if="n>0" class="label label-danger" style="left:0px">{{n}}</label>
+                                </a>
                             </li>
                             <li class="divider">
                             </li>
                             <li>
-                                <a href="#">退出登录</a>
+                                <a href="/login1/logout">退出登录</a>
                             </li>
                         </ul>
                     </li>
@@ -93,39 +105,50 @@
         <div class="row clearfix">
             <div class="col-md-12 column">
                 <div class="row clearfix">
-                    <div class="col-md-4 column" style="position:fixed;margin-top:100px;width:300px">
+                    <div v-cloak class="col-md-4 column" style="position:fixed;margin-top:100px;width:300px;box-shadow: 3px 3px 4px 0 rgba(0,0,0,0.4) ; border-radius: 8px;  border: 2px solid;background-color: rgba(255,255,255,0.7);">
                         <dl>
                             <dt style="font-size: x-large">
                                 个人资料
                             </dt>
-<!--                            <dd>-->
-<!--                                A description list is perfect for defining terms.-->
-<!--                            </dd>-->
-                            <dt>
-                                用户id
-                            </dt>
-                            <dd id="userid">
-                                <%= userid %>
-                            </dd>
-                            <dd>
-                                Donec id elit non mi porta gravida at eget metus.
-                            </dd>
-                            <dt>
-                                Malesuada porta
-                            </dt>
-                            <dd>
-                                Etiam porta sem malesuada magna mollis euismod.
-                            </dd>
-                            <dt>
-                                Felis euismod semper eget lacinia
-                            </dt>
-                            <dd>
-                                Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.
-                            </dd>
+                            <dt>用户信息</dt>
+                            <a>点击修改个人信息</a>
+                            <div v-if="user!=='null'">
+                                <dd v-if="user.stu_name!=='null'">
+                                    名称：{{user.stu_name}}
+                                </dd>
+                                <dd v-if="user.email!=='null'">
+                                    邮箱：{{user.email}}
+                                </dd>
+                                <dd v-if="user.tel!=='null'">
+                                    手机号码： {{user.tel}}
+                                </dd>
+                            </div>
+                            <div v-if="dmsch!=='null'">
+                                <dt>所属机构/学校信息</dt>
+                                <dd v-if="dmsch.name!=='null'">
+                                    名称：{{dmsch.name}}
+                                </dd>
+                                <dd v-if="dmsch.address!=='null'">
+                                    地址：{{dmsch.address}}
+                                </dd>
+                                <dd v-if="dmsch.postcode!=='null'">
+                                    邮政编码：{{dmsch.postcode}}
+                                </dd>
+                                <dd v-if="dmsch.tel!=='null'">
+                                    手机号码：{{dmsch.tel}}
+                                </dd>
+                                <dd v-if="dmsch.web!=='null'">
+                                    官网网址：{{dmsch.web}}
+                                </dd>
+                            </div>
                         </dl>
                     </div>
-                    <div class="col-md-8 column" style="position:fixed;left:400px;top:80px;bottom:140px;overflow-y:auto;background-color: rgba(255,255,255,0.8)">
-                        <div v-for="(i,index) in appeals" @click="toevent(i.id)">
+                    <div class="col-md-8 column" style="z-index:-9999;position:fixed;left:400px;top:80px;bottom:140px;overflow-y:auto;">
+                        <div v-if="appeals.length<1" style="background-color: rgba(255,255,255,0.8);height:300px">
+                        <h1>暂无提交的举报</h1>
+                        <a href="/create">点击创建新的举报信息</a>
+                        </div>
+                        <div v-for="(i,index) in appeals" @click="toevent(i.id)" style="background-color: rgba(255,255,255,0.8)">
 <!--                             {{i}}-->
                             <h2>编码{{i.id}}：{{i.title}}</h2>
                             <p>提交时间：{{i.al_time}}</p>
@@ -200,79 +223,12 @@
 </div>
 </div>
 <script>
-    // const app = new Vue({
-    //     el: '#app',
-    //     data: {
-    //         userid:"",
-    //         // appeals:[]
-    //     },
-    //     computed:{
-    //         appeals:function()
-    //         {
-    //             console.log("初始化界面");
-    //             this.userid=document.getElementById('userid').innerText;
-    //             console.log(this.userid);
-    //             let url="http://47.98.164.4:8080/server/appeal/getbyuserid?user_id="+this.userid;
-    //             $.ajaxSettings.async = false;
-    //             $.ajax({
-    //                 type: 'get', /*  请求方式  GET  、 POST 、 PUT 等.. */
-    //                 url: url, /*  后台的接口(findApi)  使用相对路径即可 */
-    //                 dateType: 'json', /*  期望服务器返回的数据类型格式 */
-    //                 // data:{
-    //                 //     user_id:id,
-    //                 //     al_address:add2,
-    //                 //     al_pos:pos,
-    //                 //     al_title:aptitle,
-    //                 //     al_detail:detail,
-    //                 //     handler:this.deid,
-    //                 // },
-    //                 success: function(result) { // 请求后台 应答成功返回来的数据
-    //                     // console.log(result);
-    //                     document.getElementById("content").innerText=result.data;
-    //                     return(result.data);
-    //                     // console.log(this.appeals);
-    //                 },
-    //                 error: function(xhr, status, error) { // 请求失败运行的函数
-    //                     console.log(error);
-    //                     return [];
-    //                 }
-    //             })
-    //         }
-    //     },
-    //     methods:{
-    //         shishi(){
-    //             console.log("初始化界面");
-    //             this.userid=document.getElementById('userid').innerText;
-    //             console.log(this.userid);
-    //             let url="http://47.98.164.4:8080/server/appeal/getbyuserid?user_id="+this.userid;
-    //             $.ajax({
-    //                 type: 'get', /*  请求方式  GET  、 POST 、 PUT 等.. */
-    //                 url: url, /*  后台的接口(findApi)  使用相对路径即可 */
-    //                 dateType: 'json', /*  期望服务器返回的数据类型格式 */
-    //                 // data:{
-    //                 //     user_id:id,
-    //                 //     al_address:add2,
-    //                 //     al_pos:pos,
-    //                 //     al_title:aptitle,
-    //                 //     al_detail:detail,
-    //                 //     handler:this.deid,
-    //                 // },
-    //                 success: function(result) { // 请求后台 应答成功返回来的数据
-    //                     // console.log(result);
-    //                     document.getElementById("content").innerText=result.data;
-    //                     // console.log(this.appeals);
-    //                 },
-    //                 error: function(xhr, status, error) { // 请求失败运行的函数
-    //                     console.log(error);
-    //                 }
-    //             })
-    //         }
-    //     }
-    // })
-    console.log("初始化界面");
-    var userid=document.getElementById('userid').innerText;
-    var appeals=[]
-    console.log(userid);
+    var userid="<%=userid%>";
+    var appeals=[];
+    var user=null;
+    var dmsch=null;
+    let URL="http://47.98.164.4:8080/server/user/getuserinfo";
+    // console.log(userid);
     let url="http://47.98.164.4:8080/server/appeal/get_bs";
     $.ajax({
         type: 'get', /*  请求方式  GET  、 POST 、 PUT 等.. */
@@ -282,29 +238,48 @@
             user_id:userid,
             is_first:1,
         },
-        success: function(result) { // 请求后台 应答成功返回来的数据
-            // console.log(result);
-            // document.getElementById("content").innerText=result.data;
-            const app = new Vue({
-                el: '#app',
-                data: {
-                    userid:"",
-                    appeals:result.data
+        success: function(result1) { // 请求后台 应答成功返回来的数据
+            let URL="http://47.98.164.4:8080/server/user/getuserinfo";
+            $.ajax({
+                type: 'get', /*  请求方式  GET  、 POST 、 PUT 等.. */
+                url: URL, /*  后台的接口(findApi)  使用相对路径即可 */
+                dateType: 'json', /*  期望服务器返回的数据类型格式 */
+                data:{
+                    requestId:userid,
+                    id:userid,
                 },
-                methods:{
-                    toevent(id){
-                        console.log(id);
-                        let urlid="/event/"+id;
-                        window.open(urlid);
-                    }
+                success: function(result) { // 请求后台 应答成功返回来的数据
+                    // console.log("个人信息");
+                    console.log(result);
+                    user=result.data.user;
+                    dmsch=result.data.dmsch;
+                    const app = new Vue({
+                        el: '#app',
+                        data: {
+                            userid:userid,
+                            appeals:result1.data,
+                            user:user,
+                            dmsch:dmsch
+                        },
+                        methods:{
+                            toevent(id){
+                                console.log(id);
+                                let urlid="/event/"+id;
+                                window.open(urlid);
+                            }
 
-                }
-            })
-            // console.log(this.appeals);
+                        }
+                    })
+                    },
+                    error: function(xhr, status, error) { // 请求失败运行的函数
+                        console.log(error);
+                    }})
+
         },
         error: function(xhr, status, error) { // 请求失败运行的函数
             console.log(error);
         }})
+
 </script>
 </body>
 </html>

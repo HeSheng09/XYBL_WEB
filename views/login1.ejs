@@ -220,13 +220,20 @@
                 else if(res.code===200)
                 {
                     console.log("登录成功！");
+                    let role=res.data.role;
+                    if(role!=='false')
+                    {
+                        if(name.slice(name.length-3,name.length-2)==='0'){
+                            role='noperson';
+                        }
+                    }
                     $.ajax({
                         type: 'post', /*  请求方式  GET  、 POST 、 PUT 等.. */
                         url: '/login1/commit', /*  后台的接口(findApi)  使用相对路径即可 */
                         dateType: 'json', /*  期望服务器返回的数据类型格式 */
                         data:{
                             userid:res.data.id,
-                            role:res.data.role,
+                            role:role,
                         },
                         success: function(result) { // 请求后台 应答成功返回来的数据
                             window.location.href='/firstpage';

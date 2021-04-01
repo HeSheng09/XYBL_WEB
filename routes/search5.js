@@ -5,7 +5,7 @@ var router = express.Router();
 // 跳转到搜索页
 router.get('/',function (req,res,next) {
     console.log(req.session);
-    res.render('search5',{user:req.session.user});
+    res.render('search5',{userid:req.session.userid,role:req.session.role});
 })
 
 // 跳转到搜索页

@@ -4,7 +4,7 @@ var router = express.Router();
 
 // 跳转到搜索页
 router.get('/',function (req,res,next) {
-    res.render('tongjitest',{user:req.session.user});
+    res.render('tongjitest',{userid:req.session.userid,role:req.session.role});
 })
 
 module.exports = router;

@@ -71,28 +71,39 @@
 
             <div class="navitems">
                 <ul class="nav nav-tabs" >
-                    <li >
-                        <a href="#" style="color:white">首页</a>
+                    <li>
+                        <a href="/firstpage" style="color:white">首页</a>
                     </li>
                     <li>
-                        <a href="#" style="color:white">举报页</a>
+                        <a href="/search" style="color:white">搜索</a>
+                    </li>
+                    <li>
+                        <a href="/tongji" style="color:white">统计</a>
                     </li>
                     <li class="active" >
-                        <a href="#" >案例</a>
+                        <a>进行举报</a>
+                    </li>
+                    <li v-if="'<%=role%>'==='false'">
+                        <a href="/create" style="color:white">处理举报</a>
+                    </li>
+                    <li v-if="'<%=role%>'!=='false'">
+                        <a href="/create" style="color:white">审核结果</a>
                     </li>
                     <li class="dropdown pull-right">
                         <a class="dropdown-toggle" href="#" data-toggle="dropdown" style="color:white">个人<strong class="caret"></strong></a>
                         <ul class="dropdown-menu">
                             <li>
-                                <a href="#">个人中心</a>
+                                <a href="/personal">个人中心</a>
                             </li>
                             <li>
-                                <a href="#">信息通知</a>
+                                <a href="/message" title="消息" class="fa fa-bell">信息通知
+                                    <label v-if="n>0" class="label label-danger" style="left:0px">{{n}}</label>
+                                </a>
                             </li>
                             <li class="divider">
                             </li>
                             <li>
-                                <a href="#">退出登录</a>
+                                <a href="/login1/logout">退出登录</a>
                             </li>
                         </ul>
                     </li>
@@ -114,7 +125,7 @@
 <!--                    <li>试试</li>-->
 <!--                </ul>-->
 <!--                <select v-model="selected" @change="changeShop">-->
-                <select v-model="selected" @change="changede">
+                <select v-model="ssselect" @change="changede">
                     <option disabled value="">请选择</option>
                     <option  v-for="(i,index) in de_id" :value="i[1]">{{i[0]}}</option>
                 </select>
@@ -195,7 +206,7 @@
         <div class="col-md-12">
         <label for="filon">经度：</label><input id="filon"/>
         <label for="filat">纬度：</label><input id="filat"/>
-        <label for="didian">地点：</label><input id="didian"/>
+        <label for="didian">地点：</label><input style="width:350px" id="didian"/>
             <div>
                 <button onclick="show()">百度地图确定地点</button>
                 <!-- 弹窗遮罩层 -->
@@ -207,7 +218,7 @@
                         <!--                        </div>-->
                         <div class="contain">
 
-                            <input name="address2" type="text" id="address2" class="inp" style="margin-bottom: 10px;width:600px" value="">
+                            <input name="address2" type="text" id="address2" class="inp" style="margin-top:20px;margin-bottom: 10px;width:600px" value="">
                             <input type="button" value=" 搜索位置 " onclick="codeAddress()" class="ana">
 
                             <br/>
@@ -239,16 +250,16 @@
                                 <!--                                        </tr>-->
                                 <!--                                    </table>-->
                                 <!--                                </form>-->
-                                <div style="margin-left:100px;width:800px;height:400px;border:1px solid gray;" id="allmap"></div>
+                                <div style="margin-left:50px;width:900px;height:400px;border:1px solid gray;" id="allmap"></div>
                                 <label for="lng">经度：</label> <input style=" border: 0;outline: none;background-color: rgba(0, 0, 0, 0);width:150px" id="lng" readonly/>
                                 <label for="lat">纬度：</label> <input style=" border: 0;outline: none;background-color: rgba(0, 0, 0, 0);width:150px" id="lat" readonly/>
                                 <label for="sever_p">省：</label>  <input style=" border: 0;outline: none;background-color: rgba(0, 0, 0, 0);width:100px" id="sever_p" readonly/>
                                 <label for="sever_c">市：</label> <input style=" border: 0;outline: none;background-color: rgba(0, 0, 0, 0);width:100px" id="sever_c" readonly/>
-                                <label for="sever_add">地址：</label>  <input style=" border: 0;outline: none;background-color: rgba(0, 0, 0, 0);" id='sever_add' readonly/>
+                                <label for="sever_add">地址：</label>  <input style="width:500px; border: 0;outline: none;background-color: rgba(0, 0, 0, 0);" id='sever_add' readonly/>
                             </div>
 
                             <button class="btn"  onclick="sure()" style="margin-left: 350px;width:100px;">确定</button>
-                            <button class="btn"  onclick="close()" style="width:100px;">取消</button>
+                            <button class="btn"  onclick="show()" style="width:100px;">取消</button>
 
                         </div>
                     </div>
@@ -310,7 +321,8 @@
                 ["洪山区教育分局","1615123277120012"],
                 ["武汉大学","1615123447780013"]
             ],
-            deid:""
+            deid:"",
+            ssselect:"",
         },
         // computed: 计算属性()
         computed: {
@@ -318,8 +330,8 @@
         },
         methods: {
             changede(){
-                 this.deid=this.selected;
-                 console.log(this.selected);
+                 this.deid=this.ssselect;
+                 console.log(this.ssselect);
             },
 
             fnW(str){
@@ -340,7 +352,7 @@
                 return year+"-"+this.fnW((month+1))+"-"+this.fnW(data)+" "+this.fnW(hours)+":"+this.fnW(minute)+":"+this.fnW(second);
             },
             createA() {
-        console.log("create!!!");
+        // console.log("create!!!");
         let lng2=document.getElementById('filon').value;
         let lat2=document.getElementById('filat').value;
         let add2=document.getElementById('didian').value;
@@ -352,21 +364,50 @@
         //     // &al_address=湖北省，武汉市，洪山区 武汉大学&
         //     // al_pos=114.365818,30.534872&al_title=添加举报测试
         //     // &al_detail=添加举报测试&handler=0101001001000
-        //
-        $.ajax({
+        //         console.log(this.deid)
+        if(this.deid===""){
+            alert("请选择提交举报的对象学校或机构！");
+            return false;
+        }
+        if(lng2===""||lat2===""||add2==="")
+        {
+            alert("请将地址和经纬度填写完整！");
+            return false;
+        }
+        if(aptitle==="")
+        {
+            alert("请填写标题！");
+            return false;
+        }
+        console.log(this.deid)
+        let urladd= 'http://47.98.164.4:8080/server/appeal/addone?user_id='+id+'&al_address='+add2+"&al_pos="+pos+"&al_title="+aptitle+"&al_detail="+detail+"&handler="+this.deid
+         console.log(urladd)
+             // 北省武汉市洪山区&al_pos=114.519264,30.473424&al_title=测试&ap_detail测试&handler=undefinedconsole.log(urladd);
+            $.ajax({
             type: 'get', /*  请求方式  GET  、 POST 、 PUT 等.. */
-            url: 'http://47.98.164.4:8080/server/appeal/addone', /*  后台的接口(findApi)  使用相对路径即可 */
+            url: encodeURI(urladd), /*  后台的接口(findApi)  使用相对路径即可 */
             dateType: 'json', /*  期望服务器返回的数据类型格式 */
-            data:{
-                user_id:id,
-                al_address:add2,
-                al_pos:pos,
-                al_title:aptitle,
-                al_detail:detail,
-                handler:this.deid,
-            },
+            // data:{
+            //     user_id:id,
+            //     al_address:add2,
+            //     al_pos:pos,
+            //     al_title:aptitle,
+            //     al_detail:detail,
+            //     handler:this.deid,
+            // },
             success: function(result) { // 请求后台 应答成功返回来的数据
                 console.log(result);
+                var boo = confirm('提交成功！');
+                let eventurl="/event/"+result.data.id
+                //confirm 会返回你选择的选项,然后可以依据选择执行逻辑
+                if(boo==true){
+                    console.log("ok")
+                    window.location.replace(eventurl);
+                }else{
+                    console.log("no")
+                    window.location.replace(eventurl);
+                }
+                return true;
             },
             error: function(xhr, status, error) { // 请求失败运行的函数
                 console.log(error);

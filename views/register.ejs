@@ -8,135 +8,136 @@
     <script src="/javascripts/jquery-3.4.1.min.js"></script>
     <!-- 加载 Bootstrap 的所有 JavaScript 插件。你也可以根据需要只加载单个插件。 -->
     <script src="/javascripts/bootstrap.min.js"></script>
+    <script src="/javascripts/vue.js"></script>
     <!-- Bootstrap -->
     <link href="/stylesheets/bootstrap.min.css" rel="stylesheet">
 
     <script src="/javascripts/checkcode.js"></script>
     <script>
 
-        $(window).ready(function () {
-            $('[data-toggle="popover"]').popover()
-        });
+        // $(window).ready(function () {
+        //     $('[data-toggle="popover"]').popover()
+        // });
+        //
+        // var show_num = [];
+        //
+        // $(function () {
+        //     //验证码
+        //     draw(show_num);
+        //     $("#canvas").on('click', function () {
+        //         draw(show_num);
+        //     });
+        //     // $(".btn").on('click', function () {
+        //     //     var val = $("#register-input").val().toLowerCase();
+        //     //     var num = show_num.join("");
+        //     //     if (val !== num) {
+        //     //         $("#register-input").val('');
+        //     //         draw(show_num);
+        //     //         $("#errorMsg").html("验证码错误");
+        //     //         return false;
+        //     //     }
+        //     // });
+        //     // //正则表达式检查格式
+        //     // $("#email").blur(checkEmail);
+        //     // $("#tel").blur(checkTel);
+        //     // $("#password").blur(checkPassword);
+        //     // $("#name").blur(checkName);
+        //     // $("#stu_class").blur(checkClass);
+        //     // //检查不通过则不允许提交表单
+        //     // $("#register-form").submit(function(){
+        //     //     if(checkId() && checkPassword()&&checkEmail()&&checkTel()){
+        //     //         $.post("${basepath}submit/register",$(this).serialize(),function(data){
+        //     //             if(data.flag){
+        //     //                 location.href="/login";
+        //     //             }else {
+        //     //                 return false;
+        //     //             }
+        //     //         });
+        //     //     }
+        //     //     return false;
+        //     // });
+        //     // //检查id是否注册过
+        //     // $("#id").blur(function () {
+        //     //     checkId();
+        //     //     var id = $(this).val();
+        //     //     $.get("/checkid", {id: id}, function (data) {
+        //     //         var span = $("#id-error")
+        //     //         if (!data.flag) {
+        //     //             span.css("color", "red");
+        //     //             span.html("该学号已被注册");
+        //     //         }else{
+        //     //             span.html("");
+        //     //         }
+        //     //     })
+        //     // })
+        // });
 
-        var show_num = [];
-
-        $(function () {
-            //验证码
-            draw(show_num);
-            $("#canvas").on('click', function () {
-                draw(show_num);
-            });
-            // $(".btn").on('click', function () {
-            //     var val = $("#register-input").val().toLowerCase();
-            //     var num = show_num.join("");
-            //     if (val !== num) {
-            //         $("#register-input").val('');
-            //         draw(show_num);
-            //         $("#errorMsg").html("验证码错误");
-            //         return false;
-            //     }
-            // });
-            // //正则表达式检查格式
-            // $("#email").blur(checkEmail);
-            // $("#tel").blur(checkTel);
-            // $("#password").blur(checkPassword);
-            // $("#name").blur(checkName);
-            // $("#stu_class").blur(checkClass);
-            // //检查不通过则不允许提交表单
-            // $("#register-form").submit(function(){
-            //     if(checkId() && checkPassword()&&checkEmail()&&checkTel()){
-            //         $.post("${basepath}submit/register",$(this).serialize(),function(data){
-            //             if(data.flag){
-            //                 location.href="/login";
-            //             }else {
-            //                 return false;
-            //             }
-            //         });
-            //     }
-            //     return false;
-            // });
-            // //检查id是否注册过
-            // $("#id").blur(function () {
-            //     checkId();
-            //     var id = $(this).val();
-            //     $.get("/checkid", {id: id}, function (data) {
-            //         var span = $("#id-error")
-            //         if (!data.flag) {
-            //             span.css("color", "red");
-            //             span.html("该学号已被注册");
-            //         }else{
-            //             span.html("");
-            //         }
-            //     })
-            // })
-        });
-
-        function checkTel() {
-            var tel = $("#tel").val();
-            var reg_tel = /^\w{11}$/;
-            var flag = reg_tel.test(tel);
-            if (flag) {
-                $("#tel").css("border", "");
-            } else {
-                $("#tel").css("border", "1px solid red");
-            }
-            return flag;
-        }
-
-        function checkId() {
-            var id = $("#id").val();
-            var reg_id = /^\w{13}$/;
-            var flag = reg_id.test(id);
-
-            if (flag) {
-                $("#id").css("border", "");
-            } else {
-                $("#id").css("border", "1px solid red");
-            }
-            return flag;
-        }
-
-        function checkEmail() {
-            var email = $("#email").val();
-            var reg_email = /^\w+@\w+\.\w+$/;
-            var flag = reg_email.test(email);
-            if (flag) {
-                $("#email").css("border", "");
-            } else {
-                $("#email").css("border", "1px solid red");
-            }
-            return flag;
-        }
-
-        function checkPassword() {
-            var password = $("#password").val();
-            var reg_password = /^\w{6,14}$/;
-            var flag = reg_password.test(password);
-            if (flag) {
-                //用户名合法
-                $("#password").css("border", "");
-            } else {
-                //用户名非法,加一个红色边框
-                $("#password").css("border", "1px solid red");
-            }
-            return flag;
-        }
-
-        function checkName() {
-
-            var name = $("#name").val();
-            if (!name) {
-                $("#name").css("border", "1px solid red");
-            }
-        }
-
-
-        function checkClass() {
-            var stu_class = $("#stu_class").val();
-            if (!stu_class) {
-                $("#stu_class").css("border", "1px solid red");
-            }
-        }
+        // function checkTel() {
+        //     var tel = $("#tel").val();
+        //     var reg_tel = /^\w{11}$/;
+        //     var flag = reg_tel.test(tel);
+        //     if (flag) {
+        //         $("#tel").css("border", "");
+        //     } else {
+        //         $("#tel").css("border", "1px solid red");
+        //     }
+        //     return flag;
+        // }
+        //
+        // function checkId() {
+        //     var id = $("#id").val();
+        //     var reg_id = /^\w{13}$/;
+        //     var flag = reg_id.test(id);
+        //
+        //     if (flag) {
+        //         $("#id").css("border", "");
+        //     } else {
+        //         $("#id").css("border", "1px solid red");
+        //     }
+        //     return flag;
+        // }
+        //
+        // function checkEmail() {
+        //     var email = $("#email").val();
+        //     var reg_email = /^\w+@\w+\.\w+$/;
+        //     var flag = reg_email.test(email);
+        //     if (flag) {
+        //         $("#email").css("border", "");
+        //     } else {
+        //         $("#email").css("border", "1px solid red");
+        //     }
+        //     return flag;
+        // }
+        //
+        // function checkPassword() {
+        //     var password = $("#password").val();
+        //     var reg_password = /^\w{6,14}$/;
+        //     var flag = reg_password.test(password);
+        //     if (flag) {
+        //         //用户名合法
+        //         $("#password").css("border", "");
+        //     } else {
+        //         //用户名非法,加一个红色边框
+        //         $("#password").css("border", "1px solid red");
+        //     }
+        //     return flag;
+        // }
+        //
+        // function checkName() {
+        //
+        //     var name = $("#name").val();
+        //     if (!name) {
+        //         $("#name").css("border", "1px solid red");
+        //     }
+        // }
+        //
+        //
+        // function checkClass() {
+        //     var stu_class = $("#stu_class").val();
+        //     if (!stu_class) {
+        //         $("#stu_class").css("border", "1px solid red");
+        //     }
+        // }
     </script>
 </head>
 <style>
@@ -197,6 +198,7 @@
 
 </style>
 <body>
+<div id="app">
 <div class="container-fluid header">
     <div class="page-header ">
         <h1>校园霸凌系统
@@ -260,7 +262,20 @@
                         </tr>
                         <tr>
                             <td class="td_left">
-                                <label>*邮箱</label>
+                                <label>*学校</label>
+                            </td>
+                            <td class="td_right">
+                                <select @change="changdesch" id="sch" v-model="sch" class="register-input ">
+                                    <option style='display: none'></option>
+                                    <option disabled value="">请选择</option>
+                                    <option  v-for="(i,index) in schools" :value="i.id">{{i.name}}</option>
+                                </select>
+                            </td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td class="td_left">
+                                <label>邮箱</label>
                             </td>
                             <td class="td_right">
                                 <input type="text" name="email" class="register-input"
@@ -270,7 +285,7 @@
                         </tr>
                         <tr>
                             <td class="td_left">
-                                <label>*电话</label>
+                                <label>电话</label>
                             </td>
                             <td class="td_right">
                                 <input type="text" name="tel" class="register-input"
@@ -281,7 +296,7 @@
 
                         <tr>
                             <td class="td_left">
-                                <label>*地址</label>
+                                <label>地址</label>
                             </td>
                             <td class="td_right">
                                 <input type="text" name="address"
@@ -318,7 +333,7 @@
                         <div id="errorMsg" style="color:#ff0000;text-align: center"></div>
                     </table>
 
-                    <input class="btn  btn-primary btn-block "value="立即注册" id="rregister" style="background-color: #008080"/>
+                    <input @click="vueregister" class="btn  btn-primary btn-block "value="立即注册" id="rregister" style="background-color: #008080"/>
                 </form>
             </div>
             <div>
@@ -328,58 +343,105 @@
         <div class="col-md-3 hidden-xs"></div>
     </div>
 </div>
+</div>
 <script>
-        document.querySelector('#rregister').onclick = function () {
-            var val = $("#register-input").val().toLowerCase();
-            var num = show_num.join("");
-            if (val !== num) {
-                $("#register-input").val('');
-                draw(show_num);
-                $("#errorMsg").html("验证码错误");
-                return false;
-            }
-            let name=document.getElementById('name').value;
-            let pwd=document.getElementById('pwd').value;
-            let stu_name=document.getElementById('stu_name').value;
-            let email=document.getElementById('email').value;
-            let tel=document.getElementById('tel').value;
-            let address=document.getElementById('address').value;
-            let url="http://47.98.164.4:8080/server/user/stu_register?name="+name+"&pwd="+pwd+"&stu_name="+stu_name;
-            if(email.length>0)
-            {
-                url=url+"&email="+email;
-            }
-            if(tel.length>0)
-            {
-                url=url+"&tel="+tel;
-            }
-            if(tel.length>0)
-            {
-                url=url+"&address="+address;
-            }
-            console.log(url)
-            $.ajax({
-                type: "GET",
-                url: url,
-                // data: { page: $("#page").val(), limit: 5 },
-                dataType: "JSON",
-                success: function(result) {
-                    console.log(result);
-                    console.log(result['msg']);
-                    if(result.msg==="ok")
-                    {
-                        var boo = confirm('注册成功！');
-                        return true;
-                        //confirm 会返回你选择的选项,然后可以依据选择执行逻辑
-                        if(boo){
-                            window.location.href("/login1");
-                        }else{
-                            window.location.href("/login1");
+    var url2="http://47.98.164.4:8080/server/dmsch/getallsch?user_id=1615123277120012";
+        $.ajax({
+            type: 'get', /*  请求方式  GET  、 POST 、 PUT 等.. */
+            url: url2, /*  后台的接口(findApi)  使用相对路径即可 */
+            dateType: 'json', /*  期望服务器返回的数据类型格式 */
+            success: function(result) { // 请求后台 应答成功返回来的数据
+                console.log(result);
+                $(window).ready(function () {
+                    $('[data-toggle="popover"]').popover()
+                });
+
+                var show_num = [];
+                $(function () {
+                    //验证码
+                    draw(show_num);
+                    $("#canvas").on('click', function () {
+                        draw(show_num);
+                    });
+                });
+                const app=new Vue({
+                    el:"#app",
+                    data:{
+                        schools:result.data,
+                        sch:"",
+                    },
+                    methods:{
+                        changdesch(){
+                            console.log(this.sch);
+                        },
+                        vueregister()
+                        {
+                            let name=document.getElementById('name').value;
+                            let pwd=document.getElementById('pwd').value;
+                            let stu_name=document.getElementById('stu_name').value;
+                            let email=document.getElementById('email').value;
+                            let tel=document.getElementById('tel').value;
+                            let address=document.getElementById('address').value;
+                                var val = $("#register-input").val().toLowerCase();
+                                var num = show_num.join("");
+                                if (val !== num) {
+                                    $("#register-input").val('');
+                                    draw(show_num);
+                                    $("#errorMsg").html("验证码错误");
+                                    return false;
+                                }
+                                if(this.sch.length!==13||name===""||pwd===""||stu_name==="")
+                                {
+                                    alert("请填写完所有带*的必填项后进行注册");
+                                    return false;
+                                }
+                                let url="http://47.98.164.4:8080/server/user/stu_register?name="+name+"&pwd="+pwd+"&stu_name="+stu_name+"&schoolId="+this.sch;
+                                console.log(url);
+                                if(email.length>0)
+                                {
+                                    url=url+"&email="+email;
+                                }
+                                if(tel.length>0)
+                                {
+                                    url=url+"&tel="+tel;
+                                }
+                                if(tel.length>0)
+                                {
+                                    url=url+"&address="+address;
+                                }
+                                console.log(url)
+                                $.ajax({
+                                    type: "GET",
+                                    url: url,
+                                    // data: { page: $("#page").val(), limit: 5 },
+                                    dataType: "JSON",
+                                    success: function(result) {
+                                        console.log(result);
+                                        console.log(result['msg']);
+                                        if(result.msg==="ok")
+                                        {
+                                            var boo = confirm('注册成功！');
+                                            //confirm 会返回你选择的选项,然后可以依据选择执行逻辑
+                                            if(boo==true){
+                                                console.log("ok")
+                                                window.location.replace("/login1");
+                                                // window.open("/login1");
+                                            }else{
+                                                console.log("no")
+                                                window.location.replace("/login1");
+                                            }
+                                        }
+                                    }
+                                });
+
                         }
                     }
-                }
-            });
-    }
+                })
+            },
+            error: function(xhr, status, error) { // 请求失败运行的函数
+                console.log(error);
+            }
+        })
 </script>
 </body>
 

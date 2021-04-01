@@ -19,7 +19,7 @@ router.post('/commit',function (req,res,next) {
 
 //退出登录状态
 router.get("/logout",function (req,res,next) {
-    delete req.session.user;
+    delete req.session.userid;
     delete req.session.role;
     res.redirect("/login1");
 })

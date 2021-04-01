@@ -17,7 +17,7 @@
 <style>
     body {
         background-size: cover;
-        background:url("/images/ivy9.jpg")fixed center 0 no-repeat;
+        background:url("/images/lvy.jpg")fixed center 0 no-repeat;
         background-size: cover;
         -webkit-background-size: cover;
         -o-background-size: cover;
@@ -38,7 +38,7 @@
 
     #title{
         /*background-color: darkseagreen;*/
-        color: #CDBA96;
+        color: #003333;
         margin-right: 19px;
         font-family: 方正粗黑宋简体;
     }
@@ -55,160 +55,175 @@
         color: darkgrey;
     }
     .jumbotron{
-        background: darkseagreen;
+        background-color: rgba(255,255,255,0);
     }
 </style>
 <body>
 <div id="app">
-<div class="container">
-    <div class="row clearfix">
-        <div class="col-md-12 column" id="nav">
-            <div  class="navbar-header" >
-                <h1>
-                    <strong><p id="title">校园霸凌举报系统</p></strong>
-                </h1>
-            </div>
-
-            <div class="navitems">
-                <ul class="nav nav-tabs" >
-                    <li class="active" >
-                        <a >首页</a>
-                    </li>
-                    <li>
-                        <a href="/search" style="color:white">搜索页</a>
-                    </li>
-                    <li>
-                        <a href="" style="color:white">案例</a>
-                    </li>
-                    <li class="dropdown pull-right">
-                        <a class="dropdown-toggle" href="#" data-toggle="dropdown" style="color:white">个人<strong class="caret"></strong></a>
-                        <ul class="dropdown-menu">
-                            <li>
-                                <a href="/personal">个人中心</a>
-                            </li>
-                            <li>
-                                <a href="#">信息通知</a>
-                            </li>
-                            <li class="divider">
-                            </li>
-                            <li>
-                                <a href="/login1/logout">退出登录</a>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
-            </div>
-
-        </div>
-    </div>
-    <div class="jumbotron">
-        <h1>什么是霸凌</h1>
-        <p>解决问题</p>
-        <p><a class="btn btn-primary btn-lg" href="#" role="button">了解更多</a></p>
-    </div>
-
     <div class="container">
         <div class="row clearfix">
-            <div class="col-md-7 column" id="slide">
-                <div class="carousel slide" id="carousel-26211" style="height:350px">
-                    <ol class="carousel-indicators">
-                        <li class="active" data-target="#carousel-26211" data-slide-to="0">
-                        </li>
-                        <li data-target="#carousel-26211" data-slide-to="1">
-                        </li>
-                        <li data-target="#carousel-26211" data-slide-to="2">
-                        </li>
-                    </ol>
-                    <div class="carousel-inner">
-                        <div class="item active">
-                            <img alt="" src="/images/student1.jpg" style="margin: 0 auto;" />
-                            <div class="carousel-caption">
-                                <h4>
-                                    First Thumbnail label
-                                </h4>
-                            </div>
-                        </div>
-                        <div class="item">
-                            <img alt="" src="/images/xuexiao1.jpg" style="margin: 0 auto;" />
-                            <div class="carousel-caption">
-                                <h4>
-                                    Second Thumbnail label
-                                </h4>
-                            </div>
-                        </div>
-                    </div> <a class="left carousel-control" href="#carousel-26211" data-slide="prev"><span class="glyphicon glyphicon-chevron-left"></span></a> <a class="right carousel-control" href="#carousel-26211" data-slide="next"><span class="glyphicon glyphicon-chevron-right"></span></a>
+            <div class="col-md-12 column" id="nav">
+                <div  class="navbar-header" >
+                    <h1>
+                        <strong><p id="title">校园霸凌举报系统</p></strong>
+                    </h1>
                 </div>
+
+                <div class="navitems">
+                    <ul class="nav nav-tabs" >
+                        <li class="active" >
+                            <a >首页</a>
+                        </li>
+                        <li>
+                            <a href="/search" style="color:white">搜索</a>
+                        </li>
+                        <li>
+                            <a href="/tongji" style="color:white">统计</a>
+                        </li>
+                        <li v-if="role==='false'">
+                            <a href="/create" style="color:white">进行举报</a>
+                        </li>
+                        <li v-if="role!=='false'">
+                            <a href="/personal/research" style="color:white">处理举报</a>
+                        </li>
+                        <li v-if="role!=='false'">
+                            <a href="/personal/audit" style="color:white">审核结果</a>
+                        </li>
+                        <li class="dropdown pull-right">
+                            <a class="dropdown-toggle" href="#" data-toggle="dropdown" style="color:white">个人<strong class="caret"></strong></a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a href="/personal">个人中心</a>
+                                </li>
+                                <li>
+                                    <a href="/message" title="消息" class="fa fa-bell">信息通知
+                                        <label v-if="n>0" class="label label-danger" style="left:0px">{{n}}</label>
+                                    </a>
+                                </li>
+                                <li class="divider">
+                                </li>
+                                <li>
+                                    <a href="/login1/logout">退出登录</a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+
             </div>
+        </div>
+        <div class="container" >
+            <div class="row clearfix" style="margin-top:10px;background-color: rgba(255,255,255,0.8);">
+                <div class="col-md-12 column">
+                    <div class="row clearfix" style=" border-width: thick;border-radius: 6px;">
+                        <div class="col-md-8 column">
+                            <div class="jumbotron">
+                                <h1>
+                                    校园霸凌
+                                </h1>
+                                <p>
+                                    <a class="btn btn-primary btn-large" href="https://baike.so.com/doc/5302099-5536872.html">了解更多</a>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-md-4 column">
+                        </div>
+                    </div>
 
-                    <div class="col-md-4" id="news" style="height:350px">
-                         <h4>
-                             新闻
-                         </h4>
+                    <div class="row">
+                        <div class="col-md-12" style="margin-top:10px;background-color: rgba(255,255,255,0.8);">
+                            <div class="thumbnail">
+                                <div class="col-md-8" style="border-right: solid #1b6d85;border-right-width: 5px;border-top: solid #1b6d85;border-right-top: 5px">
+                                    <img src="/images/p3.png" style="width:300px"/>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="caption">
+                                        <h2>
+                                            统计
+                                        </h2>
 
-                        <ul>
-                            <li>
-                                Lorem ipsum dolor sit amet
-                            </li>
-                            <li>
-                                Consectetur adipiscing elit
-                            </li>
-                            <li>
-                                Integer molestie lorem at massa
-                            </li>
-                            <li>
-                                Facilisis in pretium nisl aliquet
-                            </li>
-                            <li>
-                                Nulla volutpat aliquam velit
-                            </li>
-                            <li>
-                                Faucibus porta lacus fringilla vel
-                            </li>
-                            <li>
-                                Aenean sit amet erat nunc
-                            </li>
-                            <li>
-                                Eget porttitor lorem
-                            </li>
-                        </ul>
+                                        <p>
+                                            <a class="btn btn-primary" href="/tongji">统计页</a>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12" style="margin-top:10px;background-color: rgba(255,255,255,0.8);">
+                            <div class="thumbnail">
+                                <div class="col-md-5">
+                                    <div class="caption">
+                                        <h2>
+                                            个人中心
+                                        </h2>
+                                        <p>
+                                            <a class="btn btn-primary" href="/personal">个人中心</a>
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="col-md-7" style="border-left: solid #1b6d85;border-left-width: 5px;border-top: solid #1b6d85;border-top-width: 5px">
+                                    <img src="/images/p2.png" style="width:300px"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12" style="margin-top:10px;background-color: rgba(255,255,255,0.8);" v-if="role==='false'">
+                            <div class="thumbnail">
+                                <div class="col-md-8" style="border-right: solid #1b6d85;border-right-width: 5px;border-top: solid #1b6d85;border-right-top: 5px">
+                                    <img src="/images/p1.png" style="width:300px"/>
+                                </div>
+                                <div class="col-md-4">
+                                <div class="caption">
+                                    <h2>
+                                        创建举报
+                                    </h2>
+
+                                    <p>
+                                        <a class="btn btn-primary" href="/create">举报页</a>
+                                    </p>
+                                </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12" style="margin-top:10px;background-color: rgba(255,255,255,0.8);" v-if="role!=='false'">
+                            <div class="thumbnail">
+                                <div class="col-md-8" style="border-right: solid #1b6d85;border-right-width: 5px;border-top: solid #1b6d85;border-right-top: 5px">
+                                    <img src="/images/p4.png" style="width:300px"/>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="caption">
+                                        <h2>
+                                            处理举报
+                                        </h2>
+
+                                        <p>
+                                            <a class="btn btn-primary" href="/personal/research">处理页</a>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12" style="margin-top:10px;background-color: rgba(255,255,255,0.8); " v-if="role!=='false'">
+                            <div class="thumbnail">
+                                <div class="col-md-5">
+                                    <div class="caption">
+                                        <h2>
+                                            审核结果
+                                        </h2>
+                                        <p>
+                                            <a class="btn btn-primary" href="/personal/audit">审核页</a>
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="col-md-7" style="border-left: solid #1b6d85;border-left-width: 5px;border-top: solid #1b6d85;border-top-width: 5px">
+                                    <img src="/images/p5.png" style="width:300px"/>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-
-
-<div class="container">
-    <div class="row clearfix" style="height: 200px;background-color: rgba(255,255,255,0.8);margin-top: 25px;margin-bottom: 25px">
-        <div class="col-md-4 column">
-            <h2>
-                （处理）举报
-            </h2>
-
-            <p>
-                <a class="btn" href="#">View details »</a>
-            </p>
-        </div>
-        <div class="col-md-4 column">
-            <h2>
-                数据统计
-            </h2>
-
-            <p>
-                <a class="btn" href="#">View details »</a>
-            </p>
-        </div>
-        <div class="col-md-4 column">
-            <h2>
-                个人中心
-            </h2>
-
-            <p>
-                <a class="btn" href="#">View details »</a>
-            </p>
-        </div>
-    </div>
-</div>
-
 
     <div class="footer container-fluid">
         <div id="footer_div1">
@@ -224,14 +239,37 @@
         </div>
     </div><!--页脚-->
 </div>
+</div>
 <script>
-    const app=new Vue({
+    function CreateVue(n)
+    {
+     const app=new Vue({
         el:"#app",
         data:{
             userid:'<%=userid%>',
-            role:'<%=userid%>',
+            role:'<%=role%>',
+            n:n,
         }
     })
+    }
+    var url2 = "http://47.98.164.4:8080/server/msg/unseen"
+    $.ajax({
+        type: 'post', /*  请求方式  GET  、 POST 、 PUT 等.. */
+        url: url2, /*  后台的接口(findApi)  使用相对路径即可 */
+        dateType: 'json', /*  期望服务器返回的数据类型格式 */
+        data:{
+            user_id:'<%= userid %>',
+        },
+        success: function(result) { // 请求后台 应答成功返回来的数据
+            // console.log("个人信息");
+            console.log(result);
+            var n=result.data.length;
+            CreateVue(n);
+        },
+        error: function(xhr, status, error) { // 请求失败运行的函数
+            console.log(error);
+        }})
+
 </script>
 
 </body>

@@ -87,28 +87,39 @@
 
             <div class="navitems">
                 <ul class="nav nav-tabs" >
-                    <li >
-                        <a href="#" style="color:white">首页</a>
+                    <li>
+                        <a href="/firstpage" style="color:white">首页</a>
                     </li>
                     <li>
-                        <a href="#" style="color:white">举报页</a>
+                        <a href="/search" style="color:white">搜索</a>
                     </li>
-                    <li class="active" >
-                        <a href="#" >案例</a>
+                    <li>
+                        <a href="/tongji" style="color:white">统计</a>
                     </li>
-                    <li class="dropdown pull-right">
-                        <a class="dropdown-toggle" href="#" data-toggle="dropdown" style="color:white">个人<strong class="caret"></strong></a>
+                    <li v-if="'<%=role%>'==='false'">
+                        <a href="/create" style="color:white">进行举报</a>
+                    </li>
+                    <li v-if="'<%=role%>'!=='false'">
+                        <a href="/personal/research" style="color:white">处理举报</a>
+                    </li>
+                    <li v-if="'<%=role%>'!=='false'">
+                        <a href="/personal/audit" style="color:white">审核结果</a>
+                    </li>
+                    <li class="dropdown pull-right" style="z-index:9999">
+                        <a class="dropdown-toggle" href="#" data-toggle="dropdown" style="color:white;">个人<strong class="caret"></strong></a>
                         <ul class="dropdown-menu">
                             <li>
-                                <a href="#">个人中心</a>
+                                <a href="/personal">个人中心</a>
                             </li>
                             <li>
-                                <a href="#">信息通知</a>
+                                <a href="/message" title="消息" class="fa fa-bell">信息通知
+                                    <label v-if="n>0" class="label label-danger" style="left:0px">{{n}}</label>
+                                </a>
                             </li>
                             <li class="divider">
                             </li>
                             <li>
-                                <a href="#">退出登录</a>
+                                <a href="/login1/logout">退出登录</a>
                             </li>
                         </ul>
                     </li>

@@ -59,12 +59,6 @@
       font-family: 方正粗黑宋简体;
   }
 
-    #text{
-        /*opacity: 0.8;*/
-        background-color: white;
-        margin-top: 50px;
-        background-color: rgba(255, 255, 255, 0.8);
-    }
 
     /*#nav{*/
     /*    opacity: 0.8;*/
@@ -84,28 +78,42 @@
 
             <div class="navitems">
                 <ul class="nav nav-tabs" >
-                    <li >
-                        <a href="#" style="color:white">首页</a>
+                    <li>
+                        <a href="/firstpage" style="color:white">首页</a>
                     </li>
                     <li>
-                        <a href="#" style="color:white">举报页</a>
+                        <a href="/search" style="color:white">搜索</a>
                     </li>
-                    <li class="active" >
-                        <a href="#" >案例</a>
+                    <li>
+                        <a href="/tongji" style="color:white">统计</a>
                     </li>
-                    <li class="dropdown pull-right">
-                        <a class="dropdown-toggle" href="#" data-toggle="dropdown" style="color:white">个人<strong class="caret"></strong></a>
+                    <li v-if="'<%=role%>'==='false'">
+                        <a href="/create" style="color:white">进行举报</a>
+                    </li>
+                    <li v-if="'<%=role%>'!=='false'">
+                        <a href="/personal/research" style="color:white">处理举报</a>
+                    </li>
+                    <li v-if="'<%=role%>'!=='false'">
+                        <a href="/personal/audit" style="color:white">审核结果</a>
+                    </li>
+                    <li class="dropdown pull-right" style="z-index:9999">
+                        <a class="dropdown-toggle" href="#" data-toggle="dropdown" style="color:white;">个人<strong class="caret"></strong></a>
                         <ul class="dropdown-menu">
-                            <li>
-                                <a href="#">个人中心</a>
+                            <li v-if="'<%=role%>'!=='false'">
+                                <a href="/personal/i">个人中心</a>
+                            </li>
+                            <li v-if="'<%=role%>'==='false'">
+                                <a href="/personal">个人中心</a>
                             </li>
                             <li>
-                                <a href="#">信息通知</a>
+                                <a href="/message" title="消息" class="fa fa-bell">信息通知
+                                    <label v-if="n>0" class="label label-danger" style="left:0px">{{n}}</label>
+                                </a>
                             </li>
                             <li class="divider">
                             </li>
                             <li>
-                                <a href="#">退出登录</a>
+                                <a href="/login1/logout">退出登录</a>
                             </li>
                         </ul>
                     </li>
@@ -117,7 +125,7 @@
 
 
             <div class="container">
-                <a class="btn" href="#" style="color:white">
+                <a class="btn" href="/personal/i" style="color:white">
                     《《《返回上一页
                 </a>
             </div>
@@ -125,65 +133,183 @@
             <div class="row clearfix">
                 <div class="col-md-12" id="id">
                     <h3>
-                        <strong>事件编号：</strong><strong id="eventid"><%= eventid %></strong><strong id="eventkind" style="visibility: hidden"><%= eventkind %></strong>
-                    <br/>
-                        <strong>事件进度：{{Status}}</strong>
+                        <strong>需处理的事件（第{{Current}}次举报）进度：{{Status}}</strong>
+                        <button type="button" class="btn btn-default" @click="toResearch()" v-if="Status==='未受理'">进行受理</button>
                     </h3>
                 </div>
-                <button @click="toResearch()" v-if="Status==='未受理'">进行受理</button>
 
                 <div class="col-md-12 column" id="event">
-                    <h3 id="userid"><%= userid %></h3>
-                    标题：{{title}}
-                    <h3>
-                        举报者的描述
-                    </h3>
-                    <p>
-                      {{detail}}
-                    </p>
-                    <p>
-                        <a class="btn" href="#">点击编辑 »</a>
-                    </p>
-                    <h3>
-                        学校的处理结果
-                    </h3>
-                    <p>
-                        Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.
-                    </p>
-                    <p>
-                        <a class="btn" href="#">点击编辑 »</a>
-                    </p>
-                    <h3>
-                        审核结果
-                    </h3>
-                    <p>
-                        Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.
-                    </p>
-                    <p>
-                        <a class="btn" href="#">点击编辑 »</a>
-                    </p>
-                </div>
+                    <div id="Aplist" class="panel-group">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">
+                                    <a data-toggle="collapse" data-parent="#Aplist" href="#collapseOne">初次举报</a>
+                                </h3>
+                            </div>
+                            <div id="collapseOne" class="panel-collapse collapse in">
+                                <div class="panel-body">
+                                    <h3 id="userid">标题</h3>
+                                    {{initAP.appeal.title}}
+                                    <h3>
+                                        举报者的描述
+                                    </h3>
+                                    <p>
+                                        {{initAP.appeal.detail}}
+                                    </p>
+                                </div>
+                            </div>
+                            <div v-if="initAP.research!=null">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <h3 class="panel-title" >
+                                            <a data-toggle="collapse" data-parent="#Aplist" href="#collapseTwo">初次举报处理结果相关信息
+                                                <span class="label label-default" v-if="Current===1">
+                                   {{Status}}
+                                   </span>
+                                            </a>
+                                        </h3>
+                                    </div>
+                                    <div id="collapseTwo" class="panel-collapse collapse in">
+                                        <div class="panel-body">
+
+                                            <label>受理时间</label>{{initAP.research.pro_time}}
+                                            <div v-if="initAP.research.res_time===null">
+                                                处理中
+                                            </div>
+                                            <div v-else>
+                                                <label>结果提交时间</label>{{initAP.research.res_time}}
+                                                <h3>
+                                                    调查结果
+                                                </h3>
+                                                <p>
+                                                    {{initAP.research.result}}
+                                                </p>
+                                                <div v-if="initAP.research.app_comment===null">
+                                                </div>
+                                                <div v-else>
+                                                    <h3>对结果的意见是：</h3>{{initAP.research.app_comment}}
+                                                </div>
+
+                                                <div v-if="initAP.research.au_time!==null">
+                                                    <label>审核提交时间</label>{{initAP.research.au_time}}
+                                                    <h3>
+                                                        审核结果
+                                                    </h3>
+                                                    <p>
+                                                        {{initAP.research.au_result}}
+                                                    </p>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div v-for="(i,index) in follows">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title">
+                                        <a data-toggle="collapse" data-parent="#Aplist" :href="hrefAP(index)">{{index+2}}次举报</a>
+                                    </h3>
+                                </div>
+                                <div :id="apID(index)" class="panel-collapse collapse in">
+                                    <div class="panel-body">
+                                        <h3>标题</h3>
+                                        {{i.appeal.title}}
+                                        <h3>
+                                            举报者的描述
+                                        </h3>
+                                        <p>
+                                            {{i.appeal.detail}}
+                                        </p>
+                                    </div>
+                                </div>
+                                <div v-if="i.research!=null">
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading">
+                                            <h3 class="panel-title" >
+                                                <a data-toggle="collapse" data-parent="#Aplist" :href="hrefRE(index)">初次举报处理结果相关信息
+                                                    <span class="label label-default" v-if="Current===(index+2)">
+                                   {{Status}}
+                                   </span>
+                                                </a>
+                                            </h3>
+                                        </div>
+                                        <div :id="reID(index)" class="panel-collapse collapse in">
+                                            <div class="panel-body">
+
+                                                <label>受理时间</label>{{i.research.pro_time}}
+                                                <div v-if="i.research.res_time===null">
+                                                    处理中
+                                                </div>
+                                                <div v-else>
+                                                    <label>结果提交时间</label>{{i.research.res_time}}
+                                                    <h3>
+                                                        调查结果
+                                                    </h3>
+                                                    <p>
+                                                        {{i.research.result}}
+                                                    </p>
+                                                    <div v-if="i.research.app_comment===null">
+                                                    </div>
+                                                    <div v-else>
+                                                        <h3>对结果的意见是：</h3>{{i.research.app_comment}}
+                                                    </div>
+
+                                                    <div v-if="i.research.au_time!==null">
+                                                        <label>审核提交时间</label>{{i.research.au_time}}
+                                                        <h3>
+                                                            审核结果
+                                                        </h3>
+                                                        <p>
+                                                            {{i.research.au_result}}
+                                                        </p>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="row clearfix" v-if="Status==='已受理但没有结果'">
+                        <div class="col-md-12 column">
+                            <form role="form">
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1"><h4>处理结果</h4></label><input style="height:200px" class="form-control" id="searchRe" v-model="resText"/>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="exampleInputFile">附件上传</label><input type="file" id="exampleInputFile" />
+                                    <p class="help-block">
+                                    </p>
+                                </div>
+                                <div class="checkbox">
+                                    <label><input type="checkbox" />确定</label>
+                                </div>
+                            </form>
+                            <button  class="btn btn-default" @click="getRes()">提交</button>
+                        </div>
+                    </div>
+
+                    <div class="row clearfix" v-if="Status==='待审核'" id="text1">
+                        <div class="col-md-12 column">
+                            <form role="form">
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">审核结果</label><input style="height:200px" class="form-control" id="searchAu" v-model="auText"/>
+                                </div>
+
+                                <div class="checkbox">
+                                    <label><input type="checkbox" />确定</label>
+                                </div>
+                            </form>
+                            <button  class="btn btn-default" @click="getAu()">提交</button>
+                        </div>
+                    </div>
             </div>
 
-    <div class="row clearfix" v-if="Status==='已受理但没有结果'" id="text">
-        <div class="col-md-12 column">
-            <form role="form">
-                <div class="form-group">
-                    <label for="exampleInputEmail1">处理结果</label><input class="form-control" id="searchRe" v-model="resText"/>
-                </div>
-
-                <div class="form-group">
-                    <label for="exampleInputFile">附件上传</label><input type="file" id="exampleInputFile" />
-                    <p class="help-block">
-                    </p>
-                </div>
-                <div class="checkbox">
-                    <label><input type="checkbox" />确定</label>
-                </div>
-            </form>
-            <button  class="btn btn-default" @click="getRes()">提交</button>
-        </div>
-    </div>
 
 
         <div class="footer container-fluid">
@@ -201,12 +327,14 @@
         </div><!--页脚-->
 </div>
 </div>
+</div>
 <script>
-    var userid=document.getElementById('userid').innerText;
-    var eventid=document.getElementById('eventid').innerText;
-    var eventkind=document.getElementById('eventkind').innerHTML;
-    console.log(eventkind);
+    var userid='<%=userid%>';
+    var eventid='<%=eventid%>';
     var url="http://47.98.164.4:8080/server/appeal/getbyid"
+    var url2="http://47.98.164.4:8080/server/route/get_before_com"
+    var url3="http://47.98.164.4:8080/server/user/getuserinfo";
+
     $.ajax({
         type: 'get', /*  请求方式  GET  、 POST 、 PUT 等.. */
         url: url, /*  后台的接口(findApi)  使用相对路径即可 */
@@ -217,103 +345,260 @@
         },
         success: function(result) { // 请求后台 应答成功返回来的数据
             console.log(result);
-            // document.getElementById("content").innerText=result.data;
-            const app = new Vue({
-                el: '#app',
-                data: {
-                    title:result.data.title,
-                    address:result.data.address,
-                    time:result.data.al_time,
-                    detail:result.data.detail,
-                    pos:result.data.pos,
-                    redetail:"",
-                    retitle:"",
-                    reappeal:result.data.reapp,
-                    resText:""
-                },
-                computed:{
-                  Status(){
-                      switch (eventkind){
-                          case "1":
-                              return "未受理";
-                          case "2":
-                              return "已受理";
-                          case "3":
-                              return "已受理但没有结果";
-                          case "4":
-                              return "得出结果";
-                      }
-                  }
-                },
-                methods:{
-                     toResearch(){
-                         let url="http://47.98.164.4:8080/server/research/addone";
-                         $.ajax({
-                             type: 'get', /*  请求方式  GET  、 POST 、 PUT 等.. */
-                             url: url, /*  后台的接口(findApi)  使用相对路径即可 */
-                             dateType: 'json', /*  期望服务器返回的数据类型格式 */
-                             data:{
-                                 user_id:userid,
-                                 al_id:eventid,
-                             },
-                             success: function(result) { // 请求后台 应答成功返回来的数据
-                                 console.log(result);
-                                 alert("提交成功！")
-                             },
-                             error: function(xhr, status, error) { // 请求失败运行的函数
-                                 console.log(error);
-                             }})
-                     },
-                    getRes()
-                    {
-                        console.log(this.resText)
-                        var resText=this.resText;
-                        let url="http://47.98.164.4:8080/server/research/get_by_al_id";
-                        $.ajax({
-                            type: 'get', /*  请求方式  GET  、 POST 、 PUT 等.. */
-                            url: url, /*  后台的接口(findApi)  使用相对路径即可 */
-                            dateType: 'json', /*  期望服务器返回的数据类型格式 */
-                            data:{
-                                user_id:userid,
-                                al_id:eventid,
-                            },
-                            success: function(result) { // 请求后台 应答成功返回来的数据
-                                console.log("research相关信息！")
-                                console.log(result);
-                                var researchid=result.data.id;
-                                let url2="http://47.98.164.4:8080/server/research/submit_result";
-                                $.ajax({
-                                    type: 'get', /*  请求方式  GET  、 POST 、 PUT 等.. */
-                                    url: url2, /*  后台的接口(findApi)  使用相对路径即可 */
-                                    dateType: 'json', /*  期望服务器返回的数据类型格式 */
-                                    data:{
-                                        user_id:userid,
-                                        rh_id:researchid,
-                                        result:resText,
-                                    },
-                                    success: function(result) { // 请求后台 应答成功返回来的数据
-                                        console.log(result);
-                                        alert("提交成功！")
-
-                                    },
-                                    error: function(xhr, status, error) { // 请求失败运行的函数
-                                        console.log(error);
-                                    }})
-
-                            },
-                            error: function(xhr, status, error) { // 请求失败运行的函数
-                                console.log(error);
-                            }})
+            var res=result.data;
+            $.ajax({
+                    type: 'get', /*  请求方式  GET  、 POST 、 PUT 等.. */
+                    url: url2, /*  后台的接口(findApi)  使用相对路径即可 */
+                    dateType: 'json', /*  期望服务器返回的数据类型格式 */
+                    data: {
+                        user_id: userid,
+                        al_id: eventid,
+                    },
+                    success: function (result2) { // 请求后台 应答成功返回来的数据
+                        console.log("route");
+                        console.log(result2);
+                        CreateVue(res,"1234",result2);
+                        // $.ajax({
+                        //     type: 'get', /*  请求方式  GET  、 POST 、 PUT 等.. */
+                        //     url: url3, /*  后台的接口(findApi)  使用相对路径即可 */
+                        //     dateType: 'json', /*  期望服务器返回的数据类型格式 */
+                        //     data: {
+                        //         requestId:userid,
+                        //         id:userid,
+                        //     },
+                        //     success: function (result3) { // 请求后台 应答成功返回来的数据
+                        //         console.log(result3);
+                        //         CreateVue(res,result3.data.dmschUid,result2);
+                        //     },
+                        //     error: function (xhr, status, error) { // 请求失败运行的函数
+                        //         console.log(error);
+                        //     }
+                        // })
+                    },
+                    error: function (xhr, status, error) { // 请求失败运行的函数
+                        console.log(error);
                     }
+                })
 
-
-                }
-            })
-            // console.log(this.appeals);
         },
         error: function(xhr, status, error) { // 请求失败运行的函数
             console.log(error);
         }})
+
+    function CreateVue(resdata,handler,result2)
+    {
+        const app = new Vue({
+            el: '#app',
+            data: {
+                title:resdata.title,
+                address:resdata.address,
+                time:resdata.al_time,
+                detail:resdata.detail,
+                pos:resdata.pos,
+                redetail:"",
+                retitle:"",
+                reappeal:resdata.reapp,
+                resText:"",
+                auText:"",
+                full:"",
+                handler:handler,
+                initAP:result2.data.current,
+                follows:result2.data.follows
+            },
+            computed:{
+                Current(){
+                    // console.log(this.initAP);
+                    // console.log(this.follows)
+                    if(eventid===this.initAP.appeal.id)
+                    {
+                        return 1;
+                    }
+                    else{
+                        for(let i=0;i<this.follows.length;i++)
+                        {
+                            if(eventid===this.follows[i].appeal.id)
+                            {
+                                return i+2;
+                            }
+                        }
+                    }
+                    return -1;
+                },
+                Status(){
+                    let research=null;
+                    if(eventid===this.initAP.appeal.id)
+                    {
+                        research=this.initAP.research;
+                    }
+                    else{
+                        for(let i=0;i<this.follows.length;i++)
+                        {
+                            if(eventid===this.follows[i].appeal.id)
+                            {
+                                research=this.follows[i].research;
+                            }
+                        }
+                    }
+                    if(research===null)
+                    return "未受理";
+                    if(research.result===null)
+                        return "已受理但没有结果";
+                    if(research.auditor !== userid)
+                        return "得出结果";
+                    if(research.au_time===null)
+                        return "待审核";
+                    return "已审核";
+                    // switch (eventkind){
+                    //     case "1":
+                    //         return "未受理";
+                    //     case "2":
+                    //         return "已受理";
+                    //     case "3":
+                    //         return "已受理但没有结果";
+                    //     case "4":
+                    //         return "得出结果";
+                    //     case "5":
+                    //         return "待审核";
+                    //     case "6":
+                    //         return "已审核";
+                    // }
+                }
+            },
+            methods:{
+                apID(i)
+                {
+                    return "appeal"+i;
+                },
+                reID(i)
+                {
+                    return "research"+i;
+                },
+                hrefAP(i)
+                {
+                    return "#appeal"+i;
+                },
+                hrefRE(i)
+                {
+                    return "#research"+i;
+                },
+
+
+                toResearch(){
+                    let url="http://47.98.164.4:8080/server/research/addone";
+                    $.ajax({
+                        type: 'get', /*  请求方式  GET  、 POST 、 PUT 等.. */
+                        url: url, /*  后台的接口(findApi)  使用相对路径即可 */
+                        dateType: 'json', /*  期望服务器返回的数据类型格式 */
+                        data:{
+                            user_id:userid,
+                            al_id:eventid,
+                        },
+                        success: function(result) { // 请求后台 应答成功返回来的数据
+                            console.log(result);
+                            alert("提交成功！");
+                            location.reload();
+                        },
+                        error: function(xhr, status, error) { // 请求失败运行的函数
+                            console.log(error);
+                        }})
+                },
+
+                getAu()
+                {
+                    console.log(this.auText);
+                    var auText=this.auText;
+                    let url="http://47.98.164.4:8080/server/research/get_by_al_id";
+                    $.ajax({
+                        type: 'get', /*  请求方式  GET  、 POST 、 PUT 等.. */
+                        url: url, /*  后台的接口(findApi)  使用相对路径即可 */
+                        dateType: 'json', /*  期望服务器返回的数据类型格式 */
+                        data:{
+                            user_id:userid,
+                            al_id:eventid,
+                        },
+                        success: function(result) { // 请求后台 应答成功返回来的数据
+                            console.log("research相关信息！")
+                            console.log(result);
+                            var researchid=result.data.id;
+                            let url2="http://47.98.164.4:8080/server/research/super_audit";
+                            $.ajax({
+                                type: 'get', /*  请求方式  GET  、 POST 、 PUT 等.. */
+                                url: url2, /*  后台的接口(findApi)  使用相对路径即可 */
+                                dateType: 'json', /*  期望服务器返回的数据类型格式 */
+                                data:{
+                                    user_id:userid,
+                                    rh_id:researchid,
+                                    rh_aures:auText,
+                                },
+                                success: function(result) { // 请求后台 应答成功返回来的数据
+                                    console.log(result);
+                                    alert("提交成功！");
+                                    location.reload();
+
+                                },
+                                error: function(xhr, status, error) { // 请求失败运行的函数
+                                    console.log(error);
+                                }})
+
+                        },
+                        error: function(xhr, status, error) { // 请求失败运行的函数
+                            console.log(error);
+                        }
+                    })
+
+
+                },
+
+
+
+
+                getRes()
+                {
+                    // console.log(this.resText)
+                    var resText=this.resText;
+                    let url="http://47.98.164.4:8080/server/research/get_by_al_id";
+                    $.ajax({
+                        type: 'get', /*  请求方式  GET  、 POST 、 PUT 等.. */
+                        url: url, /*  后台的接口(findApi)  使用相对路径即可 */
+                        dateType: 'json', /*  期望服务器返回的数据类型格式 */
+                        data:{
+                            user_id:userid,
+                            al_id:eventid,
+                        },
+                        success: function(result) { // 请求后台 应答成功返回来的数据
+                            console.log("research相关信息！")
+                            console.log(result);
+                            var researchid=result.data.id;
+                            let url2="http://47.98.164.4:8080/server/research/submit_result";
+                            $.ajax({
+                                type: 'get', /*  请求方式  GET  、 POST 、 PUT 等.. */
+                                url: url2, /*  后台的接口(findApi)  使用相对路径即可 */
+                                dateType: 'json', /*  期望服务器返回的数据类型格式 */
+                                data:{
+                                    user_id:userid,
+                                    rh_id:researchid,
+                                    result:resText,
+                                },
+                                success: function(result) { // 请求后台 应答成功返回来的数据
+                                    console.log(result);
+                                    alert("提交成功！");
+                                    location.reload();
+                                },
+                                error: function(xhr, status, error) { // 请求失败运行的函数
+                                    console.log(error);
+                                }})
+
+                        },
+                        error: function(xhr, status, error) { // 请求失败运行的函数
+                            console.log(error);
+                        }})
+                }
+
+
+            }
+        })
+    }
+
 </script>
 </body>
 </html>

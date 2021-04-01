@@ -66,23 +66,34 @@
 
             <div class="navitems">
                 <ul class="nav nav-tabs" >
-                    <li >
-                        <a href="#" style="color:white">首页</a>
+                    <li>
+                        <a href="/firstpage" style="color:white">首页</a>
                     </li>
                     <li>
-                        <a href="#" style="color:white">举报页</a>
+                        <a href="/search" style="color:white">搜索</a>
                     </li>
-                    <li class="active" >
-                        <a href="#" >案例</a>
+                    <li>
+                        <a href="/tongji" style="color:white">统计</a>
                     </li>
-                    <li class="dropdown pull-right">
-                        <a class="dropdown-toggle" href="#" data-toggle="dropdown" style="color:white">个人<strong class="caret"></strong></a>
+                    <li v-if="'<%=role%>'==='false'">
+                        <a href="/create" style="color:white">进行举报</a>
+                    </li>
+                    <li v-if="'<%=role%>'!=='false'">
+                        <a href="/personal/research" style="color:white">处理举报</a>
+                    </li>
+                    <li v-if="'<%=role%>'!=='false'">
+                        <a href="/personal/audit" style="color:white">审核结果</a>
+                    </li>
+                    <li class="dropdown pull-right" style="z-index:9999">
+                        <a class="dropdown-toggle" href="#" data-toggle="dropdown" style="color:white;">个人<strong class="caret"></strong></a>
                         <ul class="dropdown-menu">
                             <li>
-                                <a href="#">个人中心</a>
+                                <a href="/personal">个人中心</a>
                             </li>
                             <li>
-                                <a href="#">信息通知</a>
+                                <a href="/message" title="消息" class="fa fa-bell">信息通知
+                                    <label v-if="n>0" class="label label-danger" style="left:0px">{{n}}</label>
+                                </a>
                             </li>
                             <li class="divider">
                             </li>
@@ -123,17 +134,13 @@
 
     <div class="row clearfix">
         <div class="col-md-12 column" id="event">
-            <h2>
-                案例1
-            </h2>
-            <p>
-                Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.
-            </p>
-            <p>
-                <a class="btn" href="#">View details »</a>
-            </p>
-            {{shijian}}
+<!--            <h2 v-show="shijian.length<1">-->
+<!--                暂无符合要求的事件，请输入相应的关键词！-->
+<!--            </h2>-->
             <div id="death"></div>
+                <h2 v-show="shijian.length<1">
+                    暂无符合要求的事件，请输入相应的关键词！
+                </h2>
 <!--            <div id="test" >-->
 <!--            <div v-for="(m, index) in keysearch()" @click="xiangqing(m.id)" v-bind:key="m.id" v-if="shijianshow">-->
 <!--                <div style="cursor: hand"><button>试一试</button></div>-->
@@ -143,35 +150,35 @@
         </div>
     </div>
 </div>
-<div class="container">
-    <div class="row clearfix">
-        <div class="col-md-12 column">
-            <ul class="pagination">
-                <li>
-                    <a href="#">Prev</a>
-                </li>
-                <li>
-                    <a href="#">1</a>
-                </li>
-                <li>
-                    <a href="#">2</a>
-                </li>
-                <li>
-                    <a href="#">3</a>
-                </li>
-                <li>
-                    <a href="#">4</a>
-                </li>
-                <li>
-                    <a href="#">5</a>
-                </li>
-                <li>
-                    <a href="#">Next</a>
-                </li>
-            </ul>
-        </div>
-    </div>
-</div>
+<!--<div class="container">-->
+<!--    <div class="row clearfix">-->
+<!--        <div class="col-md-12 column">-->
+<!--            <ul class="pagination">-->
+<!--                <li>-->
+<!--                    <a href="#">Prev</a>-->
+<!--                </li>-->
+<!--                <li>-->
+<!--                    <a href="#">1</a>-->
+<!--                </li>-->
+<!--                <li>-->
+<!--                    <a href="#">2</a>-->
+<!--                </li>-->
+<!--                <li>-->
+<!--                    <a href="#">3</a>-->
+<!--                </li>-->
+<!--                <li>-->
+<!--                    <a href="#">4</a>-->
+<!--                </li>-->
+<!--                <li>-->
+<!--                    <a href="#">5</a>-->
+<!--                </li>-->
+<!--                <li>-->
+<!--                    <a href="#">Next</a>-->
+<!--                </li>-->
+<!--            </ul>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
 <div class="footer container-fluid">
     <div id="footer_div1">
         <a href="http://rsgis.whu.edu.cn/">遥感信息工程学院 </a>|&nbsp;
@@ -187,33 +194,55 @@
 </div><!--页脚-->
 </div>
 <script>
-    const app = new Vue({
-        el: '#app',
-        data: {
-            shijian: [],
-            shijianshow:false,
-            keyword:"",
+    var url2 = "http://47.98.164.4:8080/server/msg/unseen"
+    $.ajax({
+        type: 'post', /*  请求方式  GET  、 POST 、 PUT 等.. */
+        url: url2, /*  后台的接口(findApi)  使用相对路径即可 */
+        dateType: 'json', /*  期望服务器返回的数据类型格式 */
+        data:{
+            user_id:'<%= userid %>',
         },
-        watch: {
-            shijian(newVal, oldVal) {
-                // 监听 num 属性的数据变化
-                // 作用 : 只要 num 的值发生变化,这个方法就会被调用
-                // 第一个参数 : 新值
-                // 第二个参数 : 旧值,之前的值
-                console.log('oldVal:',oldVal)
-                console.log('newVal:',newVal)
-            }
+        success: function(result) { // 请求后台 应答成功返回来的数据
+            // console.log("个人信息");
+            console.log(result);
+            var n=result.data.length;
+            CreateVue(n);
         },
-        methods: {
-            xiangqing(id) {
-                console.log("事件id为" + id);
-                window.location.href = "http://localhost:3000/event/" + id;
-            },
+        error: function(xhr, status, error) { // 请求失败运行的函数
+            console.log(error);
+        }})
+
+   function CreateVue(n) {
+       const app = new Vue({
+           el: '#app',
+           data: {
+               shijian: [],
+               shijianshow: false,
+               keyword: "",
+               n: n,
+               userid: '<%= userid %>'
+           },
+           watch: {
+               shijian(newVal, oldVal) {
+                   // 监听 num 属性的数据变化
+                   // 作用 : 只要 num 的值发生变化,这个方法就会被调用
+                   // 第一个参数 : 新值
+                   // 第二个参数 : 旧值,之前的值
+                   console.log('oldVal:', oldVal)
+                   console.log('newVal:', newVal)
+               }
+           },
+           methods: {
+               xiangqing(id) {
+                   console.log("事件id为" + id);
+                   window.location.href = "http://localhost:3000/event/" + id;
+               },
 
             keysearch() {
                 console.log(this.keyword);
                 $.ajax({
                     type: 'get', /*  请求方式  GET  、 POST 、 PUT 等.. */
+                    // url: 'http://47.98.164.4:8080/server/appeal/search_al?user_id=1615123447780013&keys=' + this.keyword,
                     url: 'http://47.98.164.4:8080/server/appeal/search_al?user_id=1615123447780013&keys=' + this.keyword, /*  后台的接口(findApi)  使用相对路径即可 */
                     dateType: 'json', /*  期望服务器返回的数据类型格式 */
                     // data:{
@@ -230,11 +259,12 @@
                         // for(let i in result.data){
                         //     this.shijian.push(i);
                         // }
+                        document.getElementById("death").innerText="";
                         console.log(this.shijian);
                         let inhtml="事件：<ul>";
                         for (i in this.shijian){
-                            let href="/event/"+this.shijian[i].id;
-                            inhtml+="<li>"+ this.shijian[i].id + "<a href=" +href+ ">跳转链接</a></li>";
+                            let href="/event/mid/"+this.shijian[i].id;
+                            inhtml+="<li>"+ this.shijian[i].title + "<a href=" +href+ ">点击查看事件详情</a></li>";
                         }
                         inhtml+="</ul>";
                         document.getElementById("death").innerHTML=inhtml;
@@ -244,9 +274,10 @@
                     }
                 })
 
-            }
-        }
-    })
+               }
+           }
+       })
+   }
 </script>
 </body>
 </html>

@@ -35,6 +35,7 @@
     .navitems{
         margin-top: 22px;
         margin-left: 60px;
+        margin-right: 90px;
     }
 
     #title{
@@ -58,28 +59,39 @@
 
             <div class="navitems">
                 <ul class="nav nav-tabs" >
-                    <li >
-                        <a href="#" style="color:white">首页</a>
+                    <li>
+                        <a href="/firstpage" style="color:white">首页</a>
                     </li>
                     <li>
-                        <a href="#" style="color:white">举报页</a>
+                        <a href="/search" style="color:white">搜索</a>
                     </li>
-                    <li class="active" >
-                        <a href="#" >案例</a>
+                    <li>
+                        <a href="/tongji" style="color:white">统计</a>
                     </li>
-                    <li class="dropdown pull-right">
-                        <a class="dropdown-toggle" href="#" data-toggle="dropdown" style="color:white">个人<strong class="caret"></strong></a>
+                    <li v-if="'<%=role%>'==='false'">
+                        <a href="/create" style="color:white">进行举报</a>
+                    </li>
+                    <li v-if="'<%=role%>'!=='false'">
+                        <a href="/personal/research" style="color:white">处理举报</a>
+                    </li>
+                    <li v-if="'<%=role%>'!=='false'">
+                        <a href="/personal/audit" style="color:white">审核结果</a>
+                    </li>
+                    <li class="dropdown pull-right" style="z-index:9999">
+                        <a class="dropdown-toggle" href="#" data-toggle="dropdown" style="color:white;">个人<strong class="caret"></strong></a>
                         <ul class="dropdown-menu">
                             <li>
-                                <a href="#">个人中心</a>
+                                <a href="/personal">个人中心</a>
                             </li>
                             <li>
-                                <a href="#">信息通知</a>
+                                <a href="/message" title="消息" class="fa fa-bell">信息通知
+                                    <label v-if="n>0" class="label label-danger" style="left:0px">{{n}}</label>
+                                </a>
                             </li>
                             <li class="divider">
                             </li>
                             <li>
-                                <a href="#">退出登录</a>
+                                <a href="/login1/logout">退出登录</a>
                             </li>
                         </ul>
                     </li>
@@ -93,38 +105,44 @@
         <div class="row clearfix">
             <div class="col-md-12 column">
                 <div class="row clearfix">
-                    <div class="col-md-4 column" style="position:fixed;margin-top:100px;width:300px;box-shadow: 3px 3px 4px 0 rgba(0,0,0,0.4) ; border-radius: 8px;  border: 2px solid;background-color: rgba(255,255,255,0.7);">
+                    <div v-cloak class="col-md-4 column" style="position:fixed;margin-top:100px;width:300px;box-shadow: 3px 3px 4px 0 rgba(0,0,0,0.4) ; border-radius: 8px;  border: 2px solid;background-color: rgba(255,255,255,0.7);">
                         <dl>
                             <dt style="font-size: x-large">
                                 个人资料
                             </dt>
-<!--                            <dd>-->
-<!--                                A description list is perfect for defining terms.-->
-<!--                            </dd>-->
-                            <dt>
-                                用户id
-                            </dt>
-                            <dd id="userid">
-                                <%= userid %>
+                            <dt>用户信息</dt>
+                            <div v-if="user!==null">
+                            <dd v-if="user.ns_name!==null">
+                                名称：{{user.ns_name}}
                             </dd>
-                            <dd>
-                                Donec id elit non mi porta gravida at eget metus.
+                            <dd v-if="user.email!==null">
+                                  邮箱：{{user.email}}
                             </dd>
-                            <dt>
-                                Malesuada porta
-                            </dt>
-                            <dd>
-                                Etiam porta sem malesuada magna mollis euismod.
+                            <dd v-if="user.tel!==null">
+                                手机号码： {{user.tel}}
                             </dd>
-                            <dt>
-                                Felis euismod semper eget lacinia
-                            </dt>
-                            <dd>
-                                Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.
-                            </dd>
+                            </div>
+                           <div v-if="dmsch!==null">
+                               <dt>所属机构/学校信息</dt>
+                               <dd v-if="dmsch.name!==null">
+                                   名称：{{dmsch.name}}
+                               </dd>
+                               <dd v-if="dmsch.address!==null">
+                                   地址：{{dmsch.address}}
+                               </dd>
+                               <dd v-if="dmsch.postcode!==null">
+                                   邮政编码：{{dmsch.postcode}}
+                               </dd>
+                               <dd v-if="dmsch.tel!==null">
+                                   手机号码：{{dmsch.tel}}
+                               </dd>
+                               <dd v-if="dmsch.web!==null">
+                                   官网网址：{{dmsch.web}}
+                               </dd>
+                           </div>
                         </dl>
                     </div>
-                    <div class="col-md-8 column" style="position:fixed;left:420px;top:80px;bottom:140px;overflow-y:auto;border-left:1px solid white">
+                    <div v-cloak class="col-md-8 column" style="z-index:-9999;position:fixed;left:420px;top:80px;bottom:140px;overflow-y:auto;border-left:1px solid white" >
 <!--                        <div v-for="(i,index) in appeals" @click="toevent(i.id)">-->
 <!--&lt;!&ndash;                             {{i}}&ndash;&gt;-->
 <!--                            <h2>编码{{i.id}}：{{i.title}}</h2>-->
@@ -136,14 +154,16 @@
                         <div class="btn-group">
                             <button class="btn btn-default" type="button" @click="raselect()">筛选举报信息</button>
                             <input type="radio" id="nonwatch" value="Nonwatch"  name="s"> 未受理
-                            <input type="radio" id="watch" value="Watch"  name="s"> 已受理
+<!--                            <input type="radio" id="watch" value="Watch"  name="s"> 已受理-->
                             <input type="radio" id="nonres" value="Nonres"  name="s"> 已受理但未得出结果
                             <input type="radio" id="result" value="Res"  name="s"> 得出结果
+                            <input type="radio" id="nonau" value="Nonau"  name="s"> 待审核
+                            <input type="radio" id="aut" value="Aut"  name="s"> 已审核
                         </div>
-
-                        <div v-show="sselect==='Nonwatch'" v-cloak>
-                            未受理
-                            <div v-for="(i,index) in unwatched" @click="toevent1(i.id)" style="background-color: rgba(255,255,255,0.6);border-radius: 7px">
+                        <h2 v-if="isresearch">所有需要处理的举报(包括未受理和已受理)</h2>
+                        <div v-show="sselect==='Nonwatch'||isresearch" v-cloak>
+                            <label v-if="unwatched.length>0">未受理</label>
+                            <div v-cloak v-for="(i,index) in unwatched" @click="toevent1(i.id)" style="background-color: rgba(255,255,255,0.6);border-radius: 7px">
                                 <!--                             {{i}}-->
                                 <h2>编码{{i.id}}：{{i.title}}</h2>
                                 <p>提交时间：{{i.al_time}}</p>
@@ -153,7 +173,7 @@
                             </div>
                         </div>
                         <div v-show="sselect==='Watch'" v-cloak>
-                            受理
+                            <label v-if="watched.length>0">受理</label>
                             <div v-for="(i,index) in watched" @click="toevent2(i.id)" style="background-color: rgba(255,255,255,0.6);border-radius: 7px">
                                 <!--                             {{i}}-->
                                 <h2>编码{{i.id}}：{{i.title}}</h2>
@@ -163,8 +183,8 @@
                                 <p>详情：{{i.detail}}</p>
                             </div>
                         </div>
-                        <div v-show="sselect==='Nonres'" v-cloak>
-                            无结果
+                        <div v-show="sselect==='Nonres'||isresearch" v-cloak>
+                            <label v-if="nores.length>0">无结果</label>
                             <div v-for="(i,index) in nores" @click="toevent3(i.id)" style="background-color: rgba(255,255,255,0.6);border-radius: 7px">
                                 <!--                             {{i}}-->
                                 <h2>编码{{i.id}}：{{i.title}}</h2>
@@ -175,8 +195,31 @@
                             </div>
                         </div>
                         <div v-show="sselect==='Res'" v-cloak>
-                            有结果
+                            <label v-if="res.length>0">有结果</label>
                             <div v-for="(i,index) in res" @click="toevent4(i.id)" style="background-color: rgba(255,255,255,0.6);border-radius: 7px">
+                                <!--                             {{i}}-->
+                                <h2>编码{{i.id}}：{{i.title}}</h2>
+                                <p>提交时间：{{i.al_time}}</p>
+                                <p>经纬度：{{i.pos}}</p>
+                                <p>事件地点：{{i.address}}</p>
+                                <p>详情：{{i.detail}}</p>
+                            </div>
+                        </div>
+                        <h2 v-if="isaudit">所有需要审核的举报</h2>
+                        <div v-show="sselect||isaudit" v-cloak>
+                            <label v-if="unau.length>0">待审核</label>
+                            <div v-for="(i,index) in unau" @click="toevent5(i.id)" style="background-color: rgba(255,255,255,0.6);border-radius: 7px">
+                                <!--                             {{i}}-->
+                                <h2>编码{{i.id}}：{{i.title}}</h2>
+                                <p>提交时间：{{i.al_time}}</p>
+                                <p>经纬度：{{i.pos}}</p>
+                                <p>事件地点：{{i.address}}</p>
+                                <p>详情：{{i.detail}}</p>
+                            </div>
+                        </div>
+                        <div v-show="sselect==='Aut'" v-cloak>
+                            <label v-if="au.length>0">已审核</label>
+                            <div v-for="(i,index) in au" @click="toevent6(i.id)" style="background-color: rgba(255,255,255,0.6);border-radius: 7px">
                                 <!--                             {{i}}-->
                                 <h2>编码{{i.id}}：{{i.title}}</h2>
                                 <p>提交时间：{{i.al_time}}</p>
@@ -207,48 +250,87 @@
 </div>
 </div>
 <script>
-    var userid=document.getElementById('userid').innerText;
+    console.log('<%=role%>');
+    <!--console.log('<%=kind%>');-->
+    function createVue(isresearch,isaudit)
+    {
+        const app = new Vue({
+            el: '#app',
+            data: {
+                userid:"",
+                unwatched:unwatched,
+                watched:watched,
+                nores:nores,
+                res:res,
+                unau:unau,
+                au:au,
+                sselect:"",
+                isresearch:isresearch,
+                isaudit:isaudit,
+                user:user,
+                dmsch:dmsch,
+            },
+            methods:{
+                raselect(){
+                    let val=$('input:radio:checked').val();
+                    console.log(val);
+                    this.sselect=val;
+                    this.isresearch=false;
+                    this.isaudit=false;
+                },
+                toevent1(id){
+                    console.log(id);
+                    let urlid="/event/"+id;
+                    window.open(urlid);
+                },
+                toevent2(id){
+                    console.log(id);
+                    let urlid="/event/"+id;
+                    window.open(urlid);
+                },
+                toevent3(id){
+                    console.log(id);
+                    let urlid="/event/"+id;
+                    window.open(urlid);
+                },
+                toevent4(id){
+                    console.log(id);
+                    let urlid="/event/"+id;
+                    window.open(urlid);
+                },
+                toevent5(id){
+                    console.log(id);
+                    let urlid="/event/"+id;
+                    window.open(urlid);
+                },
+                toevent6(id){
+                    console.log(id);
+                    let urlid="/event/"+id;
+                    window.open(urlid);
+                }
+
+            }
+        })
+
+    }
+    var userid='<%=userid%>';
+    var user=null;
+    var dmsch=null;
     var unwatched=[];
     var watched=[];
     var nores=[];
     var res=[];
+    var unau=[];
+    var au=[];
     var url1="http://47.98.164.4:8080/server/appeal/get_unwatched_ns";
     var url2="http://47.98.164.4:8080/server/appeal/get_watched_ns";
     var url3="http://47.98.164.4:8080/server/appeal/get_noresult_ns";
     var url4="http://47.98.164.4:8080/server/appeal/get_hasresult_ns";
-    console.log(userid);
-    let URL="http://47.98.164.4:8080/server/user/getuserinfo";
-    $.ajax({
-        type: 'get', /*  请求方式  GET  、 POST 、 PUT 等.. */
-        url: URL, /*  后台的接口(findApi)  使用相对路径即可 */
-        dateType: 'json', /*  期望服务器返回的数据类型格式 */
-        data:{
-            requestId:userid,
-            id:userid,
-        },
-        success: function(result) { // 请求后台 应答成功返回来的数据
-            console.log("个人信息");
-            console.log(result);
-                       // res=result.data;
-            // console.log("res");
-            // console.log(res)
-            // const app = new Vue({
-            //     el: '#app',
-            //     data: {
-            //         userid:"",
-            //         unwatched:unwatched,
-            //         watched:watched,
-            //         nores:nores,
-            //         res:res,
-            //         sselect:"Nonwatch",
-            //     },
-            //     methods: {}
-            // })
+    var url5="http://47.98.164.4:8080/server/appeal/wait_audit";
+    var url6="http://47.98.164.4:8080/server/appeal/get_audited";
+    // console.log("用户id！！！！")
+    // console.log(userid);
 
-        },
-        error: function(xhr, status, error) { // 请求失败运行的函数
-            console.log(error);
-        }})
 
     $.ajax({
         type: 'get', /*  请求方式  GET  、 POST 、 PUT 等.. */
@@ -260,8 +342,8 @@
         },
         success: function(result) { // 请求后台 应答成功返回来的数据
             unwatched=result.data;
-            console.log("unwatch");
-            console.log(unwatched);
+            // console.log("unwatch");
+            // console.log(unwatched);
             $.ajax({
                 type: 'get', /*  请求方式  GET  、 POST 、 PUT 等.. */
                 url: url2, /*  后台的接口(findApi)  使用相对路径即可 */
@@ -284,8 +366,8 @@
                         },
                         success: function(result) { // 请求后台 应答成功返回来的数据
                             nores=result.data;
-                            console.log("nores");
-                            console.log(nores);
+                            // console.log("nores");
+                            // console.log(nores);
                             $.ajax({
                                 type: 'get', /*  请求方式  GET  、 POST 、 PUT 等.. */
                                 url: url4, /*  后台的接口(findApi)  使用相对路径即可 */
@@ -296,49 +378,98 @@
                                 },
                                 success: function(result) { // 请求后台 应答成功返回来的数据
                                         res=result.data;
-                                        console.log("res");
-                                        console.log(res)
-                                        const app = new Vue({
-                                        el: '#app',
-                                        data: {
-                                            userid:"",
-                                            unwatched:unwatched,
-                                            watched:watched,
-                                            nores:nores,
-                                            res:res,
-                                            sselect:"Nonwatch",
+                                        // console.log("waitau");
+                                        // console.log(res);
+                                    $.ajax({
+                                        type: 'get', /*  请求方式  GET  、 POST 、 PUT 等.. */
+                                        url: url5, /*  后台的接口(findApi)  使用相对路径即可 */
+                                        dateType: 'json', /*  期望服务器返回的数据类型格式 */
+                                        data:{
+                                            user_id:userid,
+                                            is_first:0,
                                         },
-                                        methods:{
-                                            raselect(){
-                                                let val=$('input:radio:checked').val();
-                                                console.log(val);
-                                                this.sselect=val;
-                                            },
-                                            toevent1(id){
-                                                console.log(id);
-                                                let urlid="/event/"+id+"/1";
-                                                window.open(urlid);
-                                            },
-                                            toevent2(id){
-                                                console.log(id);
-                                                let urlid="/event/"+id+"/2";
-                                                window.open(urlid);
-                                            },
-                                            toevent3(id){
-                                                console.log(id);
-                                                let urlid="/event/"+id+"/3";
-                                                window.open(urlid);
-                                            },
-                                            toevent4(id){
-                                                console.log(id);
-                                                let urlid="/event/"+id+"/4";
-                                                window.open(urlid);
-                                            }
+                                        success: function(result) { // 请求后台 应答成功返回来的数据
+                                            unau=result.data;
+                                            // console.log("res");
+                                            // console.log(res);
+                                            $.ajax({
+                                                type: 'get', /*  请求方式  GET  、 POST 、 PUT 等.. */
+                                                url: url6, /*  后台的接口(findApi)  使用相对路径即可 */
+                                                dateType: 'json', /*  期望服务器返回的数据类型格式 */
+                                                data:{
+                                                    user_id:userid,
+                                                    is_first:0,
+                                                },
+                                                success: function(result) { // 请求后台 应答成功返回来的数据
+                                                    au=result.data;
+                                                    let URL="http://47.98.164.4:8080/server/user/getuserinfo";
+                                                    let URL1="http://47.98.164.4:8080/server/dmsch/get"
+                                                    if('<%=role%>'!=='noperson'){
+                                                    $.ajax({
+                                                        type: 'get', /*  请求方式  GET  、 POST 、 PUT 等.. */
+                                                        url: URL, /*  后台的接口(findApi)  使用相对路径即可 */
+                                                        dateType: 'json', /*  期望服务器返回的数据类型格式 */
+                                                        data:{
+                                                            requestId:userid,
+                                                            id:userid,
+                                                        },
+                                                        success: function(result) { // 请求后台 应答成功返回来的数据
+                                                            // console.log("个人信息");
+                                                            console.log(result);
+                                                            user=result.data.user;
+                                                            dmsch=result.data.dmsch;
+                                                            let kind='<%=kind%>';
+                                                            console.log(kind);
+                                                            if(kind==='research'){
+                                                                createVue(true,false);}
+                                                            else if(kind==='audit')
+                                                            {
+                                                                createVue(false,true)
+                                                            }else {
+                                                                createVue(false,false)
+                                                            }
+                                                        },
+                                                        error: function(xhr, status, error) { // 请求失败运行的函数
+                                                            console.log(error);
+                                                        }})
+                                                    }
+                                                    else{
+                                                        $.ajax({
+                                                            type: 'get', /*  请求方式  GET  、 POST 、 PUT 等.. */
+                                                            url: URL1, /*  后台的接口(findApi)  使用相对路径即可 */
+                                                            dateType: 'json', /*  期望服务器返回的数据类型格式 */
+                                                            data:{
+                                                                id:userid,
+                                                            },
+                                                            success: function(result) { // 请求后台 应答成功返回来的数据
+                                                                // console.log("个人信息");
+                                                                console.log(result);
+                                                                dmsch=result.data;
+                                                                let kind='<%=kind%>';
+                                                                console.log(kind);
+                                                                if(kind==='research'){
+                                                                    createVue(true,false);}
+                                                                else if(kind==='audit')
+                                                                {
+                                                                    createVue(false,true)
+                                                                }else {
+                                                                    createVue(false,false)
+                                                                }
+                                                            },
+                                                            error: function(xhr, status, error) { // 请求失败运行的函数
+                                                                console.log(error);
+                                                            }})
+                                                    }
 
-                                        }
-                                    })
+                                                },
+                                                error: function(xhr, status, error) { // 请求失败运行的函数
+                                                    console.log(error);
+                                                }})
 
-
+                                        },
+                                        error: function(xhr, status, error) { // 请求失败运行的函数
+                                            console.log(error);
+                                        }})
 
                                 },
                                 error: function(xhr, status, error) { // 请求失败运行的函数
