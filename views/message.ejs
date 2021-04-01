@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <title>校园霸凌举报系统</title>
+
+    <!-- jQuery (Bootstrap 的所有 JavaScript 插件都依赖 jQuery，所以必须放在前边) -->
+    <script src="/javascripts/jquery-3.4.1.min.js"></script>
+    <!-- 加载 Bootstrap 的所有 JavaScript 插件。你也可以根据需要只加载单个插件。 -->
+    <script src="/javascripts/bootstrap.min.js"></script>
+    <script src="/javascripts/vue.js"></script>
+    <!-- Bootstrap -->
+    <link href="/stylesheets/bootstrap.min.css" rel="stylesheet">
+    <link href="/stylesheets/titatoggle-dist-min.css" rel="stylesheet">
+</head>
+<style>
+    body {
+        background-size: cover;
+        background:url("/images/ivy0327.jpg")fixed center 0 no-repeat;
+        background-size: cover;
+        -webkit-background-size: cover;
+        -o-background-size: cover;
+        -moz-background-size: cover;
+    }
+    .footer {
+        color: white;
+        text-align: center;
+    }
+
+    div.footer a {
+        color: white;
+    }
+    .navitems{
+        margin-top: 22px;
+        margin-left: 60px;
+        margin-right: 90px;
+    }
+
+
+    #title{
+        /*background-color: darkseagreen;*/
+        color: #0D4E50;
+        margin-right: 19px;
+        font-family: 方正粗黑宋简体;
+    }
+
+</style>
+<body style="overflow-y:hidden">
+<div id="app">
+<div class="container">
+    <div class="row clearfix">
+        <div class="col-md-12 column" id="nav" style="position:fixed;top:0px;">
+            <div  class="navbar-header" >
+                <h1>
+                    <strong><p id="title">校园霸凌举报系统</p></strong>
+                </h1>
+            </div>
+
+            <div class="navitems">
+                <ul class="nav nav-tabs" >
+                    <li>
+                        <a href="/firstpage" style="color:white">首页</a>
+                    </li>
+                    <li>
+                        <a href="/search" style="color:white">搜索</a>
+                    </li>
+                    <li>
+                        <a href="/tongji" style="color:white">统计</a>
+                    </li>
+                    <li v-if="'<%=role%>'==='false'">
+                        <a href="/create" style="color:white">进行举报</a>
+                    </li>
+                    <li v-if="'<%=role%>'!=='false'">
+                        <a href="/personal/research" style="color:white">处理举报</a>
+                    </li>
+                    <li v-if="'<%=role%>'!=='false'">
+                        <a href="/personal/audit" style="color:white">审核结果</a>
+                    </li>
+                    <li class="dropdown pull-right" style="z-index:9999">
+                        <a class="dropdown-toggle" href="#" data-toggle="dropdown" style="color:white;">个人<strong class="caret"></strong></a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="/personal">个人中心</a>
+                            </li>
+                            <li>
+                                <a href="/message" title="消息" class="fa fa-bell">信息通知
+                                    <label v-if="n>0" class="label label-danger" style="left:0px">{{n}}</label>
+                                </a>
+                            </li>
+                            <li class="divider">
+                            </li>
+                            <li>
+                                <a href="/login1/logout">退出登录</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row clearfix">
+            <div class="col-md-12 column">
+                <div class="row clearfix">
+                    <div class="col-md-4 column" style="position:fixed;margin-top:100px;width:300px;box-shadow: 3px 3px 4px 0 rgba(0,0,0,0.4) ; border-radius: 8px;  border: 2px solid;background-color: rgba(255,255,255,0.7);">
+                        <dl>
+                            <dt style="font-size: x-large">
+                                个人资料
+                            </dt>
+<!--                            <dd>-->
+<!--                                A description list is perfect for defining terms.-->
+<!--                            </dd>-->
+                            <dt>
+                                用户id
+                            </dt>
+                            <dd id="userid">
+                                <%= userid %>
+                            </dd>
+                        </dl>
+                    </div>
+                    <div v-cloak class="col-md-8 column" style="position:fixed;left:420px;top:80px;bottom:140px;overflow-y:auto;border-left:1px solid white">
+                        <h1>消息通知</h1><div class="checkbox checkbox-slider--b-flat">
+                            <label @click="test()">
+                                <input id="cb" type="checkbox"><span>只显示未读消息</span>
+                            </label>
+                        </div>
+                        <div v-if="msg.length>0" style="background-color: rgba(255,255,255,0.8)">
+                             <table class="table table-hover">
+                                 <thead>
+                                 <tr>
+                                     <th>事件</th>
+                                     <th>是否已读</th>
+                                 </tr>
+                                 </thead>
+                                 <tbody>
+                                 <tr v-for="(i,index) in msg" @click="read(i)">
+                                     <td>{{i.msg}}</td>
+                                     <td>{{i.flag}}</td>
+                                 </tr>
+                                 </tbody>
+                             </table>
+                         </div>
+                        <div v-else>
+                            <h1>暂无消息通知！</h1>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="footer container-fluid" style="position:fixed;bottom: 2px;left:0;right:0;margin: auto">
+        <div id="footer_div1">
+            <a href="http://rsgis.whu.edu.cn/">遥感信息工程学院 </a>|&nbsp;
+            <a href="http://www.whu.edu.cn/">武汉大学 </a>|&nbsp;
+            <a href="http://www.lib.whu.edu.cn/web/default.asp">武汉大学图书馆 </a>|&nbsp;
+            <a href="http://my.whu.edu.cn">信息门户</a>
+        </div>
+        <div id="footer_div2">
+            <p>中国 湖北 武汉市 珞喻路129号 武汉大学信息学部</p><br>
+            <p>空间信息与数字技术</p>
+            <p>© 2019 </p>
+        </div>
+    </div><!--页脚-->
+</div>
+</div>
+<script>
+    function createVue(Allmsg,msg)
+    {
+        const app = new Vue({
+            el: '#app',
+            data: {
+                msg:Allmsg,
+                n:0,
+            },
+            methods:{
+                test()
+                    {
+                        this.n++;
+                        let m=(this.n/2)%2;
+                    // console.log("beianle!");
+                    // console.log(m);
+                    if(m===1)
+                    {
+                        this.msg=msg;
+                        // console.log("未读")
+                    }
+                    if(m===0)
+                    {
+                        this.msg=Allmsg;
+                    }
+                    },
+                read(i)
+                {// console.log(i.msg);
+                    let iid=i.msg.substring(i.msg.indexOf("=")+1,i.msg.indexOf(")"));
+                    // console.log(iid);
+                    let urlread=" http://47.98.164.4:8080/server/msg/change_flag";
+                    $.ajax({
+                        type: 'get', /*  请求方式  GET  、 POST 、 PUT 等.. */
+                        url: urlread, /*  后台的接口(findApi)  使用相对路径即可 */
+                        dateType: 'json', /*  期望服务器返回的数据类型格式 */
+                        data:{
+                            user_id:userid,
+                            msg_id:i.id,
+                            flag:1,
+                        },
+                        success: function(result) { // 请求后台 应答成功返回来的数据
+                            // console.log("个人信息");
+                            console.log(result);
+                            window.open("/event/"+iid);
+                        },
+                        error: function(xhr, status, error) { // 请求失败运行的函数
+                            console.log(error);
+                        }})
+                }
+            }
+        })
+    }
+    // var idlist = $('#cb');
+    // console.log(idlist)
+
+    var userid='<%=userid%>';
+    var URL="http://47.98.164.4:8080/server/msg/all";
+    var url2="http://47.98.164.4:8080/server/msg/unseen"
+    $.ajax({
+        type: 'post', /*  请求方式  GET  、 POST 、 PUT 等.. */
+        url: URL, /*  后台的接口(findApi)  使用相对路径即可 */
+        dateType: 'json', /*  期望服务器返回的数据类型格式 */
+        data:{
+            user_id:userid,
+        },
+        success: function(result) { // 请求后台 应答成功返回来的数据
+            // console.log("个人信息");
+            // console.log(result);
+            var allmsg=result.data;
+            $.ajax({
+                type: 'post', /*  请求方式  GET  、 POST 、 PUT 等.. */
+                url: url2, /*  后台的接口(findApi)  使用相对路径即可 */
+                dateType: 'json', /*  期望服务器返回的数据类型格式 */
+                data:{
+                    user_id:userid,
+                },
+                success: function(result) { // 请求后台 应答成功返回来的数据
+                    // console.log("个人信息");
+                    console.log(result);
+                    // allmsg=[];
+                    createVue(allmsg,result.data);
+                },
+                error: function(xhr, status, error) { // 请求失败运行的函数
+                    console.log(error);
+                }})
+        },
+        error: function(xhr, status, error) { // 请求失败运行的函数
+            console.log(error);
+        }})
+
+</script>
+</body>
+</html>

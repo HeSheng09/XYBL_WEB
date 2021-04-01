@@ -1,0 +1,418 @@
+<html lang="en" >
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>校园霸凌系统</title>
+    <!-- jQuery (Bootstrap 的所有 JavaScript 插件都依赖 jQuery，所以必须放在前边) -->
+    <script src="/javascripts/jquery-3.4.1.min.js"></script>
+    <!-- 加载 Bootstrap 的所有 JavaScript 插件。你也可以根据需要只加载单个插件。 -->
+    <script src="/javascripts/bootstrap.min.js"></script>
+    <!-- Bootstrap -->
+    <link href="/stylesheets/bootstrap.min.css" rel="stylesheet">
+
+    <script src="/javascripts/checkcode.js"></script>
+    <script>
+
+        $(window).ready(function () {
+            $('[data-toggle="popover"]').popover()
+        });
+
+        var show_num = [];
+
+        $(function () {
+            //验证码
+            draw(show_num);
+            $("#canvas").on('click', function () {
+                draw(show_num);
+            });
+            // $(".btn").on('click', function () {
+            //     var val = $("#register-input").val().toLowerCase();
+            //     var num = show_num.join("");
+            //     if (val !== num) {
+            //         $("#register-input").val('');
+            //         draw(show_num);
+            //         $("#errorMsg").html("验证码错误");
+            //         return false;
+            //     }
+            // });
+            // //正则表达式检查格式
+            // $("#email").blur(checkEmail);
+            // $("#tel").blur(checkTel);
+            // $("#password").blur(checkPassword);
+            // $("#name").blur(checkName);
+            // $("#stu_class").blur(checkClass);
+            // //检查不通过则不允许提交表单
+            // $("#register-form").submit(function(){
+            //     if(checkId() && checkPassword()&&checkEmail()&&checkTel()){
+            //         $.post("${basepath}submit/register",$(this).serialize(),function(data){
+            //             if(data.flag){
+            //                 location.href="/login";
+            //             }else {
+            //                 return false;
+            //             }
+            //         });
+            //     }
+            //     return false;
+            // });
+            // //检查id是否注册过
+            // $("#id").blur(function () {
+            //     checkId();
+            //     var id = $(this).val();
+            //     $.get("/checkid", {id: id}, function (data) {
+            //         var span = $("#id-error")
+            //         if (!data.flag) {
+            //             span.css("color", "red");
+            //             span.html("该学号已被注册");
+            //         }else{
+            //             span.html("");
+            //         }
+            //     })
+            // })
+        });
+
+        function checkTel() {
+            var tel = $("#tel").val();
+            var reg_tel = /^\w{11}$/;
+            var flag = reg_tel.test(tel);
+            if (flag) {
+                $("#tel").css("border", "");
+            } else {
+                $("#tel").css("border", "1px solid red");
+            }
+            return flag;
+        }
+
+        function checkId() {
+            var id = $("#id").val();
+            var reg_id = /^\w{13}$/;
+            var flag = reg_id.test(id);
+
+            if (flag) {
+                $("#id").css("border", "");
+            } else {
+                $("#id").css("border", "1px solid red");
+            }
+            return flag;
+        }
+
+        function checkEmail() {
+            var email = $("#email").val();
+            var reg_email = /^\w+@\w+\.\w+$/;
+            var flag = reg_email.test(email);
+            if (flag) {
+                $("#email").css("border", "");
+            } else {
+                $("#email").css("border", "1px solid red");
+            }
+            return flag;
+        }
+
+        function checkPassword() {
+            var password = $("#password").val();
+            var reg_password = /^\w{6,14}$/;
+            var flag = reg_password.test(password);
+            if (flag) {
+                //用户名合法
+                $("#password").css("border", "");
+            } else {
+                //用户名非法,加一个红色边框
+                $("#password").css("border", "1px solid red");
+            }
+            return flag;
+        }
+
+        function checkName() {
+
+            var name = $("#name").val();
+            if (!name) {
+                $("#name").css("border", "1px solid red");
+            }
+        }
+
+
+        function checkClass() {
+            var stu_class = $("#stu_class").val();
+            if (!stu_class) {
+                $("#stu_class").css("border", "1px solid red");
+            }
+        }
+    </script>
+</head>
+<style>
+
+    body {
+        user-select: none;
+    }
+
+    .td_left {
+        color: 	#008080;
+    }
+
+    .td_right{
+
+    }
+
+    .header {
+        background: #008080;
+        color: white;
+    }
+
+    .form{
+        padding: 6px;
+        border-radius:5px ;
+    }
+
+    .register-input{
+        float:left;
+        width: 80%;
+        background: #ffffff;
+        height: 2.8rem;
+        padding: 0 2%;
+        border-radius: 5px;
+        border: 1px solid #b9def0;
+        font-size: 15px;
+    }
+
+    .radio-box{
+        color: 	#008080;
+    }
+    #last{
+        position: absolute;
+        left: 60%;
+        font-size: smaller;
+    }
+
+    #canvas{
+        float: left;
+        display: inline-block;
+        border:1px solid #ccc;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    #submit-btn {
+        text-align: center;
+    }
+
+</style>
+<body>
+<div id="app">
+<div class="container-fluid header">
+    <div class="page-header ">
+        <h1>校园霸凌系统
+            <small>注册页面</small>
+        </h1>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-md-3 hidden-xs"></div>
+        <div class="col-md-6">
+            <div class="form">
+                <form id="register-form">
+                    <table class="table table-striped">
+                        <tr>
+                            <td class="td_left">
+                                <label>*用户名</label>
+                            </td>
+                            <td class="td_right">
+                                <input type="text" name="name"
+                                       required="required" class="register-input "
+                                       autofocus="" id="name">
+                            </td>
+                            <td></td>
+                        </tr>
+<!--                        <tr>-->
+<!--                            <td class="td_left">-->
+<!--                                <label>*学号</label>-->
+<!--                            </td>-->
+<!--                            <td class="td_right">-->
+<!--                                <input type="text" name="id"-->
+<!--                                       required="required" class="register-input" id="id" data-container="body"-->
+<!--                                       data-toggle="popover" data-placement="right" data-trigger="focus"-->
+<!--                                       data-content="请输入正确的13位学号">-->
+<!--                            </td>-->
+<!--                            <td><span id="id-error"></span></td>-->
+<!--                        </tr>-->
+                        <tr>
+                            <td class="td_left">
+                                <label>*密码</label>
+                            </td>
+                            <td class="td_right">
+                                <input type="password" name="pwd"
+                                       class="register-input"
+                                       required="required" id="pwd" data-container="body"
+                                       data-toggle="popover" data-placement="right" data-trigger="focus"
+                                       data-content="请输入6-14位的密码">
+                            </td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td class="td_left">
+                                <label>*真实姓名</label>
+                            </td>
+                            <td class="td_right">
+                                <input type="text" name="stu_name"
+                                       required="required" class="register-input "
+                                       autofocus="" id="stu_name">
+                            </td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td class="td_left">
+                                <label>*学校</label>
+                            </td>
+                            <td class="td_right">
+                                <input type="text" name="sch_name"
+                                       required="required" class="register-input "
+                                       autofocus="" id="sch_name">
+                            </td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td class="td_left">
+                                <label>邮箱</label>
+                            </td>
+                            <td class="td_right">
+                                <input type="text" name="email" class="register-input"
+                                       required="" id="email">
+                            </td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td class="td_left">
+                                <label>电话</label>
+                            </td>
+                            <td class="td_right">
+                                <input type="text" name="tel" class="register-input"
+                                       required="" id="tel">
+                            </td>
+                            <td></td>
+                        </tr>
+
+                        <tr>
+                            <td class="td_left">
+                                <label>地址</label>
+                            </td>
+                            <td class="td_right">
+                                <input type="text" name="address"
+                                       class="register-input"
+                                       required="" id="address">
+                            </td>
+                            <td></td>
+                        </tr>
+<!--                        <tr>-->
+<!--                            <td class="td_left">-->
+<!--                                <label>*性别</label>-->
+<!--                            </td>-->
+<!--                            <td class="radio-box">-->
+<!--                                <span>-->
+<!--                                <input type="radio" name="gender"-->
+<!--                                       required="required" value="0">男-->
+<!--                                <input type="radio" name="gender"-->
+<!--                                       required="required" value="1">女-->
+<!--                                </span>-->
+<!--                            </td>-->
+<!--                            <td></td>-->
+<!--                        </tr>-->
+                        <tr>
+                            <td class="td_left">
+                                <label>验证码</label>
+                            </td>
+                            <td>
+                                <input type="text" id="register-input" class="register-input"/>
+                            </td>
+                            <td>
+                                <canvas id="canvas" width="100" height="30"></canvas>
+                            </td>
+                        </tr>
+                        <div id="errorMsg" style="color:#ff0000;text-align: center"></div>
+                    </table>
+
+                    <input class="btn  btn-primary btn-block "value="立即注册" id="rregister" style="background-color: #008080"/>
+                </form>
+            </div>
+            <div>
+                <a id="last" href="/login" style="color: #008080">已有账号？立即登录</a><br>
+            </div>
+        </div>
+        <div class="col-md-3 hidden-xs"></div>
+    </div>
+</div>
+</div>
+<script>
+        document.querySelector('#rregister').onclick = function () {
+            var val = $("#register-input").val().toLowerCase();
+            var num = show_num.join("");
+            if (val !== num) {
+                $("#register-input").val('');
+                draw(show_num);
+                $("#errorMsg").html("验证码错误");
+                return false;
+            }
+            let name=document.getElementById('name').value;
+            let pwd=document.getElementById('pwd').value;
+            let stu_name=document.getElementById('stu_name').value;
+            let email=document.getElementById('email').value;
+            let tel=document.getElementById('tel').value;
+            let address=document.getElementById('address').value;
+            let url="http://47.98.164.4:8080/server/user/update/?"+name+"&pwd="+pwd+"&stu_name="+stu_name;
+            if(email.length>0)
+            {
+                url=url+"&email="+email;
+            }
+            if(tel.length>0)
+            {
+                url=url+"&tel="+tel;
+            }
+            if(tel.length>0)
+            {
+                url=url+"&address="+address;
+            }
+            console.log(url)
+            $.ajax({
+                type: "GET",
+                url: url,
+                // data: { page: $("#page").val(), limit: 5 },
+                dataType: "JSON",
+                success: function(result) {
+                    console.log(result);
+                    console.log(result['msg']);
+                    if(result.msg==="ok")
+                    {
+                        var boo = confirm('修改成功！');
+                        return true;
+                        //confirm 会返回你选择的选项,然后可以依据选择执行逻辑
+                        if(boo){
+                            window.location.href("/login1");
+                        }else{
+                            window.location.href("/login1");
+                        }
+                    }
+                }
+            });
+    }
+    var url2="http://47.98.164.4:8080/server/dmsch/getallsch?id=1615123277120012";
+        $.ajax({
+            type: 'get', /*  请求方式  GET  、 POST 、 PUT 等.. */
+            url: url2, /*  后台的接口(findApi)  使用相对路径即可 */
+            dateType: 'json', /*  期望服务器返回的数据类型格式 */
+            success: function(result) { // 请求后台 应答成功返回来的数据
+                console.log(result);
+                const app=new Vue({
+                    el:"#app",
+                    data:{
+                        schools:["武汉大学","华中科技大学"],
+
+                    }
+                })
+            },
+            error: function(xhr, status, error) { // 请求失败运行的函数
+                console.log(error);
+            }
+        })
+</script>
+</body>
+
+</html>
